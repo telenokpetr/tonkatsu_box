@@ -7,6 +7,30 @@ Entries follow the [GNU Change Log style](https://www.gnu.org/prep/standards/htm
 
 ## [Unreleased]
 
+### Added
+
+- **Watch button (JacRed + TorrServer)**
+
+  - Movies, TV shows, animation and anime get a play button in the card's app
+    bar on the Windows build.
+  - It searches a self-hosted JacRed by title, original title and year, hands
+    the chosen magnet to TorrServer and plays the stream in a built-in libmpv
+    player with audio and subtitle selection.
+  - Settings, Integrations, Watch holds both addresses (defaults are the local
+    Docker ports) and a check for the two servers.
+
+  * lib/core/api/jacred_api.dart (JacRedApi, JacRedTorrent)
+  * lib/core/api/torrserver_api.dart (TorrServerApi, TorrServerTorrent,
+    TorrServerFile)
+  * lib/core/api/service_url.dart (normalizeServiceUrl)
+  * lib/features/settings/providers/watch_settings_provider.dart
+    (WatchSettingsNotifier, WatchSettingsKeys)
+  * lib/features/settings/screens/watch_settings_screen.dart
+    (WatchSettingsScreen)
+  * lib/features/watch/ (WatchScreen, PlayerScreen, watchQueryFor,
+    formatBytes, naturalCompare)
+  * lib/shared/constants/platform_features.dart (kWatchEnabled)
+
 ## [0.44.0] - 2026-09-16
 
 ### Added

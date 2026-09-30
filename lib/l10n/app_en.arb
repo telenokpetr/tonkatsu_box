@@ -2660,5 +2660,64 @@
   "welcomeSourceDescPodcastIndex": "Open podcast catalog with episode-level tracking. Free key/secret pair.",
   "creditsPodcastIndexAttribution": "Podcast data from Podcast Index.",
   "credentialsApiSecret": "API Secret",
-  "markAllListened": "Mark all listened"
+  "markAllListened": "Mark all listened",
+  "settingsWatch": "Watch (JacRed + TorrServer)",
+  "settingsWatchSubtitle": "Find torrents and stream them inside the app",
+  "watchAction": "Watch",
+  "watchJacRedTitle": "JacRed (torrent search)",
+  "watchJacRedUrl": "JacRed address",
+  "watchJacRedApiKey": "JacRed API key (optional)",
+  "watchTorrServerTitle": "TorrServer (streaming)",
+  "watchTorrServerUrl": "TorrServer address",
+  "watchTestConnection": "Check both servers",
+  "watchChecking": "Checking…",
+  "watchJacRedOk": "JacRed is reachable",
+  "watchTorrServerOk": "TorrServer {version} is reachable",
+  "@watchTorrServerOk": {
+    "placeholders": {
+      "version": {"type": "String"}
+    }
+  },
+  "watchCheckFailed": "Connection failed: {error}",
+  "@watchCheckFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "watchNotConfigured": "Set the JacRed and TorrServer addresses in Settings first",
+  "watchOpenSettings": "Open settings",
+  "watchSearchHint": "Search torrents",
+  "watchNoResults": "No torrents found",
+  "watchSearchFailed": "Search failed: {error}",
+  "@watchSearchFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "watchConnectingPeers": "Connecting to peers…",
+  "watchStartFailed": "Could not start the torrent: {error}",
+  "@watchStartFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "watchPickFile": "Choose a file",
+  "watchNoVideoFiles": "This torrent has no video files",
+  "watchCopyLink": "Copy stream link",
+  "watchLinkCopied": "Stream link copied",
+  "watchAudioTracks": "Audio",
+  "watchSubtitleTracks": "Subtitles",
+  "watchTrackOff": "Off",
+  "watchTrackNumber": "Track {number}",
+  "@watchTrackNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "watchPlayerError": "Playback error: {error}",
+  "@watchPlayerError": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  }
 }

@@ -6080,4 +6080,105 @@ class SRu extends S {
 
   @override
   String get markAllListened => 'Отметить всё прослушанным';
+
+  @override
+  String get settingsWatch => 'Просмотр (JacRed + TorrServer)';
+
+  @override
+  String get settingsWatchSubtitle =>
+      'Поиск раздач и просмотр прямо в приложении';
+
+  @override
+  String get watchAction => 'Смотреть';
+
+  @override
+  String get watchJacRedTitle => 'JacRed (поиск раздач)';
+
+  @override
+  String get watchJacRedUrl => 'Адрес JacRed';
+
+  @override
+  String get watchJacRedApiKey => 'API-ключ JacRed (необязательно)';
+
+  @override
+  String get watchTorrServerTitle => 'TorrServer (стриминг)';
+
+  @override
+  String get watchTorrServerUrl => 'Адрес TorrServer';
+
+  @override
+  String get watchTestConnection => 'Проверить оба сервера';
+
+  @override
+  String get watchChecking => 'Проверяю…';
+
+  @override
+  String get watchJacRedOk => 'JacRed доступен';
+
+  @override
+  String watchTorrServerOk(String version) {
+    return 'TorrServer $version доступен';
+  }
+
+  @override
+  String watchCheckFailed(String error) {
+    return 'Не удалось подключиться: $error';
+  }
+
+  @override
+  String get watchNotConfigured =>
+      'Сначала укажите адреса JacRed и TorrServer в настройках';
+
+  @override
+  String get watchOpenSettings => 'Открыть настройки';
+
+  @override
+  String get watchSearchHint => 'Поиск раздач';
+
+  @override
+  String get watchNoResults => 'Раздачи не найдены';
+
+  @override
+  String watchSearchFailed(String error) {
+    return 'Поиск не удался: $error';
+  }
+
+  @override
+  String get watchConnectingPeers => 'Подключаюсь к пирам…';
+
+  @override
+  String watchStartFailed(String error) {
+    return 'Не удалось запустить раздачу: $error';
+  }
+
+  @override
+  String get watchPickFile => 'Выберите файл';
+
+  @override
+  String get watchNoVideoFiles => 'В этой раздаче нет видеофайлов';
+
+  @override
+  String get watchCopyLink => 'Скопировать ссылку на поток';
+
+  @override
+  String get watchLinkCopied => 'Ссылка на поток скопирована';
+
+  @override
+  String get watchAudioTracks => 'Звук';
+
+  @override
+  String get watchSubtitleTracks => 'Субтитры';
+
+  @override
+  String get watchTrackOff => 'Выкл.';
+
+  @override
+  String watchTrackNumber(int number) {
+    return 'Дорожка $number';
+  }
+
+  @override
+  String watchPlayerError(String error) {
+    return 'Ошибка воспроизведения: $error';
+  }
 }

@@ -1,0 +1,49 @@
+name: Fork Windows build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build-windows:
+    name: Build Windows
+    # VS 2022 on purpose: see the pin note in release.yml.
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Without repository secrets the keys are empty and the app asks for
+      # its own keys in Settings -> API Keys.
+      - name: Build Windows release
+        run: >
+          flutter build windows --release
+          --dart-define=TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+          --dart-define=TVDB_API_KEY=${{ secrets.TVDB_API_KEY }}
+          --dart-define=STEAMGRIDDB_API_KEY=${{ secrets.STEAMGRIDDB_API_KEY }}
+          --dart-define=IGDB_CLIENT_ID=${{ secrets.IGDB_CLIENT_ID }}
+          --dart-define=IGDB_CLIENT_SECRET=${{ secrets.IGDB_CLIENT_SECRET }}
+          --dart-define=SCREENSCRAPER_DEV_ID=${{ secrets.SCREENSCRAPER_DEV_ID }}
+          --dart-define=SCREENSCRAPER_DEV_PASSWORD=${{ secrets.SCREENSCRAPER_DEV_PASSWORD }}
+          --dart-define=PODCASTINDEX_API_KEY=${{ secrets.PODCASTINDEX_API_KEY }}
+          --dart-define=PODCASTINDEX_API_SECRET=${{ secrets.PODCASTINDEX_API_SECRET }}
+          --dart-define=SIMKL_CLIENT_ID=${{ secrets.SIMKL_CLIENT_ID }}
+
+      - name: Archive Windows build
+        run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath tonkatsu-box-watch-windows.zip
+        shell: powershell
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: tonkatsu-box-watch-windows
+          path: tonkatsu-box-watch-windows.zip
+          retention-days: 30

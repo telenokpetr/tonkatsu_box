@@ -5679,4 +5679,103 @@ class SZh extends S {
 
   @override
   String get markAllListened => '全部标记为已收听';
+
+  @override
+  String get settingsWatch => '观看 (JacRed + TorrServer)';
+
+  @override
+  String get settingsWatchSubtitle => '搜索种子并在应用内直接播放';
+
+  @override
+  String get watchAction => '观看';
+
+  @override
+  String get watchJacRedTitle => 'JacRed(种子搜索)';
+
+  @override
+  String get watchJacRedUrl => 'JacRed 地址';
+
+  @override
+  String get watchJacRedApiKey => 'JacRed API 密钥(可选)';
+
+  @override
+  String get watchTorrServerTitle => 'TorrServer(流媒体)';
+
+  @override
+  String get watchTorrServerUrl => 'TorrServer 地址';
+
+  @override
+  String get watchTestConnection => '检查两个服务器';
+
+  @override
+  String get watchChecking => '检查中…';
+
+  @override
+  String get watchJacRedOk => 'JacRed 连接正常';
+
+  @override
+  String watchTorrServerOk(String version) {
+    return 'TorrServer $version 连接正常';
+  }
+
+  @override
+  String watchCheckFailed(String error) {
+    return '连接失败:$error';
+  }
+
+  @override
+  String get watchNotConfigured => '请先在设置中填写 JacRed 和 TorrServer 地址';
+
+  @override
+  String get watchOpenSettings => '打开设置';
+
+  @override
+  String get watchSearchHint => '搜索种子';
+
+  @override
+  String get watchNoResults => '未找到种子';
+
+  @override
+  String watchSearchFailed(String error) {
+    return '搜索失败:$error';
+  }
+
+  @override
+  String get watchConnectingPeers => '正在连接节点…';
+
+  @override
+  String watchStartFailed(String error) {
+    return '无法启动种子:$error';
+  }
+
+  @override
+  String get watchPickFile => '选择文件';
+
+  @override
+  String get watchNoVideoFiles => '该种子不含视频文件';
+
+  @override
+  String get watchCopyLink => '复制播放链接';
+
+  @override
+  String get watchLinkCopied => '链接已复制';
+
+  @override
+  String get watchAudioTracks => '音轨';
+
+  @override
+  String get watchSubtitleTracks => '字幕';
+
+  @override
+  String get watchTrackOff => '关闭';
+
+  @override
+  String watchTrackNumber(int number) {
+    return '轨道 $number';
+  }
+
+  @override
+  String watchPlayerError(String error) {
+    return '播放错误:$error';
+  }
 }

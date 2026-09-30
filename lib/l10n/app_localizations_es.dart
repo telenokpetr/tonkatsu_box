@@ -6054,4 +6054,105 @@ class SEs extends S {
 
   @override
   String get markAllListened => 'Marcar todo como escuchado';
+
+  @override
+  String get settingsWatch => 'Ver (JacRed + TorrServer)';
+
+  @override
+  String get settingsWatchSubtitle =>
+      'Busca torrents y reprodúcelos dentro de la app';
+
+  @override
+  String get watchAction => 'Ver';
+
+  @override
+  String get watchJacRedTitle => 'JacRed (búsqueda de torrents)';
+
+  @override
+  String get watchJacRedUrl => 'Dirección de JacRed';
+
+  @override
+  String get watchJacRedApiKey => 'Clave API de JacRed (opcional)';
+
+  @override
+  String get watchTorrServerTitle => 'TorrServer (streaming)';
+
+  @override
+  String get watchTorrServerUrl => 'Dirección de TorrServer';
+
+  @override
+  String get watchTestConnection => 'Comprobar ambos servidores';
+
+  @override
+  String get watchChecking => 'Comprobando…';
+
+  @override
+  String get watchJacRedOk => 'JacRed responde';
+
+  @override
+  String watchTorrServerOk(String version) {
+    return 'TorrServer $version responde';
+  }
+
+  @override
+  String watchCheckFailed(String error) {
+    return 'Error de conexión: $error';
+  }
+
+  @override
+  String get watchNotConfigured =>
+      'Primero indica las direcciones de JacRed y TorrServer en Ajustes';
+
+  @override
+  String get watchOpenSettings => 'Abrir ajustes';
+
+  @override
+  String get watchSearchHint => 'Buscar torrents';
+
+  @override
+  String get watchNoResults => 'No se encontraron torrents';
+
+  @override
+  String watchSearchFailed(String error) {
+    return 'La búsqueda falló: $error';
+  }
+
+  @override
+  String get watchConnectingPeers => 'Conectando con los pares…';
+
+  @override
+  String watchStartFailed(String error) {
+    return 'No se pudo iniciar el torrent: $error';
+  }
+
+  @override
+  String get watchPickFile => 'Elige un archivo';
+
+  @override
+  String get watchNoVideoFiles => 'Este torrent no tiene archivos de vídeo';
+
+  @override
+  String get watchCopyLink => 'Copiar enlace de la transmisión';
+
+  @override
+  String get watchLinkCopied => 'Enlace copiado';
+
+  @override
+  String get watchAudioTracks => 'Audio';
+
+  @override
+  String get watchSubtitleTracks => 'Subtítulos';
+
+  @override
+  String get watchTrackOff => 'Desactivado';
+
+  @override
+  String watchTrackNumber(int number) {
+    return 'Pista $number';
+  }
+
+  @override
+  String watchPlayerError(String error) {
+    return 'Error de reproducción: $error';
+  }
 }

@@ -16,6 +16,9 @@ bool get kCanvasEnabled => true;
 /// Whether the VGMaps browser (webview_windows) is available.
 bool get kVgMapsEnabled => platform.isWindows;
 
+/// Built-in torrent player: only the Windows build ships libmpv.
+bool get kWatchEnabled => platform.isWindows;
+
 /// Whether screenshot capture is available.
 bool get kScreenshotEnabled => platform.isWindows;
 

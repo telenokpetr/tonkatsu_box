@@ -74,6 +74,8 @@ import '../widgets/reviews_section.dart';
 import '../widgets/status_chip_row.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../../shared/keyboard/keyboard_shortcuts.dart';
+import '../../watch/screens/watch_screen.dart';
+import '../../watch/watch_query.dart';
 import '../../../shared/constants/collection_item_ui.dart';
 
 /// Unified detail screen for any collection item, dispatched off
@@ -202,6 +204,16 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen> {
       case ItemDetailMenuAction.remove:
         _removeFromCollection(item);
     }
+  }
+
+  void _openWatch(CollectionItem item) {
+    final WatchQuery? query = watchQueryFor(item);
+    if (query == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => WatchScreen(query: query),
+      ),
+    );
   }
 
   /// TV shows and anime track episodes (TMDB); everything else uses a manual
@@ -628,6 +640,9 @@ class _ItemDetailScreenState extends ConsumerState<ItemDetailScreen> {
                 collectionItemsNotifierProvider(widget.collectionId).notifier,
               )
               .toggleFavorite(item.id),
+          onWatch: kWatchEnabled && watchQueryFor(item) != null
+              ? () => _openWatch(item)
+              : null,
           canTrackReleases: true,
           isTracked: _isEpisodeType(item)
               ? ref

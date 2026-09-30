@@ -6035,4 +6035,105 @@ class SPt extends S {
 
   @override
   String get markAllListened => 'Marcar tudo como ouvido';
+
+  @override
+  String get settingsWatch => 'Assistir (JacRed + TorrServer)';
+
+  @override
+  String get settingsWatchSubtitle =>
+      'Encontre torrents e reproduza dentro do app';
+
+  @override
+  String get watchAction => 'Assistir';
+
+  @override
+  String get watchJacRedTitle => 'JacRed (busca de torrents)';
+
+  @override
+  String get watchJacRedUrl => 'Endereço do JacRed';
+
+  @override
+  String get watchJacRedApiKey => 'Chave de API do JacRed (opcional)';
+
+  @override
+  String get watchTorrServerTitle => 'TorrServer (streaming)';
+
+  @override
+  String get watchTorrServerUrl => 'Endereço do TorrServer';
+
+  @override
+  String get watchTestConnection => 'Verificar os dois servidores';
+
+  @override
+  String get watchChecking => 'Verificando…';
+
+  @override
+  String get watchJacRedOk => 'JacRed responde';
+
+  @override
+  String watchTorrServerOk(String version) {
+    return 'TorrServer $version responde';
+  }
+
+  @override
+  String watchCheckFailed(String error) {
+    return 'Falha na conexão: $error';
+  }
+
+  @override
+  String get watchNotConfigured =>
+      'Primeiro defina os endereços do JacRed e do TorrServer nas configurações';
+
+  @override
+  String get watchOpenSettings => 'Abrir configurações';
+
+  @override
+  String get watchSearchHint => 'Buscar torrents';
+
+  @override
+  String get watchNoResults => 'Nenhum torrent encontrado';
+
+  @override
+  String watchSearchFailed(String error) {
+    return 'A busca falhou: $error';
+  }
+
+  @override
+  String get watchConnectingPeers => 'Conectando aos pares…';
+
+  @override
+  String watchStartFailed(String error) {
+    return 'Não foi possível iniciar o torrent: $error';
+  }
+
+  @override
+  String get watchPickFile => 'Escolha um arquivo';
+
+  @override
+  String get watchNoVideoFiles => 'Este torrent não tem arquivos de vídeo';
+
+  @override
+  String get watchCopyLink => 'Copiar link do stream';
+
+  @override
+  String get watchLinkCopied => 'Link copiado';
+
+  @override
+  String get watchAudioTracks => 'Áudio';
+
+  @override
+  String get watchSubtitleTracks => 'Legendas';
+
+  @override
+  String get watchTrackOff => 'Desativado';
+
+  @override
+  String watchTrackNumber(int number) {
+    return 'Faixa $number';
+  }
+
+  @override
+  String watchPlayerError(String error) {
+    return 'Erro de reprodução: $error';
+  }
 }

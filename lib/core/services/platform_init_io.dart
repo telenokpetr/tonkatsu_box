@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:media_kit/media_kit.dart';
 import 'package:sqflite_common/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'
     show databaseFactoryFfi, sqfliteFfiInit;
@@ -13,4 +14,6 @@ void initPlatform() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+  // Only the Windows build bundles libmpv; elsewhere the Watch button is off.
+  if (Platform.isWindows) MediaKit.ensureInitialized();
 }

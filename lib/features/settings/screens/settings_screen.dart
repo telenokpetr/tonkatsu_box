@@ -58,6 +58,7 @@ import 'card_banner_debug_screen.dart';
 import 'debug_hub_screen.dart';
 import 'gamepad_debug_screen.dart';
 import 'kodi_screen.dart';
+import 'watch_settings_screen.dart';
 import 'profiles_screen.dart';
 import '../providers/profile_provider.dart';
 import '../../../shared/constants/rich_hero_style.dart';
@@ -597,6 +598,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   : null,
               onTap: () => _pushScreen(const KodiScreen()),
             ),
+            if (kWatchEnabled)
+              SettingsTile(
+                leadingIcon: Icons.play_circle_outline,
+                leadingColor: AppColors.brand,
+                title: l.settingsWatch,
+                subtitle: l.settingsWatchSubtitle,
+                onTap: () => _pushScreen(const WatchSettingsScreen()),
+              ),
           if (kDiscordRpcAvailable)
             SettingsTile(
               leadingAssetPath: AppAssets.iconDiscordColor,

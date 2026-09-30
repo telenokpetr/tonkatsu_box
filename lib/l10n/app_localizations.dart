@@ -10549,6 +10549,180 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Mark all listened'**
   String get markAllListened;
+
+  /// No description provided for @settingsWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch (JacRed + TorrServer)'**
+  String get settingsWatch;
+
+  /// No description provided for @settingsWatchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find torrents and stream them inside the app'**
+  String get settingsWatchSubtitle;
+
+  /// No description provided for @watchAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch'**
+  String get watchAction;
+
+  /// No description provided for @watchJacRedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'JacRed (torrent search)'**
+  String get watchJacRedTitle;
+
+  /// No description provided for @watchJacRedUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'JacRed address'**
+  String get watchJacRedUrl;
+
+  /// No description provided for @watchJacRedApiKey.
+  ///
+  /// In en, this message translates to:
+  /// **'JacRed API key (optional)'**
+  String get watchJacRedApiKey;
+
+  /// No description provided for @watchTorrServerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'TorrServer (streaming)'**
+  String get watchTorrServerTitle;
+
+  /// No description provided for @watchTorrServerUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'TorrServer address'**
+  String get watchTorrServerUrl;
+
+  /// No description provided for @watchTestConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Check both servers'**
+  String get watchTestConnection;
+
+  /// No description provided for @watchChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get watchChecking;
+
+  /// No description provided for @watchJacRedOk.
+  ///
+  /// In en, this message translates to:
+  /// **'JacRed is reachable'**
+  String get watchJacRedOk;
+
+  /// No description provided for @watchTorrServerOk.
+  ///
+  /// In en, this message translates to:
+  /// **'TorrServer {version} is reachable'**
+  String watchTorrServerOk(String version);
+
+  /// No description provided for @watchCheckFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection failed: {error}'**
+  String watchCheckFailed(String error);
+
+  /// No description provided for @watchNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the JacRed and TorrServer addresses in Settings first'**
+  String get watchNotConfigured;
+
+  /// No description provided for @watchOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get watchOpenSettings;
+
+  /// No description provided for @watchSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search torrents'**
+  String get watchSearchHint;
+
+  /// No description provided for @watchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No torrents found'**
+  String get watchNoResults;
+
+  /// No description provided for @watchSearchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Search failed: {error}'**
+  String watchSearchFailed(String error);
+
+  /// No description provided for @watchConnectingPeers.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting to peers…'**
+  String get watchConnectingPeers;
+
+  /// No description provided for @watchStartFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the torrent: {error}'**
+  String watchStartFailed(String error);
+
+  /// No description provided for @watchPickFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file'**
+  String get watchPickFile;
+
+  /// No description provided for @watchNoVideoFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'This torrent has no video files'**
+  String get watchNoVideoFiles;
+
+  /// No description provided for @watchCopyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy stream link'**
+  String get watchCopyLink;
+
+  /// No description provided for @watchLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Stream link copied'**
+  String get watchLinkCopied;
+
+  /// No description provided for @watchAudioTracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get watchAudioTracks;
+
+  /// No description provided for @watchSubtitleTracks.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitles'**
+  String get watchSubtitleTracks;
+
+  /// No description provided for @watchTrackOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get watchTrackOff;
+
+  /// No description provided for @watchTrackNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Track {number}'**
+  String watchTrackNumber(int number);
+
+  /// No description provided for @watchPlayerError.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback error: {error}'**
+  String watchPlayerError(String error);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

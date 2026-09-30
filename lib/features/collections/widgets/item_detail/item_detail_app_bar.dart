@@ -23,6 +23,7 @@ class ItemDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.onEditCustom,
     required this.onMenuSelected,
     this.onToggleFavorite,
+    this.onWatch,
     this.canTrackReleases = false,
     this.isTracked = false,
     this.onToggleTracked,
@@ -44,6 +45,9 @@ class ItemDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Toggles the favorite flag; when null the heart is hidden.
   final VoidCallback? onToggleFavorite;
+
+  /// Opens the torrent picker; when null the play button is hidden.
+  final VoidCallback? onWatch;
 
   /// Whether the calendar bell applies to this item.
   final bool canTrackReleases;
@@ -71,6 +75,13 @@ class ItemDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
     return ScreenAppBar(
       title: displayName,
       actions: <Widget>[
+        if (onWatch != null)
+          _action(
+            iconData: Icons.play_circle_outline,
+            color: AppColors.brand,
+            tooltip: l.watchAction,
+            onPressed: onWatch,
+          ),
         if (isEditable && onToggleFavorite != null)
           _action(
             iconData: item.isFavorite ? Icons.favorite : Icons.heart_broken,

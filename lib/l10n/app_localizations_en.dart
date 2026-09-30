@@ -5979,4 +5979,105 @@ class SEn extends S {
 
   @override
   String get markAllListened => 'Mark all listened';
+
+  @override
+  String get settingsWatch => 'Watch (JacRed + TorrServer)';
+
+  @override
+  String get settingsWatchSubtitle =>
+      'Find torrents and stream them inside the app';
+
+  @override
+  String get watchAction => 'Watch';
+
+  @override
+  String get watchJacRedTitle => 'JacRed (torrent search)';
+
+  @override
+  String get watchJacRedUrl => 'JacRed address';
+
+  @override
+  String get watchJacRedApiKey => 'JacRed API key (optional)';
+
+  @override
+  String get watchTorrServerTitle => 'TorrServer (streaming)';
+
+  @override
+  String get watchTorrServerUrl => 'TorrServer address';
+
+  @override
+  String get watchTestConnection => 'Check both servers';
+
+  @override
+  String get watchChecking => 'Checking…';
+
+  @override
+  String get watchJacRedOk => 'JacRed is reachable';
+
+  @override
+  String watchTorrServerOk(String version) {
+    return 'TorrServer $version is reachable';
+  }
+
+  @override
+  String watchCheckFailed(String error) {
+    return 'Connection failed: $error';
+  }
+
+  @override
+  String get watchNotConfigured =>
+      'Set the JacRed and TorrServer addresses in Settings first';
+
+  @override
+  String get watchOpenSettings => 'Open settings';
+
+  @override
+  String get watchSearchHint => 'Search torrents';
+
+  @override
+  String get watchNoResults => 'No torrents found';
+
+  @override
+  String watchSearchFailed(String error) {
+    return 'Search failed: $error';
+  }
+
+  @override
+  String get watchConnectingPeers => 'Connecting to peers…';
+
+  @override
+  String watchStartFailed(String error) {
+    return 'Could not start the torrent: $error';
+  }
+
+  @override
+  String get watchPickFile => 'Choose a file';
+
+  @override
+  String get watchNoVideoFiles => 'This torrent has no video files';
+
+  @override
+  String get watchCopyLink => 'Copy stream link';
+
+  @override
+  String get watchLinkCopied => 'Stream link copied';
+
+  @override
+  String get watchAudioTracks => 'Audio';
+
+  @override
+  String get watchSubtitleTracks => 'Subtitles';
+
+  @override
+  String get watchTrackOff => 'Off';
+
+  @override
+  String watchTrackNumber(int number) {
+    return 'Track $number';
+  }
+
+  @override
+  String watchPlayerError(String error) {
+    return 'Playback error: $error';
+  }
 }
