@@ -92,6 +92,7 @@ dependencies:
   media_kit: ^1.2.6
   media_kit_video: ^2.0.1
   media_kit_libs_windows_video: ^1.0.11
+  media_kit_libs_android_video: ^1.3.8
 
 # The real gamepads_windows is native-only and its USB device listener
 # crashes the app (0xc0000005) even though the Dart side never subscribes

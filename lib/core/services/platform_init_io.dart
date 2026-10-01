@@ -14,6 +14,6 @@ void initPlatform() {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  // Only the Windows build bundles libmpv; elsewhere the Watch button is off.
-  if (Platform.isWindows) MediaKit.ensureInitialized();
+  // Only the Windows and Android builds bundle libmpv; elsewhere Watch is off.
+  if (Platform.isWindows || Platform.isAndroid) MediaKit.ensureInitialized();
 }

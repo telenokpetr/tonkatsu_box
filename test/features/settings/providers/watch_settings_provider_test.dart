@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tonkatsu_box/features/settings/providers/profile_provider.dart';
 import 'package:tonkatsu_box/features/settings/providers/settings_provider.dart';
 import 'package:tonkatsu_box/features/settings/providers/watch_settings_provider.dart';
+import 'package:tonkatsu_box/shared/constants/platform_features.dart';
 
 void main() {
   const String profileId = 'test-profile';
@@ -31,34 +32,47 @@ void main() {
   }
 
   group('WatchSettingsState', () {
-    test('defaults point at the local Docker ports', () {
+    test('a bare state has nothing configured', () {
       const WatchSettingsState state = WatchSettingsState();
-      expect(state.jacRedUrl, 'http://127.0.0.1:9117');
-      expect(state.torrServerUrl, 'http://127.0.0.1:8090');
+      expect(state.jacRedUrl, isEmpty);
+      expect(state.torrServerUrl, isEmpty);
       expect(state.jacRedApiKey, isEmpty);
-      expect(state.isConfigured, isTrue);
+      expect(state.isConfigured, isFalse);
     });
 
     test('isConfigured needs both URLs', () {
-      expect(const WatchSettingsState(jacRedUrl: '').isConfigured, isFalse);
-      expect(const WatchSettingsState(torrServerUrl: '').isConfigured, isFalse);
+      expect(
+        const WatchSettingsState(
+          jacRedUrl: 'http://a',
+          torrServerUrl: 'http://b',
+        ).isConfigured,
+        isTrue,
+      );
+      expect(
+        const WatchSettingsState(jacRedUrl: 'http://a').isConfigured,
+        isFalse,
+      );
+      expect(
+        const WatchSettingsState(torrServerUrl: 'http://b').isConfigured,
+        isFalse,
+      );
     });
 
     test('copyWith replaces only the given fields', () {
-      final WatchSettingsState state = const WatchSettingsState().copyWith(
-        jacRedApiKey: 'k',
-      );
+      final WatchSettingsState state = const WatchSettingsState(
+        jacRedUrl: 'http://a',
+      ).copyWith(jacRedApiKey: 'k');
       expect(state.jacRedApiKey, 'k');
-      expect(state.jacRedUrl, kDefaultJacRedUrl);
+      expect(state.jacRedUrl, 'http://a');
     });
   });
 
   group('WatchSettingsNotifier', () {
-    test('build falls back to defaults on empty prefs', () async {
+    test('build falls back to the local Docker ports on a desktop', () async {
       final ProviderContainer container = await createContainer();
       final WatchSettingsState state = container.read(watchSettingsProvider);
-      expect(state.jacRedUrl, kDefaultJacRedUrl);
-      expect(state.torrServerUrl, kDefaultTorrServerUrl);
+      expect(state.jacRedUrl, kIsMobile ? isEmpty : kDefaultJacRedUrl);
+      expect(state.torrServerUrl, kIsMobile ? isEmpty : kDefaultTorrServerUrl);
     });
 
     test('build reads stored per-profile values', () async {

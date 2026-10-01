@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/api/service_url.dart';
+import '../../../shared/constants/platform_features.dart';
 import 'profile_provider.dart';
 import 'settings_provider.dart';
 
@@ -15,16 +16,16 @@ abstract class WatchSettingsKeys {
       'watch_torrserver_url_$profileId';
 }
 
-/// Both services usually run on the same PC as the app (Docker), so the
-/// defaults work without touching Settings.
+/// On a PC both services usually run next to the app (Docker), so these
+/// defaults work untouched; a phone starts empty, see `_defaultFor`.
 const String kDefaultJacRedUrl = 'http://127.0.0.1:9117';
 const String kDefaultTorrServerUrl = 'http://127.0.0.1:8090';
 
 class WatchSettingsState {
   const WatchSettingsState({
-    this.jacRedUrl = kDefaultJacRedUrl,
+    this.jacRedUrl = '',
     this.jacRedApiKey = '',
-    this.torrServerUrl = kDefaultTorrServerUrl,
+    this.torrServerUrl = '',
   });
 
   final String jacRedUrl;
@@ -63,14 +64,17 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
     return WatchSettingsState(
       jacRedUrl:
           _prefs.getString(WatchSettingsKeys.jacRedUrl(_profileId)) ??
-          kDefaultJacRedUrl,
+          _defaultFor(kDefaultJacRedUrl),
       jacRedApiKey:
           _prefs.getString(WatchSettingsKeys.jacRedApiKey(_profileId)) ?? '',
       torrServerUrl:
           _prefs.getString(WatchSettingsKeys.torrServerUrl(_profileId)) ??
-          kDefaultTorrServerUrl,
+          _defaultFor(kDefaultTorrServerUrl),
     );
   }
+
+  // 127.0.0.1 on a phone is the phone itself, never the PC with the servers.
+  String _defaultFor(String desktopUrl) => kIsMobile ? '' : desktopUrl;
 
   /// An empty string is stored as-is: it means "turned off", while a missing
   /// key falls back to the default.

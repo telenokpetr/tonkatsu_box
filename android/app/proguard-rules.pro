@@ -1,0 +1,2 @@
+-keep class com.alexmercerind.** { *; }
+-dontwarn com.alexmercerind.**

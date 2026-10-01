@@ -39,10 +39,10 @@ android {
     signingConfigs {
         create("release") {
             // Env vars on CI, key.properties locally.
-            storeFile = file(
-                System.getenv("KEYSTORE_PATH")
-                    ?: keystoreProperties.getProperty("storeFile", "")
-            )
+            val storePath = System.getenv("KEYSTORE_PATH")
+                ?: keystoreProperties.getProperty("storeFile", "")
+            storeFile = file(storePath)
+            if (storePath.endsWith(".p12")) storeType = "pkcs12"
             storePassword =
                 System.getenv("KEYSTORE_PASSWORD")
                     ?: keystoreProperties.getProperty("storePassword", "")
@@ -58,6 +58,11 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
+            // libmpv reaches back into these classes over JNI.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }

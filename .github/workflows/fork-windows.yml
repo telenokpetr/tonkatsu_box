@@ -41,7 +41,28 @@ jobs:
         run: Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath tonkatsu-box-watch-windows.zip
         shell: powershell
 
-      - name: Upload Windows build
+      - name: Build installer
+        shell: powershell
+        run: |
+          $isccPath = (Get-Command iscc -ErrorAction SilentlyContinue).Source
+          if (-not $isccPath) {
+            $isccPath = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+            if (-not (Test-Path $isccPath)) {
+              choco install innosetup -y --no-progress
+            }
+          }
+          $version = (Select-String -Path pubspec.yaml -Pattern '^version:\s*([^+\s]+)').Matches[0].Groups[1].Value
+          & $isccPath "/DAppVersion=$version" installer\tonkatsu_box.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: tonkatsu-box-watch-windows-setup
+          path: dist/tonkatsu-box-watch-setup.exe
+          retention-days: 30
+
+      - name: Upload portable Windows build
         uses: actions/upload-artifact@v4
         with:
           name: tonkatsu-box-watch-windows
