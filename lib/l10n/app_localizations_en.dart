@@ -6089,7 +6089,7 @@ class SEn extends S {
 
   @override
   String get watchVlcMissing =>
-      'VLC was not found, opening the built-in player';
+      'No external player found, opening the built-in player';
 
   @override
   String get watchAddTorrent => 'Add a torrent';
@@ -6102,4 +6102,7 @@ class SEn extends S {
 
   @override
   String get watchNoMagnetInClipboard => 'No magnet link in the clipboard';
+
+  @override
+  String get watchPlayerAuto => 'Automatic (MPC-BE, MPC-HC, VLC)';
 }

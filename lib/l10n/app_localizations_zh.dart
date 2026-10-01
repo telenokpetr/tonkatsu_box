@@ -5786,7 +5786,7 @@ class SZh extends S {
   String get watchPlayerBuiltIn => '内置播放器';
 
   @override
-  String get watchVlcMissing => '未找到 VLC,正在打开内置播放器';
+  String get watchVlcMissing => '未找到外部播放器,正在打开内置播放器';
 
   @override
   String get watchAddTorrent => '添加种子';
@@ -5799,4 +5799,7 @@ class SZh extends S {
 
   @override
   String get watchNoMagnetInClipboard => '剪贴板中没有磁力链接';
+
+  @override
+  String get watchPlayerAuto => '自动 (MPC-BE, MPC-HC, VLC)';
 }

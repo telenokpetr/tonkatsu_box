@@ -6164,7 +6164,7 @@ class SEs extends S {
 
   @override
   String get watchVlcMissing =>
-      'No se encontró VLC, abro el reproductor integrado';
+      'No se encontró un reproductor externo, abro el integrado';
 
   @override
   String get watchAddTorrent => 'Añadir un torrent';
@@ -6178,4 +6178,7 @@ class SEs extends S {
   @override
   String get watchNoMagnetInClipboard =>
       'No hay ningún enlace magnet en el portapapeles';
+
+  @override
+  String get watchPlayerAuto => 'Automático (MPC-BE, MPC-HC, VLC)';
 }

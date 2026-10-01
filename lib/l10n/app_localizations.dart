@@ -10739,7 +10739,7 @@ abstract class S {
   /// No description provided for @watchVlcMissing.
   ///
   /// In en, this message translates to:
-  /// **'VLC was not found, opening the built-in player'**
+  /// **'No external player found, opening the built-in player'**
   String get watchVlcMissing;
 
   /// No description provided for @watchAddTorrent.
@@ -10765,6 +10765,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No magnet link in the clipboard'**
   String get watchNoMagnetInClipboard;
+
+  /// No description provided for @watchPlayerAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic (MPC-BE, MPC-HC, VLC)'**
+  String get watchPlayerAuto;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

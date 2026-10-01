@@ -18,7 +18,8 @@ abstract class WatchSettingsKeys {
   static String player(String profileId) => 'watch_player_$profileId';
 }
 
-enum WatchPlayer { vlc, builtIn }
+// `auto` takes the first external player found: MPC-BE, MPC-HC, VLC.
+enum WatchPlayer { auto, mpcBe, mpcHc, vlc, builtIn }
 
 /// On a PC both services usually run next to the app (Docker), so these
 /// defaults work untouched; a phone starts empty, see `_defaultFor`.
@@ -30,7 +31,7 @@ class WatchSettingsState {
     this.jacRedUrl = '',
     this.jacRedApiKey = '',
     this.torrServerUrl = '',
-    this.player = WatchPlayer.vlc,
+    this.player = WatchPlayer.auto,
   });
 
   final String jacRedUrl;
@@ -82,7 +83,7 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
           WatchPlayer.values.asNameMap()[_prefs.getString(
             WatchSettingsKeys.player(_profileId),
           )] ??
-          WatchPlayer.vlc,
+          WatchPlayer.auto,
     );
   }
 

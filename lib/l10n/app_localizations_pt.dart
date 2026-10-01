@@ -6145,7 +6145,7 @@ class SPt extends S {
 
   @override
   String get watchVlcMissing =>
-      'VLC não encontrado, abrindo o player integrado';
+      'Nenhum player externo encontrado, abrindo o integrado';
 
   @override
   String get watchAddTorrent => 'Adicionar um torrent';
@@ -6159,4 +6159,7 @@ class SPt extends S {
   @override
   String get watchNoMagnetInClipboard =>
       'Nenhum link magnet na área de transferência';
+
+  @override
+  String get watchPlayerAuto => 'Automático (MPC-BE, MPC-HC, VLC)';
 }

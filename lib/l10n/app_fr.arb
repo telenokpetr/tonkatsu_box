@@ -2605,9 +2605,10 @@
   "watchPlayerError": "Erreur de lecture : {error}",
   "watchPlayerTitle": "Lecteur",
   "watchPlayerBuiltIn": "Lecteur intégré",
-  "watchVlcMissing": "VLC introuvable, ouverture du lecteur intégré",
+  "watchVlcMissing": "Aucun lecteur externe trouvé, ouverture du lecteur intégré",
   "watchAddTorrent": "Ajouter un torrent",
   "watchPasteMagnet": "Coller un lien magnet",
   "watchPickTorrentFile": "Choisir un fichier .torrent",
-  "watchNoMagnetInClipboard": "Aucun lien magnet dans le presse-papiers"
+  "watchNoMagnetInClipboard": "Aucun lien magnet dans le presse-papiers",
+  "watchPlayerAuto": "Automatique (MPC-BE, MPC-HC, VLC)"
 }

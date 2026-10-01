@@ -2722,9 +2722,10 @@
   },
   "watchPlayerTitle": "Player",
   "watchPlayerBuiltIn": "Built-in player",
-  "watchVlcMissing": "VLC was not found, opening the built-in player",
+  "watchVlcMissing": "No external player found, opening the built-in player",
   "watchAddTorrent": "Add a torrent",
   "watchPasteMagnet": "Paste magnet link",
   "watchPickTorrentFile": "Choose .torrent file",
-  "watchNoMagnetInClipboard": "No magnet link in the clipboard"
+  "watchNoMagnetInClipboard": "No magnet link in the clipboard",
+  "watchPlayerAuto": "Automatic (MPC-BE, MPC-HC, VLC)"
 }

@@ -2266,9 +2266,10 @@
   "watchPlayerError": "Ошибка воспроизведения: {error}",
   "watchPlayerTitle": "Плеер",
   "watchPlayerBuiltIn": "Встроенный плеер",
-  "watchVlcMissing": "VLC не найден, открываю встроенный плеер",
+  "watchVlcMissing": "Внешний плеер не найден, открываю встроенный",
   "watchAddTorrent": "Добавить раздачу",
   "watchPasteMagnet": "Вставить magnet-ссылку",
   "watchPickTorrentFile": "Выбрать .torrent файл",
-  "watchNoMagnetInClipboard": "В буфере обмена нет magnet-ссылки"
+  "watchNoMagnetInClipboard": "В буфере обмена нет magnet-ссылки",
+  "watchPlayerAuto": "Авто (MPC-BE, MPC-HC, VLC)"
 }

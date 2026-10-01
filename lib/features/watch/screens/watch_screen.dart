@@ -15,7 +15,7 @@ import '../../../shared/widgets/screen_app_bar.dart';
 import '../../settings/providers/watch_settings_provider.dart';
 import '../../settings/screens/watch_settings_screen.dart';
 import '../providers/watch_providers.dart';
-import '../vlc_launcher.dart';
+import '../external_player.dart';
 import '../watch_format.dart';
 import '../watch_query.dart';
 import 'player_screen.dart';
@@ -140,10 +140,18 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
       if (file == null || !mounted) return;
 
       final String url = api.streamUrl(ready, file);
-      if (ref.read(watchSettingsProvider).player == WatchPlayer.vlc) {
+      final WatchPlayer choice = ref.read(watchSettingsProvider).player;
+      if (choice != WatchPlayer.builtIn) {
         final bool opened = await ref
-            .read(vlcLauncherProvider)
-            .launch(url: url, title: file.name);
+            .read(externalPlayerProvider)
+            .launch(
+              choice: choice,
+              urls: <String>[
+                for (final TorrServerFile f in videos) api.streamUrl(ready, f),
+              ],
+              titles: <String>[for (final TorrServerFile f in videos) f.name],
+              start: videos.indexOf(file),
+            );
         if (opened) return;
         if (!mounted) return;
         context.showSnack(l.watchVlcMissing, type: SnackType.error);

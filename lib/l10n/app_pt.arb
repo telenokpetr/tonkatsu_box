@@ -3033,9 +3033,10 @@
   "watchPlayerError": "Erro de reprodução: {error}",
   "watchPlayerTitle": "Player",
   "watchPlayerBuiltIn": "Player integrado",
-  "watchVlcMissing": "VLC não encontrado, abrindo o player integrado",
+  "watchVlcMissing": "Nenhum player externo encontrado, abrindo o integrado",
   "watchAddTorrent": "Adicionar um torrent",
   "watchPasteMagnet": "Colar link magnet",
   "watchPickTorrentFile": "Escolher arquivo .torrent",
-  "watchNoMagnetInClipboard": "Nenhum link magnet na área de transferência"
+  "watchNoMagnetInClipboard": "Nenhum link magnet na área de transferência",
+  "watchPlayerAuto": "Automático (MPC-BE, MPC-HC, VLC)"
 }

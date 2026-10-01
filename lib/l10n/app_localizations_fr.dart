@@ -6181,7 +6181,8 @@ class SFr extends S {
   String get watchPlayerBuiltIn => 'Lecteur intégré';
 
   @override
-  String get watchVlcMissing => 'VLC introuvable, ouverture du lecteur intégré';
+  String get watchVlcMissing =>
+      'Aucun lecteur externe trouvé, ouverture du lecteur intégré';
 
   @override
   String get watchAddTorrent => 'Ajouter un torrent';
@@ -6195,4 +6196,7 @@ class SFr extends S {
   @override
   String get watchNoMagnetInClipboard =>
       'Aucun lien magnet dans le presse-papiers';
+
+  @override
+  String get watchPlayerAuto => 'Automatique (MPC-BE, MPC-HC, VLC)';
 }

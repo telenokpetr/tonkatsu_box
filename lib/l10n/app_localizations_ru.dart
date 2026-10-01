@@ -6189,7 +6189,7 @@ class SRu extends S {
   String get watchPlayerBuiltIn => 'Встроенный плеер';
 
   @override
-  String get watchVlcMissing => 'VLC не найден, открываю встроенный плеер';
+  String get watchVlcMissing => 'Внешний плеер не найден, открываю встроенный';
 
   @override
   String get watchAddTorrent => 'Добавить раздачу';
@@ -6202,4 +6202,7 @@ class SRu extends S {
 
   @override
   String get watchNoMagnetInClipboard => 'В буфере обмена нет magnet-ссылки';
+
+  @override
+  String get watchPlayerAuto => 'Авто (MPC-BE, MPC-HC, VLC)';
 }

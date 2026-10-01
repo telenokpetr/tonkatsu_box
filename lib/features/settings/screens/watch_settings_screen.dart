@@ -150,6 +150,9 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
   }
 
   String _playerLabel(S l, WatchPlayer player) => switch (player) {
+    WatchPlayer.auto => l.watchPlayerAuto,
+    WatchPlayer.mpcBe => 'MPC-BE', // proper noun
+    WatchPlayer.mpcHc => 'MPC-HC', // proper noun
     WatchPlayer.vlc => 'VLC', // proper noun
     WatchPlayer.builtIn => l.watchPlayerBuiltIn,
   };
