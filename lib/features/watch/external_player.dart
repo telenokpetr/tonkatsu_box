@@ -130,6 +130,7 @@ class ExternalPlayerLauncher {
     for (final WatchPlayer player in playersToTry(choice)) {
       final String? exe = findWindowsPlayer(player, Platform.environment);
       if (exe == null) continue;
+      _log.info('launching $exe for ${urls.length} item(s), start=$start');
       final String target = urls.length == 1
           ? urls.first
           : await _writePlaylist(urls, titles, start);
@@ -140,6 +141,7 @@ class ExternalPlayerLauncher {
       );
       return true;
     }
+    _log.warning('no external player found for $choice');
     return false;
   }
 

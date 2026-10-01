@@ -170,6 +170,7 @@ class TorrServerApi {
       final TorrServerTorrent torrent = await getTorrent(hash);
       if (torrent.files.isNotEmpty) return torrent;
       if (clock.elapsed >= timeout) {
+        _log.warning('no metadata for $hash after ${clock.elapsed.inSeconds}s');
         throw const TorrServerApiException(
           'No metadata from peers — the torrent may be dead',
         );
@@ -195,7 +196,13 @@ class TorrServerApi {
         data: body,
       );
       final Object? data = response.data;
-      if (data is Map<String, dynamic>) return TorrServerTorrent.fromJson(data);
+      if (data is Map<String, dynamic>) {
+        final TorrServerTorrent torrent = TorrServerTorrent.fromJson(data);
+        _log.info(
+          'POST $path -> hash=${torrent.hash} files=${torrent.files.length}',
+        );
+        return torrent;
+      }
       throw const TorrServerApiException('Unexpected TorrServer response');
     } on DioException catch (e) {
       throw _wrap(e, path);

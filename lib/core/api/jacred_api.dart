@@ -118,6 +118,10 @@ class JacRedApi {
     torrents.sort(
       (JacRedTorrent a, JacRedTorrent b) => b.seeders.compareTo(a.seeders),
     );
+    _log.info(
+      'search "$title" original="$originalTitle" year=$year serial=$isSerial '
+      '-> ${torrents.length} torrents',
+    );
     return torrents;
   }
 
