@@ -11,6 +11,17 @@ import '../../../shared/extensions/snackbar_extension.dart';
 const int _bufferBytes = 64 * 1024 * 1024;
 const Duration _errorSnackDuration = Duration(seconds: 6);
 
+// media_kit sizes its controls for a 28 px button; this is 150% of that, and
+// every size below is derived from it so the bar stays proportional.
+const double _kPlayerScale = 1.5;
+const double _kIconSize = 28 * _kPlayerScale;
+const double _kTitleSize = 14 * _kPlayerScale;
+const double _kTimeSize = 12 * _kPlayerScale;
+const double _kMenuItemHeight = kMinInteractiveDimension * _kPlayerScale;
+const EdgeInsets _kBarMargin = EdgeInsets.symmetric(
+  horizontal: 16 * _kPlayerScale,
+);
+
 /// Full-window libmpv player for a TorrServer stream URL.
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({required this.url, required this.title, super.key});
@@ -67,7 +78,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Widget build(BuildContext context) {
     final S l = S.of(context);
     final List<Widget> topBar = <Widget>[
-      BackButton(
+      IconButton(
+        icon: const Icon(Icons.arrow_back),
+        iconSize: _kIconSize,
         color: Colors.white,
         onPressed: () => Navigator.of(context).pop(),
       ),
@@ -76,11 +89,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
           widget.title,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: _kTitleSize),
         ),
       ),
       IconButton(
-        icon: const Icon(Icons.link, color: Colors.white),
+        icon: const Icon(Icons.link),
+        iconSize: _kIconSize,
+        color: Colors.white,
         tooltip: l.watchCopyLink,
         onPressed: _copyLink,
       ),
@@ -88,7 +103,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
     final List<Widget> bottomBar = <Widget>[
       const MaterialDesktopPlayOrPauseButton(),
       const MaterialDesktopVolumeButton(),
-      const MaterialDesktopPositionIndicator(),
+      const MaterialDesktopPositionIndicator(
+        style: TextStyle(
+          height: 1.0,
+          fontSize: _kTimeSize,
+          color: Colors.white,
+        ),
+      ),
       const Spacer(),
       _TracksButton(player: _player),
       const MaterialFullscreenButton(),
@@ -97,6 +118,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
         MaterialDesktopVideoControlsThemeData(
           topButtonBar: topBar,
           bottomButtonBar: bottomBar,
+          buttonBarButtonSize: _kIconSize,
+          buttonBarButtonColor: Colors.white,
+          topButtonBarMargin: _kBarMargin,
+          bottomButtonBarMargin: _kBarMargin,
+          seekBarMargin: _kBarMargin,
+          seekBarHeight: 3.2 * _kPlayerScale,
+          seekBarHoverHeight: 5.6 * _kPlayerScale,
+          seekBarContainerHeight: 36 * _kPlayerScale,
+          seekBarThumbSize: 12 * _kPlayerScale,
+          volumeBarThumbSize: 12 * _kPlayerScale,
         );
 
     return Scaffold(
@@ -166,38 +197,51 @@ class _TracksButton extends StatelessWidget {
     final S l = S.of(context);
     return PopupMenuButton<Object>(
       icon: const Icon(Icons.subtitles_outlined, color: Colors.white),
+      iconSize: _kIconSize,
+      constraints: const BoxConstraints(minWidth: 112 * _kPlayerScale),
       tooltip: '${l.watchAudioTracks} / ${l.watchSubtitleTracks}',
       onSelected: (Object value) {
         if (value is AudioTrack) player.setAudioTrack(value);
         if (value is SubtitleTrack) player.setSubtitleTrack(value);
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<Object>>[
-        PopupMenuItem<Object>(enabled: false, child: Text(l.watchAudioTracks)),
+        PopupMenuItem<Object>(
+          enabled: false,
+          height: _kMenuItemHeight,
+          child: _menuText(l.watchAudioTracks),
+        ),
         for (int i = 0; i < audio.length; i++)
           CheckedPopupMenuItem<Object>(
             value: audio[i],
+            height: _kMenuItemHeight,
             checked: selected.audio.id == audio[i].id,
-            child: Text(_label(l, i, audio[i].title, audio[i].language)),
+            child: _menuText(_label(l, i, audio[i].title, audio[i].language)),
           ),
         const PopupMenuDivider(),
         PopupMenuItem<Object>(
           enabled: false,
-          child: Text(l.watchSubtitleTracks),
+          height: _kMenuItemHeight,
+          child: _menuText(l.watchSubtitleTracks),
         ),
         CheckedPopupMenuItem<Object>(
           value: SubtitleTrack.no(),
+          height: _kMenuItemHeight,
           checked: selected.subtitle.id == 'no',
-          child: Text(l.watchTrackOff),
+          child: _menuText(l.watchTrackOff),
         ),
         for (int i = 0; i < subtitles.length; i++)
           CheckedPopupMenuItem<Object>(
             value: subtitles[i],
+            height: _kMenuItemHeight,
             checked: selected.subtitle.id == subtitles[i].id,
-            child: Text(
+            child: _menuText(
               _label(l, i, subtitles[i].title, subtitles[i].language),
             ),
           ),
       ],
     );
   }
+
+  Widget _menuText(String text) =>
+      Text(text, style: const TextStyle(fontSize: _kTitleSize));
 }
