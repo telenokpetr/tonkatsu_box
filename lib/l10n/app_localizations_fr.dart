@@ -6199,4 +6199,42 @@ class SFr extends S {
 
   @override
   String get watchPlayerAuto => 'Automatique (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => 'Catalogue';
+
+  @override
+  String get catalogImdbMovies => 'IMDb : films';
+
+  @override
+  String get catalogImdbSeries => 'IMDb : séries';
+
+  @override
+  String get catalogImdbNew => 'IMDb : nouveautés populaires';
+
+  @override
+  String get catalogKpMovies => 'Kinopoisk : films';
+
+  @override
+  String get catalogKpSeries => 'Kinopoisk : séries';
+
+  @override
+  String get catalogKpPopular => 'Kinopoisk : populaires';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return 'Catalogue indisponible : $error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return 'Mis à jour $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk =>
+      'Les listes Kinopoisk apparaissent quand le conteneur du catalogue reçoit une clé API Kinopoisk';
+
+  @override
+  String get watchCatalogUrl => 'Adresse du catalogue';
 }

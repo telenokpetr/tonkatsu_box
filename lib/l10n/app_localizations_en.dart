@@ -6105,4 +6105,42 @@ class SEn extends S {
 
   @override
   String get watchPlayerAuto => 'Automatic (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => 'Catalog';
+
+  @override
+  String get catalogImdbMovies => 'IMDb: movies';
+
+  @override
+  String get catalogImdbSeries => 'IMDb: series';
+
+  @override
+  String get catalogImdbNew => 'IMDb: popular new';
+
+  @override
+  String get catalogKpMovies => 'Kinopoisk: movies';
+
+  @override
+  String get catalogKpSeries => 'Kinopoisk: series';
+
+  @override
+  String get catalogKpPopular => 'Kinopoisk: popular';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return 'Catalog is unavailable: $error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk =>
+      'Kinopoisk lists appear once the catalog container gets a Kinopoisk API key';
+
+  @override
+  String get watchCatalogUrl => 'Catalog address';
 }

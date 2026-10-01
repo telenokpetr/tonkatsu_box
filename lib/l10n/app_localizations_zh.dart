@@ -5802,4 +5802,41 @@ class SZh extends S {
 
   @override
   String get watchPlayerAuto => '自动 (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => '目录';
+
+  @override
+  String get catalogImdbMovies => 'IMDb:电影';
+
+  @override
+  String get catalogImdbSeries => 'IMDb:剧集';
+
+  @override
+  String get catalogImdbNew => 'IMDb:热门新片';
+
+  @override
+  String get catalogKpMovies => 'Kinopoisk:电影';
+
+  @override
+  String get catalogKpSeries => 'Kinopoisk:剧集';
+
+  @override
+  String get catalogKpPopular => 'Kinopoisk:热门';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return '目录不可用:$error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return '更新于 $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk => '目录容器获得 Kinopoisk API 密钥后将显示 Kinopoisk 列表';
+
+  @override
+  String get watchCatalogUrl => '目录地址';
 }

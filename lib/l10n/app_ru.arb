@@ -2271,5 +2271,16 @@
   "watchPasteMagnet": "Вставить magnet-ссылку",
   "watchPickTorrentFile": "Выбрать .torrent файл",
   "watchNoMagnetInClipboard": "В буфере обмена нет magnet-ссылки",
-  "watchPlayerAuto": "Авто (MPC-BE, MPC-HC, VLC)"
+  "watchPlayerAuto": "Авто (MPC-BE, MPC-HC, VLC)",
+  "catalogTitle": "Каталог",
+  "catalogImdbMovies": "IMDb: фильмы",
+  "catalogImdbSeries": "IMDb: сериалы",
+  "catalogImdbNew": "IMDb: свежее популярное",
+  "catalogKpMovies": "Кинопоиск: фильмы",
+  "catalogKpSeries": "Кинопоиск: сериалы",
+  "catalogKpPopular": "Кинопоиск: популярное",
+  "catalogLoadFailed": "Каталог недоступен: {error}",
+  "catalogUpdated": "Обновлено {date}",
+  "catalogNoKinopoisk": "Списки Кинопоиска появятся, когда контейнер каталога получит ключ API Кинопоиска",
+  "watchCatalogUrl": "Адрес каталога"
 }

@@ -10771,6 +10771,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Automatic (MPC-BE, MPC-HC, VLC)'**
   String get watchPlayerAuto;
+
+  /// No description provided for @catalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Catalog'**
+  String get catalogTitle;
+
+  /// No description provided for @catalogImdbMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'IMDb: movies'**
+  String get catalogImdbMovies;
+
+  /// No description provided for @catalogImdbSeries.
+  ///
+  /// In en, this message translates to:
+  /// **'IMDb: series'**
+  String get catalogImdbSeries;
+
+  /// No description provided for @catalogImdbNew.
+  ///
+  /// In en, this message translates to:
+  /// **'IMDb: popular new'**
+  String get catalogImdbNew;
+
+  /// No description provided for @catalogKpMovies.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinopoisk: movies'**
+  String get catalogKpMovies;
+
+  /// No description provided for @catalogKpSeries.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinopoisk: series'**
+  String get catalogKpSeries;
+
+  /// No description provided for @catalogKpPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinopoisk: popular'**
+  String get catalogKpPopular;
+
+  /// No description provided for @catalogLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Catalog is unavailable: {error}'**
+  String catalogLoadFailed(String error);
+
+  /// No description provided for @catalogUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String catalogUpdated(String date);
+
+  /// No description provided for @catalogNoKinopoisk.
+  ///
+  /// In en, this message translates to:
+  /// **'Kinopoisk lists appear once the catalog container gets a Kinopoisk API key'**
+  String get catalogNoKinopoisk;
+
+  /// No description provided for @watchCatalogUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Catalog address'**
+  String get watchCatalogUrl;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

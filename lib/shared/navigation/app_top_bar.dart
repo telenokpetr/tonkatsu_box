@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/services/update_service.dart';
+import '../../features/watch/screens/catalog_screen.dart';
 import '../../features/welcome/providers/menu_tour_provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../constants/platform_features.dart';
@@ -187,6 +188,23 @@ class _AppTopBarState extends ConsumerState<AppTopBar> {
             ),
           ),
           const SizedBox(width: AppSpacing.md),
+          if (kWatchEnabled) ...<Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.local_movies_outlined,
+                size: kTopBarIconSize,
+                color: AppColors.textSecondary,
+              ),
+              tooltip: S.of(context).catalogTitle,
+              visualDensity: VisualDensity.compact,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const CatalogScreen(),
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.xs),
+          ],
           const ServiceBadges(),
           const SizedBox(width: AppSpacing.sm),
           _SettingsButton(

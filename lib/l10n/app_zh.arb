@@ -2605,5 +2605,16 @@
   "watchPasteMagnet": "粘贴磁力链接",
   "watchPickTorrentFile": "选择 .torrent 文件",
   "watchNoMagnetInClipboard": "剪贴板中没有磁力链接",
-  "watchPlayerAuto": "自动 (MPC-BE, MPC-HC, VLC)"
+  "watchPlayerAuto": "自动 (MPC-BE, MPC-HC, VLC)",
+  "catalogTitle": "目录",
+  "catalogImdbMovies": "IMDb:电影",
+  "catalogImdbSeries": "IMDb:剧集",
+  "catalogImdbNew": "IMDb:热门新片",
+  "catalogKpMovies": "Kinopoisk:电影",
+  "catalogKpSeries": "Kinopoisk:剧集",
+  "catalogKpPopular": "Kinopoisk:热门",
+  "catalogLoadFailed": "目录不可用:{error}",
+  "catalogUpdated": "更新于 {date}",
+  "catalogNoKinopoisk": "目录容器获得 Kinopoisk API 密钥后将显示 Kinopoisk 列表",
+  "watchCatalogUrl": "目录地址"
 }

@@ -6181,4 +6181,42 @@ class SEs extends S {
 
   @override
   String get watchPlayerAuto => 'Automático (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => 'Catálogo';
+
+  @override
+  String get catalogImdbMovies => 'IMDb: películas';
+
+  @override
+  String get catalogImdbSeries => 'IMDb: series';
+
+  @override
+  String get catalogImdbNew => 'IMDb: novedades populares';
+
+  @override
+  String get catalogKpMovies => 'Kinopoisk: películas';
+
+  @override
+  String get catalogKpSeries => 'Kinopoisk: series';
+
+  @override
+  String get catalogKpPopular => 'Kinopoisk: populares';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return 'Catálogo no disponible: $error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return 'Actualizado $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk =>
+      'Las listas de Kinopoisk aparecen cuando el contenedor del catálogo recibe una clave de API de Kinopoisk';
+
+  @override
+  String get watchCatalogUrl => 'Dirección del catálogo';
 }

@@ -1,6 +1,10 @@
+import 'package:core/models/movie.dart';
+import 'package:core/models/tv_show.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/api/catalog_api.dart';
 import '../../../core/api/jacred_api.dart';
+import '../../../core/api/tmdb_api.dart';
 import '../../../core/api/torrserver_api.dart';
 import '../../settings/providers/watch_settings_provider.dart';
 import '../watch_query.dart';
@@ -29,4 +33,51 @@ watchResultsProvider = FutureProvider.autoDispose
             year: query.year,
             isSerial: query.isSerial,
           );
+    });
+
+final Provider<CatalogApi> catalogApiProvider = Provider<CatalogApi>((Ref ref) {
+  return CatalogApi(url: ref.watch(watchSettingsProvider).catalogUrl);
+});
+
+final AutoDisposeFutureProvider<CatalogData> catalogProvider =
+    FutureProvider.autoDispose<CatalogData>(
+      (Ref ref) => ref.watch(catalogApiProvider).fetch(),
+    );
+
+/// What TMDB knows about a catalog entry: the poster and the title in the
+/// user's language. Null when the entry has no IMDb id or TMDB has no match.
+class CatalogCard {
+  const CatalogCard({this.title, this.posterUrl});
+
+  final String? title;
+  final String? posterUrl;
+}
+
+/// Kept alive on purpose: scrolling back must not refetch 250 posters.
+final FutureProviderFamily<CatalogCard?, CatalogEntry> catalogCardProvider =
+    FutureProvider.family<CatalogCard?, CatalogEntry>((
+      Ref ref,
+      CatalogEntry entry,
+    ) async {
+      final String? imdb = entry.imdb;
+      if (imdb == null) return null;
+      try {
+        final TmdbFindResult found = await ref
+            .read(tmdbApiProvider)
+            .findByImdbId(imdb);
+        final Movie? movie = found.firstMovie;
+        if (movie != null) {
+          return CatalogCard(
+            title: movie.title,
+            posterUrl: movie.posterThumbUrl,
+          );
+        }
+        final TvShow? show = found.firstTvShow;
+        if (show != null) {
+          return CatalogCard(title: show.title, posterUrl: show.posterThumbUrl);
+        }
+      } on Exception {
+        return null;
+      }
+      return null;
     });

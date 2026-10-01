@@ -2727,5 +2727,26 @@
   "watchPasteMagnet": "Paste magnet link",
   "watchPickTorrentFile": "Choose .torrent file",
   "watchNoMagnetInClipboard": "No magnet link in the clipboard",
-  "watchPlayerAuto": "Automatic (MPC-BE, MPC-HC, VLC)"
+  "watchPlayerAuto": "Automatic (MPC-BE, MPC-HC, VLC)",
+  "catalogTitle": "Catalog",
+  "catalogImdbMovies": "IMDb: movies",
+  "catalogImdbSeries": "IMDb: series",
+  "catalogImdbNew": "IMDb: popular new",
+  "catalogKpMovies": "Kinopoisk: movies",
+  "catalogKpSeries": "Kinopoisk: series",
+  "catalogKpPopular": "Kinopoisk: popular",
+  "catalogLoadFailed": "Catalog is unavailable: {error}",
+  "@catalogLoadFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "catalogUpdated": "Updated {date}",
+  "@catalogUpdated": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "catalogNoKinopoisk": "Kinopoisk lists appear once the catalog container gets a Kinopoisk API key",
+  "watchCatalogUrl": "Catalog address"
 }

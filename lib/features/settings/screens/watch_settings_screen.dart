@@ -128,6 +128,18 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
                   ),
                   const SizedBox(height: AppSpacing.md),
                   SettingsGroup(
+                    title: l.catalogTitle,
+                    children: <Widget>[
+                      _field(
+                        label: l.watchCatalogUrl,
+                        value: settings.catalogUrl,
+                        placeholder: kDefaultCatalogUrl,
+                        onChanged: notifier.setCatalogUrl,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  SettingsGroup(
                     title: l.watchPlayerTitle,
                     children: <Widget>[
                       SettingsTile(

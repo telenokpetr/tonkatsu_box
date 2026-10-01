@@ -16,6 +16,8 @@ abstract class WatchSettingsKeys {
       'watch_torrserver_url_$profileId';
 
   static String player(String profileId) => 'watch_player_$profileId';
+
+  static String catalogUrl(String profileId) => 'watch_catalog_url_$profileId';
 }
 
 // `auto` takes the first external player found: MPC-BE, MPC-HC, VLC.
@@ -25,6 +27,7 @@ enum WatchPlayer { auto, mpcBe, mpcHc, vlc, builtIn }
 /// defaults work untouched; a phone starts empty, see `_defaultFor`.
 const String kDefaultJacRedUrl = 'http://127.0.0.1:9117';
 const String kDefaultTorrServerUrl = 'http://127.0.0.1:8090';
+const String kDefaultCatalogUrl = 'http://127.0.0.1:8099/catalog.json';
 
 class WatchSettingsState {
   const WatchSettingsState({
@@ -32,12 +35,14 @@ class WatchSettingsState {
     this.jacRedApiKey = '',
     this.torrServerUrl = '',
     this.player = WatchPlayer.auto,
+    this.catalogUrl = '',
   });
 
   final String jacRedUrl;
   final String jacRedApiKey;
   final String torrServerUrl;
   final WatchPlayer player;
+  final String catalogUrl;
 
   bool get isConfigured => jacRedUrl.isNotEmpty && torrServerUrl.isNotEmpty;
 
@@ -46,12 +51,14 @@ class WatchSettingsState {
     String? jacRedApiKey,
     String? torrServerUrl,
     WatchPlayer? player,
+    String? catalogUrl,
   }) {
     return WatchSettingsState(
       jacRedUrl: jacRedUrl ?? this.jacRedUrl,
       jacRedApiKey: jacRedApiKey ?? this.jacRedApiKey,
       torrServerUrl: torrServerUrl ?? this.torrServerUrl,
       player: player ?? this.player,
+      catalogUrl: catalogUrl ?? this.catalogUrl,
     );
   }
 }
@@ -84,6 +91,9 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
             WatchSettingsKeys.player(_profileId),
           )] ??
           WatchPlayer.auto,
+      catalogUrl:
+          _prefs.getString(WatchSettingsKeys.catalogUrl(_profileId)) ??
+          _defaultFor(kDefaultCatalogUrl),
     );
   }
 
@@ -113,5 +123,11 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
   Future<void> setPlayer(WatchPlayer value) async {
     await _prefs.setString(WatchSettingsKeys.player(_profileId), value.name);
     state = state.copyWith(player: value);
+  }
+
+  Future<void> setCatalogUrl(String value) async {
+    final String url = normalizeServiceUrl(value);
+    await _prefs.setString(WatchSettingsKeys.catalogUrl(_profileId), url);
+    state = state.copyWith(catalogUrl: url);
   }
 }

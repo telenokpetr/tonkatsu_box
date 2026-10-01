@@ -6205,4 +6205,42 @@ class SRu extends S {
 
   @override
   String get watchPlayerAuto => 'Авто (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => 'Каталог';
+
+  @override
+  String get catalogImdbMovies => 'IMDb: фильмы';
+
+  @override
+  String get catalogImdbSeries => 'IMDb: сериалы';
+
+  @override
+  String get catalogImdbNew => 'IMDb: свежее популярное';
+
+  @override
+  String get catalogKpMovies => 'Кинопоиск: фильмы';
+
+  @override
+  String get catalogKpSeries => 'Кинопоиск: сериалы';
+
+  @override
+  String get catalogKpPopular => 'Кинопоиск: популярное';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return 'Каталог недоступен: $error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return 'Обновлено $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk =>
+      'Списки Кинопоиска появятся, когда контейнер каталога получит ключ API Кинопоиска';
+
+  @override
+  String get watchCatalogUrl => 'Адрес каталога';
 }

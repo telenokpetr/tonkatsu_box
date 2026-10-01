@@ -6162,4 +6162,42 @@ class SPt extends S {
 
   @override
   String get watchPlayerAuto => 'Automático (MPC-BE, MPC-HC, VLC)';
+
+  @override
+  String get catalogTitle => 'Catálogo';
+
+  @override
+  String get catalogImdbMovies => 'IMDb: filmes';
+
+  @override
+  String get catalogImdbSeries => 'IMDb: séries';
+
+  @override
+  String get catalogImdbNew => 'IMDb: novidades populares';
+
+  @override
+  String get catalogKpMovies => 'Kinopoisk: filmes';
+
+  @override
+  String get catalogKpSeries => 'Kinopoisk: séries';
+
+  @override
+  String get catalogKpPopular => 'Kinopoisk: populares';
+
+  @override
+  String catalogLoadFailed(String error) {
+    return 'Catálogo indisponível: $error';
+  }
+
+  @override
+  String catalogUpdated(String date) {
+    return 'Atualizado $date';
+  }
+
+  @override
+  String get catalogNoKinopoisk =>
+      'As listas do Kinopoisk aparecem quando o contêiner do catálogo recebe uma chave de API do Kinopoisk';
+
+  @override
+  String get watchCatalogUrl => 'Endereço do catálogo';
 }
