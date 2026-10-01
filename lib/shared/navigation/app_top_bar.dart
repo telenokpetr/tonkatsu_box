@@ -189,14 +189,20 @@ class _AppTopBarState extends ConsumerState<AppTopBar> {
           ),
           const SizedBox(width: AppSpacing.md),
           if (kWatchEnabled) ...<Widget>[
-            IconButton(
+            TextButton.icon(
               icon: Icon(
                 Icons.local_movies_outlined,
-                size: kTopBarIconSize,
-                color: AppColors.textSecondary,
+                size: kTopBarIconSize + 4,
+                color: AppColors.brand,
               ),
-              tooltip: S.of(context).catalogTitle,
-              visualDensity: VisualDensity.compact,
+              label: Text(
+                S.of(context).catalogTitle,
+                style: TextStyle(color: AppColors.brand),
+              ),
+              style: TextButton.styleFrom(
+                minimumSize: const Size(0, 36),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+              ),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const CatalogScreen(),

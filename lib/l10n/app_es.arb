@@ -2621,5 +2621,16 @@
   "catalogLoadFailed": "Catálogo no disponible: {error}",
   "catalogUpdated": "Actualizado {date}",
   "catalogNoKinopoisk": "Las listas de Kinopoisk aparecen cuando el contenedor del catálogo recibe una clave de API de Kinopoisk",
-  "watchCatalogUrl": "Dirección del catálogo"
+  "watchCatalogUrl": "Dirección del catálogo",
+  "catalogRecs": "Para ti",
+  "catalogMoviesTrending": "Películas: tendencia",
+  "catalogSeriesTrending": "Series: tendencia",
+  "catalogSeriesTop": "Series: mejor valoradas",
+  "catalogCartoons": "Dibujos animados",
+  "catalogOldCartoons": "Dibujos animados clásicos",
+  "catalogSovietCartoons": "Dibujos soviéticos",
+  "catalogAnime": "Anime",
+  "catalogOldAnime": "Anime clásico",
+  "catalogEmpty": "Nada por ahora",
+  "catalogRecsEmpty": "Termina y valora algunos títulos de tu colección para recibir recomendaciones"
 }

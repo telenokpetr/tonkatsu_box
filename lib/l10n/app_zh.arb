@@ -2616,5 +2616,16 @@
   "catalogLoadFailed": "目录不可用:{error}",
   "catalogUpdated": "更新于 {date}",
   "catalogNoKinopoisk": "目录容器获得 Kinopoisk API 密钥后将显示 Kinopoisk 列表",
-  "watchCatalogUrl": "目录地址"
+  "watchCatalogUrl": "目录地址",
+  "catalogRecs": "为你推荐",
+  "catalogMoviesTrending": "电影:热门",
+  "catalogSeriesTrending": "剧集:热门",
+  "catalogSeriesTop": "剧集:高分",
+  "catalogCartoons": "动画",
+  "catalogOldCartoons": "经典动画",
+  "catalogSovietCartoons": "苏联动画",
+  "catalogAnime": "动漫",
+  "catalogOldAnime": "经典动漫",
+  "catalogEmpty": "暂无内容",
+  "catalogRecsEmpty": "在收藏中完成并评分几部作品后会出现推荐"
 }

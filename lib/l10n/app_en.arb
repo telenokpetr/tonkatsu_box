@@ -2748,5 +2748,16 @@
     }
   },
   "catalogNoKinopoisk": "Kinopoisk lists appear once the catalog container gets a Kinopoisk API key",
-  "watchCatalogUrl": "Catalog address"
+  "watchCatalogUrl": "Catalog address",
+  "catalogRecs": "For you",
+  "catalogMoviesTrending": "Movies: trending",
+  "catalogSeriesTrending": "Series: trending",
+  "catalogSeriesTop": "Series: top rated",
+  "catalogCartoons": "Cartoons",
+  "catalogOldCartoons": "Old cartoons",
+  "catalogSovietCartoons": "Soviet cartoons",
+  "catalogAnime": "Anime",
+  "catalogOldAnime": "Old anime",
+  "catalogEmpty": "Nothing here yet",
+  "catalogRecsEmpty": "Finish and rate a few titles in your collection to get recommendations"
 }

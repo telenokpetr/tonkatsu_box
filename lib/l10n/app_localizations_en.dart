@@ -6143,4 +6143,38 @@ class SEn extends S {
 
   @override
   String get watchCatalogUrl => 'Catalog address';
+
+  @override
+  String get catalogRecs => 'For you';
+
+  @override
+  String get catalogMoviesTrending => 'Movies: trending';
+
+  @override
+  String get catalogSeriesTrending => 'Series: trending';
+
+  @override
+  String get catalogSeriesTop => 'Series: top rated';
+
+  @override
+  String get catalogCartoons => 'Cartoons';
+
+  @override
+  String get catalogOldCartoons => 'Old cartoons';
+
+  @override
+  String get catalogSovietCartoons => 'Soviet cartoons';
+
+  @override
+  String get catalogAnime => 'Anime';
+
+  @override
+  String get catalogOldAnime => 'Old anime';
+
+  @override
+  String get catalogEmpty => 'Nothing here yet';
+
+  @override
+  String get catalogRecsEmpty =>
+      'Finish and rate a few titles in your collection to get recommendations';
 }

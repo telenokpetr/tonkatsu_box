@@ -6200,4 +6200,38 @@ class SPt extends S {
 
   @override
   String get watchCatalogUrl => 'Endereço do catálogo';
+
+  @override
+  String get catalogRecs => 'Para você';
+
+  @override
+  String get catalogMoviesTrending => 'Filmes: em alta';
+
+  @override
+  String get catalogSeriesTrending => 'Séries: em alta';
+
+  @override
+  String get catalogSeriesTop => 'Séries: mais bem avaliadas';
+
+  @override
+  String get catalogCartoons => 'Desenhos animados';
+
+  @override
+  String get catalogOldCartoons => 'Desenhos animados antigos';
+
+  @override
+  String get catalogSovietCartoons => 'Desenhos soviéticos';
+
+  @override
+  String get catalogAnime => 'Anime';
+
+  @override
+  String get catalogOldAnime => 'Anime antigo';
+
+  @override
+  String get catalogEmpty => 'Nada por enquanto';
+
+  @override
+  String get catalogRecsEmpty =>
+      'Conclua e avalie alguns títulos da sua coleção para receber recomendações';
 }

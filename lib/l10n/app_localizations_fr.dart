@@ -6237,4 +6237,38 @@ class SFr extends S {
 
   @override
   String get watchCatalogUrl => 'Adresse du catalogue';
+
+  @override
+  String get catalogRecs => 'Pour vous';
+
+  @override
+  String get catalogMoviesTrending => 'Films : tendances';
+
+  @override
+  String get catalogSeriesTrending => 'Séries : tendances';
+
+  @override
+  String get catalogSeriesTop => 'Séries : les mieux notées';
+
+  @override
+  String get catalogCartoons => 'Dessins animés';
+
+  @override
+  String get catalogOldCartoons => 'Dessins animés classiques';
+
+  @override
+  String get catalogSovietCartoons => 'Dessins animés soviétiques';
+
+  @override
+  String get catalogAnime => 'Anime';
+
+  @override
+  String get catalogOldAnime => 'Anime classique';
+
+  @override
+  String get catalogEmpty => 'Rien pour le moment';
+
+  @override
+  String get catalogRecsEmpty =>
+      'Terminez et notez quelques titres de votre collection pour obtenir des recommandations';
 }

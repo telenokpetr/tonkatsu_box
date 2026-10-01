@@ -2282,5 +2282,16 @@
   "catalogLoadFailed": "Каталог недоступен: {error}",
   "catalogUpdated": "Обновлено {date}",
   "catalogNoKinopoisk": "Списки Кинопоиска появятся, когда контейнер каталога получит ключ API Кинопоиска",
-  "watchCatalogUrl": "Адрес каталога"
+  "watchCatalogUrl": "Адрес каталога",
+  "catalogRecs": "Рекомендации",
+  "catalogMoviesTrending": "Фильмы: в тренде",
+  "catalogSeriesTrending": "Сериалы: в тренде",
+  "catalogSeriesTop": "Сериалы: лучшие",
+  "catalogCartoons": "Мультики",
+  "catalogOldCartoons": "Старые мультики",
+  "catalogSovietCartoons": "Советские мультфильмы",
+  "catalogAnime": "Аниме",
+  "catalogOldAnime": "Старое аниме",
+  "catalogEmpty": "Пока пусто",
+  "catalogRecsEmpty": "Отметь просмотренными и оцени несколько тайтлов в коллекции, тогда появятся рекомендации"
 }

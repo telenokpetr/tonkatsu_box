@@ -8,6 +8,7 @@ import '../../../shared/theme/app_colors.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/theme/app_typography.dart';
 import '../../../shared/widgets/screen_app_bar.dart';
+import '../catalog_shelves.dart';
 import '../providers/watch_providers.dart';
 import '../watch_query.dart';
 import 'watch_screen.dart';
@@ -15,135 +16,105 @@ import 'watch_screen.dart';
 const double _kCardWidth = 150;
 const double _kGridGap = AppSpacing.md;
 
-/// A catalog list the container can produce, in tab order.
-class _CatalogTab {
-  const _CatalogTab(this.key, this.isSerial);
-
-  final String key;
-  final bool isSerial;
-}
-
-const List<_CatalogTab> _kTabs = <_CatalogTab>[
-  _CatalogTab('movies_top', false),
-  _CatalogTab('series_top', true),
-  _CatalogTab('movies_popular', false),
-  _CatalogTab('kp_movies_top', false),
-  _CatalogTab('kp_series_top', true),
-  _CatalogTab('kp_popular', false),
-];
-
-String _tabLabel(S l, String key) => switch (key) {
+String _shelfLabel(S l, String id) => switch (id) {
+  'recs' => l.catalogRecs,
+  'trend_movies' => l.catalogMoviesTrending,
+  'trend_series' => l.catalogSeriesTrending,
+  'top_series' => l.catalogSeriesTop,
+  'cartoons' => l.catalogCartoons,
+  'old_cartoons' => l.catalogOldCartoons,
+  'soviet_cartoons' => l.catalogSovietCartoons,
+  'anime' => l.catalogAnime,
+  'old_anime' => l.catalogOldAnime,
   'movies_top' => l.catalogImdbMovies,
   'series_top' => l.catalogImdbSeries,
   'movies_popular' => l.catalogImdbNew,
   'kp_movies_top' => l.catalogKpMovies,
   'kp_series_top' => l.catalogKpSeries,
   'kp_popular' => l.catalogKpPopular,
-  _ => key,
+  _ => id,
 };
 
-/// IMDb and Kinopoisk top lists from the catalog container; a tap on a title
+/// Recommendations, TMDB shelves (series, cartoons, old cartoons, anime…) and
+/// the IMDb / Kinopoisk lists from the catalog container. A tap on a title
 /// goes straight to the torrent picker.
-class CatalogScreen extends ConsumerWidget {
+class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final S l = S.of(context);
-    final AsyncValue<CatalogData> catalog = ref.watch(catalogProvider);
-    return Scaffold(
-      appBar: ScreenAppBar(title: l.catalogTitle),
-      body: catalog.when(
-        data: (CatalogData data) => _CatalogTabs(data: data),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (Object error, StackTrace stack) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.md),
-            child: Text(
-              l.catalogLoadFailed(
-                error is CatalogApiException ? error.message : '$error',
-              ),
-              textAlign: TextAlign.center,
-            ),
+    return DefaultTabController(
+      length: kShelfIds.length,
+      child: Scaffold(
+        appBar: ScreenAppBar(
+          title: l.catalogTitle,
+          bottom: TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: <Widget>[
+              for (final String id in kShelfIds) Tab(text: _shelfLabel(l, id)),
+            ],
           ),
+        ),
+        body: TabBarView(
+          children: <Widget>[
+            for (final String id in kShelfIds) _ShelfView(id: id),
+          ],
         ),
       ),
     );
   }
 }
 
-class _CatalogTabs extends StatelessWidget {
-  const _CatalogTabs({required this.data});
+class _ShelfView extends ConsumerWidget {
+  const _ShelfView({required this.id});
 
-  final CatalogData data;
+  final String id;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final S l = S.of(context);
+    final AsyncValue<List<CatalogItem>> shelf = ref.watch(shelfProvider(id));
+    return shelf.when(
+      data: (List<CatalogItem> items) =>
+          items.isEmpty ? _Message(_emptyText(l)) : _CatalogGrid(items: items),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (Object error, StackTrace stack) => _Message(
+        l.catalogLoadFailed(
+          error is CatalogApiException ? error.message : '$error',
+        ),
+      ),
+    );
+  }
+
+  String _emptyText(S l) {
+    if (id == 'recs') return l.catalogRecsEmpty;
+    if (id.startsWith('kp_')) return l.catalogNoKinopoisk;
+    return l.catalogEmpty;
+  }
+}
+
+class _Message extends StatelessWidget {
+  const _Message(this.text);
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    final S l = S.of(context);
-    final List<_CatalogTab> tabs = <_CatalogTab>[
-      for (final _CatalogTab tab in _kTabs)
-        if ((data.lists[tab.key] ?? const <CatalogEntry>[]).isNotEmpty) tab,
-    ];
-    final bool hasKinopoisk = tabs.any(
-      (_CatalogTab t) => t.key.startsWith('kp_'),
-    );
-    final DateTime? updated = data.updated?.toLocal();
-    if (tabs.isEmpty) {
-      return Center(child: Text(l.catalogLoadFailed('empty catalog')));
-    }
-    return DefaultTabController(
-      length: tabs.length,
-      child: Column(
-        children: <Widget>[
-          TabBar(
-            isScrollable: true,
-            tabs: <Widget>[
-              for (final _CatalogTab tab in tabs)
-                Tab(text: _tabLabel(l, tab.key)),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: <Widget>[
-                for (final _CatalogTab tab in tabs)
-                  _CatalogGrid(
-                    entries: data.lists[tab.key] ?? const <CatalogEntry>[],
-                    isSerial: tab.isSerial,
-                  ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.sm,
-            ),
-            child: Text(
-              <String>[
-                if (updated != null)
-                  l.catalogUpdated(
-                    '${updated.year}-${updated.month.toString().padLeft(2, '0')}'
-                    '-${updated.day.toString().padLeft(2, '0')}',
-                  ),
-                if (!hasKinopoisk) l.catalogNoKinopoisk,
-              ].join(' · '),
-              style: AppTypography.caption.copyWith(
-                color: AppColors.textTertiary,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Text(text, textAlign: TextAlign.center),
       ),
     );
   }
 }
 
 class _CatalogGrid extends StatelessWidget {
-  const _CatalogGrid({required this.entries, required this.isSerial});
+  const _CatalogGrid({required this.items});
 
-  final List<CatalogEntry> entries;
-  final bool isSerial;
+  final List<CatalogItem> items;
 
   @override
   Widget build(BuildContext context) {
@@ -155,43 +126,41 @@ class _CatalogGrid extends StatelessWidget {
         crossAxisSpacing: _kGridGap,
         childAspectRatio: 0.52,
       ),
-      itemCount: entries.length,
+      itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => _CatalogCardView(
-        key: ValueKey<String>('${entries[index].imdb}-${entries[index].title}'),
+        key: ValueKey<String>(items[index].key),
         rank: index + 1,
-        entry: entries[index],
-        isSerial: isSerial,
+        item: items[index],
       ),
     );
   }
 }
 
 class _CatalogCardView extends ConsumerWidget {
-  const _CatalogCardView({
-    required this.rank,
-    required this.entry,
-    required this.isSerial,
-    super.key,
-  });
+  const _CatalogCardView({required this.rank, required this.item, super.key});
 
   final int rank;
-  final CatalogEntry entry;
-  final bool isSerial;
+  final CatalogItem item;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final CatalogCard? card = ref.watch(catalogCardProvider(entry)).valueOrNull;
-    final String title = card?.title ?? entry.title;
-    final String? poster = card?.posterUrl;
-    final double? rating = entry.rating;
+    final CatalogEntry? entry = item.entry;
+    // Container entries carry no poster; TMDB shelves already have one.
+    final CatalogCard? card = entry == null
+        ? null
+        : ref.watch(catalogCardProvider(entry)).valueOrNull;
+    final String title = card?.title ?? item.title;
+    final String? poster = item.posterUrl ?? card?.posterUrl;
+    final double? rating = item.rating;
     return InkWell(
       borderRadius: BorderRadius.circular(AppSpacing.radiusSm),
       onTap: () {
+        final String original = item.original ?? '';
         final WatchQuery query = (
           title: title,
-          originalTitle: entry.original.isEmpty ? null : entry.original,
-          year: entry.year,
-          isSerial: isSerial,
+          originalTitle: original.isEmpty ? null : original,
+          year: item.year,
+          isSerial: item.isSerial,
         );
         Navigator.of(context).push(
           MaterialPageRoute<void>(
@@ -222,7 +191,7 @@ class _CatalogCardView extends ConsumerWidget {
                   top: AppSpacing.xs,
                   child: _Badge(text: '$rank'),
                 ),
-                if (rating != null)
+                if (rating != null && rating > 0)
                   Positioned(
                     right: AppSpacing.xs,
                     top: AppSpacing.xs,
@@ -238,9 +207,9 @@ class _CatalogCardView extends ConsumerWidget {
             overflow: TextOverflow.ellipsis,
             style: AppTypography.bodySmall,
           ),
-          if (entry.year != null)
+          if (item.year != null)
             Text(
-              '${entry.year}',
+              '${item.year}',
               style: AppTypography.caption.copyWith(
                 color: AppColors.textTertiary,
               ),

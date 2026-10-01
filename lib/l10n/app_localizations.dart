@@ -10837,6 +10837,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Catalog address'**
   String get watchCatalogUrl;
+
+  /// No description provided for @catalogRecs.
+  ///
+  /// In en, this message translates to:
+  /// **'For you'**
+  String get catalogRecs;
+
+  /// No description provided for @catalogMoviesTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Movies: trending'**
+  String get catalogMoviesTrending;
+
+  /// No description provided for @catalogSeriesTrending.
+  ///
+  /// In en, this message translates to:
+  /// **'Series: trending'**
+  String get catalogSeriesTrending;
+
+  /// No description provided for @catalogSeriesTop.
+  ///
+  /// In en, this message translates to:
+  /// **'Series: top rated'**
+  String get catalogSeriesTop;
+
+  /// No description provided for @catalogCartoons.
+  ///
+  /// In en, this message translates to:
+  /// **'Cartoons'**
+  String get catalogCartoons;
+
+  /// No description provided for @catalogOldCartoons.
+  ///
+  /// In en, this message translates to:
+  /// **'Old cartoons'**
+  String get catalogOldCartoons;
+
+  /// No description provided for @catalogSovietCartoons.
+  ///
+  /// In en, this message translates to:
+  /// **'Soviet cartoons'**
+  String get catalogSovietCartoons;
+
+  /// No description provided for @catalogAnime.
+  ///
+  /// In en, this message translates to:
+  /// **'Anime'**
+  String get catalogAnime;
+
+  /// No description provided for @catalogOldAnime.
+  ///
+  /// In en, this message translates to:
+  /// **'Old anime'**
+  String get catalogOldAnime;
+
+  /// No description provided for @catalogEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet'**
+  String get catalogEmpty;
+
+  /// No description provided for @catalogRecsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish and rate a few titles in your collection to get recommendations'**
+  String get catalogRecsEmpty;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -5839,4 +5839,37 @@ class SZh extends S {
 
   @override
   String get watchCatalogUrl => '目录地址';
+
+  @override
+  String get catalogRecs => '为你推荐';
+
+  @override
+  String get catalogMoviesTrending => '电影:热门';
+
+  @override
+  String get catalogSeriesTrending => '剧集:热门';
+
+  @override
+  String get catalogSeriesTop => '剧集:高分';
+
+  @override
+  String get catalogCartoons => '动画';
+
+  @override
+  String get catalogOldCartoons => '经典动画';
+
+  @override
+  String get catalogSovietCartoons => '苏联动画';
+
+  @override
+  String get catalogAnime => '动漫';
+
+  @override
+  String get catalogOldAnime => '经典动漫';
+
+  @override
+  String get catalogEmpty => '暂无内容';
+
+  @override
+  String get catalogRecsEmpty => '在收藏中完成并评分几部作品后会出现推荐';
 }

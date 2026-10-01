@@ -23,9 +23,11 @@ Entries follow the [GNU Change Log style](https://www.gnu.org/prep/standards/htm
   - The picker also takes your own torrent: paste a magnet link into the
     search field or use the add button for a magnet from the clipboard or a
     .torrent file.
-  - A Catalog button in the top bar opens IMDb Top 250 (movies, series, popular
-    new) and Kinopoisk lists read from a small container that refreshes them
-    every two days; a tap on a title goes to the torrent picker.
+  - A labeled Catalog button in the top bar opens shelves: recommendations
+    from your own taste, trending movies and series, top series, cartoons, old
+    and Soviet cartoons, anime and old anime from TMDB, plus IMDb Top 250 and
+    Kinopoisk lists read from a small container that refreshes them every two
+    days. A tap on a title goes to the torrent picker.
 
   * lib/core/api/jacred_api.dart (JacRedApi, JacRedTorrent)
   * lib/core/api/torrserver_api.dart (TorrServerApi, TorrServerTorrent,

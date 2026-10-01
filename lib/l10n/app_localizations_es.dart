@@ -6219,4 +6219,38 @@ class SEs extends S {
 
   @override
   String get watchCatalogUrl => 'Dirección del catálogo';
+
+  @override
+  String get catalogRecs => 'Para ti';
+
+  @override
+  String get catalogMoviesTrending => 'Películas: tendencia';
+
+  @override
+  String get catalogSeriesTrending => 'Series: tendencia';
+
+  @override
+  String get catalogSeriesTop => 'Series: mejor valoradas';
+
+  @override
+  String get catalogCartoons => 'Dibujos animados';
+
+  @override
+  String get catalogOldCartoons => 'Dibujos animados clásicos';
+
+  @override
+  String get catalogSovietCartoons => 'Dibujos soviéticos';
+
+  @override
+  String get catalogAnime => 'Anime';
+
+  @override
+  String get catalogOldAnime => 'Anime clásico';
+
+  @override
+  String get catalogEmpty => 'Nada por ahora';
+
+  @override
+  String get catalogRecsEmpty =>
+      'Termina y valora algunos títulos de tu colección para recibir recomendaciones';
 }

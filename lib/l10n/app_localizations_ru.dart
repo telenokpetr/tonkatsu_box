@@ -6243,4 +6243,38 @@ class SRu extends S {
 
   @override
   String get watchCatalogUrl => 'Адрес каталога';
+
+  @override
+  String get catalogRecs => 'Рекомендации';
+
+  @override
+  String get catalogMoviesTrending => 'Фильмы: в тренде';
+
+  @override
+  String get catalogSeriesTrending => 'Сериалы: в тренде';
+
+  @override
+  String get catalogSeriesTop => 'Сериалы: лучшие';
+
+  @override
+  String get catalogCartoons => 'Мультики';
+
+  @override
+  String get catalogOldCartoons => 'Старые мультики';
+
+  @override
+  String get catalogSovietCartoons => 'Советские мультфильмы';
+
+  @override
+  String get catalogAnime => 'Аниме';
+
+  @override
+  String get catalogOldAnime => 'Старое аниме';
+
+  @override
+  String get catalogEmpty => 'Пока пусто';
+
+  @override
+  String get catalogRecsEmpty =>
+      'Отметь просмотренными и оцени несколько тайтлов в коллекции, тогда появятся рекомендации';
 }
