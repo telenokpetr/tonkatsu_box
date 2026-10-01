@@ -6125,7 +6125,7 @@ class SFr extends S {
   String get watchOpenSettings => 'Ouvrir les réglages';
 
   @override
-  String get watchSearchHint => 'Rechercher des torrents';
+  String get watchSearchHint => 'Rechercher ou coller un lien magnet';
 
   @override
   String get watchNoResults => 'Aucun torrent trouvé';
@@ -6182,4 +6182,17 @@ class SFr extends S {
 
   @override
   String get watchVlcMissing => 'VLC introuvable, ouverture du lecteur intégré';
+
+  @override
+  String get watchAddTorrent => 'Ajouter un torrent';
+
+  @override
+  String get watchPasteMagnet => 'Coller un lien magnet';
+
+  @override
+  String get watchPickTorrentFile => 'Choisir un fichier .torrent';
+
+  @override
+  String get watchNoMagnetInClipboard =>
+      'Aucun lien magnet dans le presse-papiers';
 }

@@ -10643,7 +10643,7 @@ abstract class S {
   /// No description provided for @watchSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search torrents'**
+  /// **'Search torrents or paste a magnet link'**
   String get watchSearchHint;
 
   /// No description provided for @watchNoResults.
@@ -10741,6 +10741,30 @@ abstract class S {
   /// In en, this message translates to:
   /// **'VLC was not found, opening the built-in player'**
   String get watchVlcMissing;
+
+  /// No description provided for @watchAddTorrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a torrent'**
+  String get watchAddTorrent;
+
+  /// No description provided for @watchPasteMagnet.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste magnet link'**
+  String get watchPasteMagnet;
+
+  /// No description provided for @watchPickTorrentFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose .torrent file'**
+  String get watchPickTorrentFile;
+
+  /// No description provided for @watchNoMagnetInClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'No magnet link in the clipboard'**
+  String get watchNoMagnetInClipboard;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

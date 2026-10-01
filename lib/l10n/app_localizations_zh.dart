@@ -5730,7 +5730,7 @@ class SZh extends S {
   String get watchOpenSettings => '打开设置';
 
   @override
-  String get watchSearchHint => '搜索种子';
+  String get watchSearchHint => '搜索种子或粘贴磁力链接';
 
   @override
   String get watchNoResults => '未找到种子';
@@ -5787,4 +5787,16 @@ class SZh extends S {
 
   @override
   String get watchVlcMissing => '未找到 VLC,正在打开内置播放器';
+
+  @override
+  String get watchAddTorrent => '添加种子';
+
+  @override
+  String get watchPasteMagnet => '粘贴磁力链接';
+
+  @override
+  String get watchPickTorrentFile => '选择 .torrent 文件';
+
+  @override
+  String get watchNoMagnetInClipboard => '剪贴板中没有磁力链接';
 }

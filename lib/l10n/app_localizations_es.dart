@@ -6107,7 +6107,7 @@ class SEs extends S {
   String get watchOpenSettings => 'Abrir ajustes';
 
   @override
-  String get watchSearchHint => 'Buscar torrents';
+  String get watchSearchHint => 'Busca torrents o pega un enlace magnet';
 
   @override
   String get watchNoResults => 'No se encontraron torrents';
@@ -6165,4 +6165,17 @@ class SEs extends S {
   @override
   String get watchVlcMissing =>
       'No se encontró VLC, abro el reproductor integrado';
+
+  @override
+  String get watchAddTorrent => 'Añadir un torrent';
+
+  @override
+  String get watchPasteMagnet => 'Pegar enlace magnet';
+
+  @override
+  String get watchPickTorrentFile => 'Elegir archivo .torrent';
+
+  @override
+  String get watchNoMagnetInClipboard =>
+      'No hay ningún enlace magnet en el portapapeles';
 }

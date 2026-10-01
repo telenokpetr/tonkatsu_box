@@ -3017,7 +3017,7 @@
   "watchCheckFailed": "Falha na conexão: {error}",
   "watchNotConfigured": "Primeiro defina os endereços do JacRed e do TorrServer nas configurações",
   "watchOpenSettings": "Abrir configurações",
-  "watchSearchHint": "Buscar torrents",
+  "watchSearchHint": "Busque torrents ou cole um link magnet",
   "watchNoResults": "Nenhum torrent encontrado",
   "watchSearchFailed": "A busca falhou: {error}",
   "watchConnectingPeers": "Conectando aos pares…",
@@ -3033,5 +3033,9 @@
   "watchPlayerError": "Erro de reprodução: {error}",
   "watchPlayerTitle": "Player",
   "watchPlayerBuiltIn": "Player integrado",
-  "watchVlcMissing": "VLC não encontrado, abrindo o player integrado"
+  "watchVlcMissing": "VLC não encontrado, abrindo o player integrado",
+  "watchAddTorrent": "Adicionar um torrent",
+  "watchPasteMagnet": "Colar link magnet",
+  "watchPickTorrentFile": "Escolher arquivo .torrent",
+  "watchNoMagnetInClipboard": "Nenhum link magnet na área de transferência"
 }

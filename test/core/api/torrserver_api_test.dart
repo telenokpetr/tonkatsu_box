@@ -149,6 +149,49 @@ void main() {
     });
   });
 
+  group('addTorrentFile', () {
+    test('uploads the file as multipart without saving it', () async {
+      final List<Object?> bodies = <Object?>[];
+      stubPost(<Map<String, dynamic>>[torrentJson(files: twoFiles)], bodies);
+
+      final TorrServerTorrent torrent = await sut.addTorrentFile(<int>[
+        1,
+        2,
+        3,
+      ], fileName: 'movie.torrent');
+
+      expect(torrent.files, hasLength(2));
+      final FormData form = bodies.single! as FormData;
+      expect(form.files.single.key, 'file');
+      expect(form.files.single.value.filename, 'movie.torrent');
+      expect(form.files.single.value.length, 3);
+      expect(
+        form.fields.map((MapEntry<String, String> f) => '${f.key}=${f.value}'),
+        contains('save=false'),
+      );
+      final String url =
+          verify(
+                () => mockDio.post<dynamic>(
+                  captureAny(),
+                  data: any(named: 'data'),
+                ),
+              ).captured.single
+              as String;
+      expect(url, 'http://127.0.0.1:8090/torrent/upload');
+    });
+
+    test('throws when the URL is empty', () {
+      final TorrServerApi unconfigured = TorrServerApi(
+        baseUrl: '',
+        dio: mockDio,
+      );
+      expect(
+        () => unconfigured.addTorrentFile(<int>[1], fileName: 'x.torrent'),
+        throwsA(isA<TorrServerApiException>()),
+      );
+    });
+  });
+
   group('waitForFiles', () {
     test('polls until file_stats shows up', () async {
       final List<Object?> bodies = <Object?>[];

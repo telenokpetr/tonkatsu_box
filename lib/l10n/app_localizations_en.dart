@@ -6032,7 +6032,7 @@ class SEn extends S {
   String get watchOpenSettings => 'Open settings';
 
   @override
-  String get watchSearchHint => 'Search torrents';
+  String get watchSearchHint => 'Search torrents or paste a magnet link';
 
   @override
   String get watchNoResults => 'No torrents found';
@@ -6090,4 +6090,16 @@ class SEn extends S {
   @override
   String get watchVlcMissing =>
       'VLC was not found, opening the built-in player';
+
+  @override
+  String get watchAddTorrent => 'Add a torrent';
+
+  @override
+  String get watchPasteMagnet => 'Paste magnet link';
+
+  @override
+  String get watchPickTorrentFile => 'Choose .torrent file';
+
+  @override
+  String get watchNoMagnetInClipboard => 'No magnet link in the clipboard';
 }

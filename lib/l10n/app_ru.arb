@@ -2250,7 +2250,7 @@
   "watchCheckFailed": "Не удалось подключиться: {error}",
   "watchNotConfigured": "Сначала укажите адреса JacRed и TorrServer в настройках",
   "watchOpenSettings": "Открыть настройки",
-  "watchSearchHint": "Поиск раздач",
+  "watchSearchHint": "Поиск раздач или вставь magnet-ссылку",
   "watchNoResults": "Раздачи не найдены",
   "watchSearchFailed": "Поиск не удался: {error}",
   "watchConnectingPeers": "Подключаюсь к пирам…",
@@ -2266,5 +2266,9 @@
   "watchPlayerError": "Ошибка воспроизведения: {error}",
   "watchPlayerTitle": "Плеер",
   "watchPlayerBuiltIn": "Встроенный плеер",
-  "watchVlcMissing": "VLC не найден, открываю встроенный плеер"
+  "watchVlcMissing": "VLC не найден, открываю встроенный плеер",
+  "watchAddTorrent": "Добавить раздачу",
+  "watchPasteMagnet": "Вставить magnet-ссылку",
+  "watchPickTorrentFile": "Выбрать .torrent файл",
+  "watchNoMagnetInClipboard": "В буфере обмена нет magnet-ссылки"
 }

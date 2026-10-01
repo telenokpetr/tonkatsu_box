@@ -6133,7 +6133,7 @@ class SRu extends S {
   String get watchOpenSettings => 'Открыть настройки';
 
   @override
-  String get watchSearchHint => 'Поиск раздач';
+  String get watchSearchHint => 'Поиск раздач или вставь magnet-ссылку';
 
   @override
   String get watchNoResults => 'Раздачи не найдены';
@@ -6190,4 +6190,16 @@ class SRu extends S {
 
   @override
   String get watchVlcMissing => 'VLC не найден, открываю встроенный плеер';
+
+  @override
+  String get watchAddTorrent => 'Добавить раздачу';
+
+  @override
+  String get watchPasteMagnet => 'Вставить magnet-ссылку';
+
+  @override
+  String get watchPickTorrentFile => 'Выбрать .torrent файл';
+
+  @override
+  String get watchNoMagnetInClipboard => 'В буфере обмена нет magnet-ссылки';
 }

@@ -6088,7 +6088,7 @@ class SPt extends S {
   String get watchOpenSettings => 'Abrir configurações';
 
   @override
-  String get watchSearchHint => 'Buscar torrents';
+  String get watchSearchHint => 'Busque torrents ou cole um link magnet';
 
   @override
   String get watchNoResults => 'Nenhum torrent encontrado';
@@ -6146,4 +6146,17 @@ class SPt extends S {
   @override
   String get watchVlcMissing =>
       'VLC não encontrado, abrindo o player integrado';
+
+  @override
+  String get watchAddTorrent => 'Adicionar um torrent';
+
+  @override
+  String get watchPasteMagnet => 'Colar link magnet';
+
+  @override
+  String get watchPickTorrentFile => 'Escolher arquivo .torrent';
+
+  @override
+  String get watchNoMagnetInClipboard =>
+      'Nenhum link magnet na área de transferência';
 }

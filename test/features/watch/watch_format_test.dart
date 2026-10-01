@@ -52,4 +52,18 @@ void main() {
       ]);
     });
   });
+
+  group('isMagnetLink', () {
+    test('accepts a magnet URI with surrounding spaces and any case', () {
+      expect(isMagnetLink('  magnet:?xt=urn:btih:abc  '), isTrue);
+      expect(isMagnetLink('MAGNET:?xt=urn:btih:abc'), isTrue);
+    });
+
+    test('rejects titles, urls and an empty string', () {
+      expect(isMagnetLink('The Matrix'), isFalse);
+      expect(isMagnetLink('https://example.com/x.torrent'), isFalse);
+      expect(isMagnetLink('magnet'), isFalse);
+      expect(isMagnetLink(''), isFalse);
+    });
+  });
 }

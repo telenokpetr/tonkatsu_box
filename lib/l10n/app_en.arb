@@ -2686,7 +2686,7 @@
   },
   "watchNotConfigured": "Set the JacRed and TorrServer addresses in Settings first",
   "watchOpenSettings": "Open settings",
-  "watchSearchHint": "Search torrents",
+  "watchSearchHint": "Search torrents or paste a magnet link",
   "watchNoResults": "No torrents found",
   "watchSearchFailed": "Search failed: {error}",
   "@watchSearchFailed": {
@@ -2722,5 +2722,9 @@
   },
   "watchPlayerTitle": "Player",
   "watchPlayerBuiltIn": "Built-in player",
-  "watchVlcMissing": "VLC was not found, opening the built-in player"
+  "watchVlcMissing": "VLC was not found, opening the built-in player",
+  "watchAddTorrent": "Add a torrent",
+  "watchPasteMagnet": "Paste magnet link",
+  "watchPickTorrentFile": "Choose .torrent file",
+  "watchNoMagnetInClipboard": "No magnet link in the clipboard"
 }

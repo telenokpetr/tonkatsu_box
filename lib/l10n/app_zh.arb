@@ -2584,7 +2584,7 @@
   "watchCheckFailed": "连接失败:{error}",
   "watchNotConfigured": "请先在设置中填写 JacRed 和 TorrServer 地址",
   "watchOpenSettings": "打开设置",
-  "watchSearchHint": "搜索种子",
+  "watchSearchHint": "搜索种子或粘贴磁力链接",
   "watchNoResults": "未找到种子",
   "watchSearchFailed": "搜索失败:{error}",
   "watchConnectingPeers": "正在连接节点…",
@@ -2600,5 +2600,9 @@
   "watchPlayerError": "播放错误:{error}",
   "watchPlayerTitle": "播放器",
   "watchPlayerBuiltIn": "内置播放器",
-  "watchVlcMissing": "未找到 VLC,正在打开内置播放器"
+  "watchVlcMissing": "未找到 VLC,正在打开内置播放器",
+  "watchAddTorrent": "添加种子",
+  "watchPasteMagnet": "粘贴磁力链接",
+  "watchPickTorrentFile": "选择 .torrent 文件",
+  "watchNoMagnetInClipboard": "剪贴板中没有磁力链接"
 }

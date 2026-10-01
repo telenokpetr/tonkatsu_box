@@ -18,6 +18,11 @@ Entries follow the [GNU Change Log style](https://www.gnu.org/prep/standards/htm
     player with audio and subtitle selection.
   - Settings, Integrations, Watch holds both addresses (defaults are the local
     Docker ports) and a check for the two servers.
+  - The stream opens in the user's VLC by default (vlc.exe on Windows, an
+    intent on Android); the built-in player is the fallback and a setting.
+  - The picker also takes your own torrent: paste a magnet link into the
+    search field or use the add button for a magnet from the clipboard or a
+    .torrent file.
 
   * lib/core/api/jacred_api.dart (JacRedApi, JacRedTorrent)
   * lib/core/api/torrserver_api.dart (TorrServerApi, TorrServerTorrent,

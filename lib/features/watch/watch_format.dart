@@ -39,3 +39,6 @@ int naturalCompare(String a, String b) {
   }
   return left.length.compareTo(right.length);
 }
+
+bool isMagnetLink(String text) =>
+    text.trim().toLowerCase().startsWith('magnet:?');

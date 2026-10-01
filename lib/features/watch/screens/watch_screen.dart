@@ -1,9 +1,12 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/jacred_api.dart';
 import '../../../core/api/torrserver_api.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../shared/constants/platform_features.dart';
 import '../../../shared/extensions/snackbar_extension.dart';
 import '../../../shared/theme/app_colors.dart';
 import '../../../shared/theme/app_spacing.dart';
@@ -18,6 +21,8 @@ import '../watch_query.dart';
 import 'player_screen.dart';
 
 const Duration _errorSnackDuration = Duration(seconds: 6);
+
+enum _AddAction { pasteMagnet, pickFile }
 
 /// Torrent picker: searches JacRed for [query], hands the chosen magnet to
 /// TorrServer and opens the stream in VLC, or the built-in player.
@@ -46,6 +51,11 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
   void _submitSearch(String text) {
     final String title = text.trim();
     if (title.isEmpty) return;
+    if (isMagnetLink(title)) {
+      _searchController.text = _query.title;
+      _play((TorrServerApi api) => api.addTorrent(title));
+      return;
+    }
     // A typed query is free text: the original title and year of the card
     // would only narrow it back to the old results.
     final bool unchanged = title == widget.query.title;
@@ -59,17 +69,53 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
     });
   }
 
-  Future<void> _start(JacRedTorrent torrent) async {
+  Future<void> _start(JacRedTorrent torrent) {
+    return _play(
+      (TorrServerApi api) =>
+          api.addTorrent(torrent.magnet, title: torrent.title),
+    );
+  }
+
+  Future<void> _pasteMagnet() async {
+    final ClipboardData? data = await Clipboard.getData(Clipboard.kTextPlain);
+    final String text = data?.text?.trim() ?? '';
+    if (!mounted) return;
+    if (!isMagnetLink(text)) {
+      context.showSnack(
+        S.of(context).watchNoMagnetInClipboard,
+        type: SnackType.error,
+      );
+      return;
+    }
+    await _play((TorrServerApi api) => api.addTorrent(text));
+  }
+
+  Future<void> _pickTorrentFile() async {
+    // Android has no MIME type for .torrent, so a filtered picker would hide
+    // every file there; TorrServer rejects a wrong file anyway.
+    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: kIsMobile ? FileType.any : FileType.custom,
+      allowedExtensions: kIsMobile ? null : const <String>['torrent'],
+      withData: true,
+    );
+    final PlatformFile? picked = result?.files.firstOrNull;
+    final Uint8List? bytes = picked?.bytes;
+    if (picked == null || bytes == null || !mounted) return;
+    await _play(
+      (TorrServerApi api) => api.addTorrentFile(bytes, fileName: picked.name),
+    );
+  }
+
+  Future<void> _play(
+    Future<TorrServerTorrent> Function(TorrServerApi api) add,
+  ) async {
     if (_isStarting) return;
     final S l = S.of(context);
     final TorrServerApi api = ref.read(torrServerApiProvider);
     final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
     setState(() => _isStarting = true);
     try {
-      final TorrServerTorrent added = await api.addTorrent(
-        torrent.magnet,
-        title: torrent.title,
-      );
+      final TorrServerTorrent added = await add(api);
       final TorrServerTorrent ready = added.files.isNotEmpty
           ? added
           : await api.waitForFiles(added.hash);
@@ -202,14 +248,22 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
-          child: TextField(
-            controller: _searchController,
-            textInputAction: TextInputAction.search,
-            decoration: InputDecoration(
-              hintText: l.watchSearchHint,
-              prefixIcon: const Icon(Icons.search),
-            ),
-            onSubmitted: _submitSearch,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: TextField(
+                  controller: _searchController,
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    hintText: l.watchSearchHint,
+                    prefixIcon: const Icon(Icons.search),
+                  ),
+                  onSubmitted: _submitSearch,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              _buildAddButton(l),
+            ],
           ),
         ),
         Expanded(
@@ -241,6 +295,35 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
                 ),
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddButton(S l) {
+    return PopupMenuButton<_AddAction>(
+      icon: const Icon(Icons.add_link),
+      tooltip: l.watchAddTorrent,
+      onSelected: (_AddAction action) => switch (action) {
+        _AddAction.pasteMagnet => _pasteMagnet(),
+        _AddAction.pickFile => _pickTorrentFile(),
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<_AddAction>>[
+        PopupMenuItem<_AddAction>(
+          value: _AddAction.pasteMagnet,
+          child: ListTile(
+            leading: const Icon(Icons.content_paste),
+            title: Text(l.watchPasteMagnet),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+        PopupMenuItem<_AddAction>(
+          value: _AddAction.pickFile,
+          child: ListTile(
+            leading: const Icon(Icons.folder_open),
+            title: Text(l.watchPickTorrentFile),
+            contentPadding: EdgeInsets.zero,
           ),
         ),
       ],

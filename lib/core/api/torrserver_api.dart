@@ -140,6 +140,21 @@ class TorrServerApi {
     });
   }
 
+  /// A private tracker's .torrent carries its announce URL, which a bare
+  /// magnet would lose, so the file goes up as is.
+  Future<TorrServerTorrent> addTorrentFile(
+    List<int> bytes, {
+    required String fileName,
+  }) {
+    return _post(
+      '/torrent/upload',
+      FormData.fromMap(<String, dynamic>{
+        'file': MultipartFile.fromBytes(bytes, filename: fileName),
+        'save': 'false',
+      }),
+    );
+  }
+
   Future<TorrServerTorrent> getTorrent(String hash) {
     return _torrents(<String, dynamic>{'action': 'get', 'hash': hash});
   }
@@ -168,18 +183,22 @@ class TorrServerApi {
     return '$baseUrl/stream/$name?link=${torrent.hash}&index=${file.id}&play';
   }
 
-  Future<TorrServerTorrent> _torrents(Map<String, dynamic> body) async {
+  Future<TorrServerTorrent> _torrents(Map<String, dynamic> body) {
+    return _post('/torrents', body);
+  }
+
+  Future<TorrServerTorrent> _post(String path, Object body) async {
     _requireConfigured();
     try {
       final Response<dynamic> response = await _dio.post<dynamic>(
-        '$baseUrl/torrents',
+        '$baseUrl$path',
         data: body,
       );
       final Object? data = response.data;
       if (data is Map<String, dynamic>) return TorrServerTorrent.fromJson(data);
       throw const TorrServerApiException('Unexpected TorrServer response');
     } on DioException catch (e) {
-      throw _wrap(e, '/torrents');
+      throw _wrap(e, path);
     }
   }
 
