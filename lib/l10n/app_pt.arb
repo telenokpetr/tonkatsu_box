@@ -3030,5 +3030,8 @@
   "watchSubtitleTracks": "Legendas",
   "watchTrackOff": "Desativado",
   "watchTrackNumber": "Faixa {number}",
-  "watchPlayerError": "Erro de reprodução: {error}"
+  "watchPlayerError": "Erro de reprodução: {error}",
+  "watchPlayerTitle": "Player",
+  "watchPlayerBuiltIn": "Player integrado",
+  "watchVlcMissing": "VLC não encontrado, abrindo o player integrado"
 }

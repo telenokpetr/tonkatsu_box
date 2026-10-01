@@ -6181,4 +6181,13 @@ class SRu extends S {
   String watchPlayerError(String error) {
     return 'Ошибка воспроизведения: $error';
   }
+
+  @override
+  String get watchPlayerTitle => 'Плеер';
+
+  @override
+  String get watchPlayerBuiltIn => 'Встроенный плеер';
+
+  @override
+  String get watchVlcMissing => 'VLC не найден, открываю встроенный плеер';
 }

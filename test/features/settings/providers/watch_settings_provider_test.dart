@@ -136,5 +136,34 @@ void main() {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       expect(prefs.getString(WatchSettingsKeys.jacRedApiKey(profileId)), 'abc');
     });
+
+    test('the player defaults to VLC and the choice is persisted', () async {
+      final ProviderContainer container = await createContainer();
+      expect(container.read(watchSettingsProvider).player, WatchPlayer.vlc);
+
+      await container
+          .read(watchSettingsProvider.notifier)
+          .setPlayer(WatchPlayer.builtIn);
+
+      expect(container.read(watchSettingsProvider).player, WatchPlayer.builtIn);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString(WatchSettingsKeys.player(profileId)), 'builtIn');
+    });
+
+    test('a stored player name is read back, junk falls back to VLC', () async {
+      final ProviderContainer stored = await createContainer(
+        initialPrefs: <String, Object>{
+          WatchSettingsKeys.player(profileId): 'builtIn',
+        },
+      );
+      expect(stored.read(watchSettingsProvider).player, WatchPlayer.builtIn);
+
+      final ProviderContainer junk = await createContainer(
+        initialPrefs: <String, Object>{
+          WatchSettingsKeys.player(profileId): 'winamp',
+        },
+      );
+      expect(junk.read(watchSettingsProvider).player, WatchPlayer.vlc);
+    });
   });
 }

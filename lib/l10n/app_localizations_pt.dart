@@ -6136,4 +6136,14 @@ class SPt extends S {
   String watchPlayerError(String error) {
     return 'Erro de reprodução: $error';
   }
+
+  @override
+  String get watchPlayerTitle => 'Player';
+
+  @override
+  String get watchPlayerBuiltIn => 'Player integrado';
+
+  @override
+  String get watchVlcMissing =>
+      'VLC não encontrado, abrindo o player integrado';
 }

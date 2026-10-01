@@ -10723,6 +10723,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Playback error: {error}'**
   String watchPlayerError(String error);
+
+  /// No description provided for @watchPlayerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Player'**
+  String get watchPlayerTitle;
+
+  /// No description provided for @watchPlayerBuiltIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Built-in player'**
+  String get watchPlayerBuiltIn;
+
+  /// No description provided for @watchVlcMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'VLC was not found, opening the built-in player'**
+  String get watchVlcMissing;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

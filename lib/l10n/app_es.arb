@@ -2602,5 +2602,8 @@
   "watchSubtitleTracks": "Subtítulos",
   "watchTrackOff": "Desactivado",
   "watchTrackNumber": "Pista {number}",
-  "watchPlayerError": "Error de reproducción: {error}"
+  "watchPlayerError": "Error de reproducción: {error}",
+  "watchPlayerTitle": "Reproductor",
+  "watchPlayerBuiltIn": "Reproductor integrado",
+  "watchVlcMissing": "No se encontró VLC, abro el reproductor integrado"
 }

@@ -14,7 +14,11 @@ abstract class WatchSettingsKeys {
 
   static String torrServerUrl(String profileId) =>
       'watch_torrserver_url_$profileId';
+
+  static String player(String profileId) => 'watch_player_$profileId';
 }
+
+enum WatchPlayer { vlc, builtIn }
 
 /// On a PC both services usually run next to the app (Docker), so these
 /// defaults work untouched; a phone starts empty, see `_defaultFor`.
@@ -26,11 +30,13 @@ class WatchSettingsState {
     this.jacRedUrl = '',
     this.jacRedApiKey = '',
     this.torrServerUrl = '',
+    this.player = WatchPlayer.vlc,
   });
 
   final String jacRedUrl;
   final String jacRedApiKey;
   final String torrServerUrl;
+  final WatchPlayer player;
 
   bool get isConfigured => jacRedUrl.isNotEmpty && torrServerUrl.isNotEmpty;
 
@@ -38,11 +44,13 @@ class WatchSettingsState {
     String? jacRedUrl,
     String? jacRedApiKey,
     String? torrServerUrl,
+    WatchPlayer? player,
   }) {
     return WatchSettingsState(
       jacRedUrl: jacRedUrl ?? this.jacRedUrl,
       jacRedApiKey: jacRedApiKey ?? this.jacRedApiKey,
       torrServerUrl: torrServerUrl ?? this.torrServerUrl,
+      player: player ?? this.player,
     );
   }
 }
@@ -70,6 +78,11 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
       torrServerUrl:
           _prefs.getString(WatchSettingsKeys.torrServerUrl(_profileId)) ??
           _defaultFor(kDefaultTorrServerUrl),
+      player:
+          WatchPlayer.values.asNameMap()[_prefs.getString(
+            WatchSettingsKeys.player(_profileId),
+          )] ??
+          WatchPlayer.vlc,
     );
   }
 
@@ -94,5 +107,10 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
     final String url = normalizeServiceUrl(value);
     await _prefs.setString(WatchSettingsKeys.torrServerUrl(_profileId), url);
     state = state.copyWith(torrServerUrl: url);
+  }
+
+  Future<void> setPlayer(WatchPlayer value) async {
+    await _prefs.setString(WatchSettingsKeys.player(_profileId), value.name);
+    state = state.copyWith(player: value);
   }
 }

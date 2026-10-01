@@ -12,6 +12,7 @@ import '../../../shared/widgets/screen_app_bar.dart';
 import '../../settings/providers/watch_settings_provider.dart';
 import '../../settings/screens/watch_settings_screen.dart';
 import '../providers/watch_providers.dart';
+import '../vlc_launcher.dart';
 import '../watch_format.dart';
 import '../watch_query.dart';
 import 'player_screen.dart';
@@ -19,7 +20,7 @@ import 'player_screen.dart';
 const Duration _errorSnackDuration = Duration(seconds: 6);
 
 /// Torrent picker: searches JacRed for [query], hands the chosen magnet to
-/// TorrServer and opens the built-in player on the stream.
+/// TorrServer and opens the stream in VLC, or the built-in player.
 class WatchScreen extends ConsumerStatefulWidget {
   const WatchScreen({required this.query, super.key});
 
@@ -92,10 +93,20 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
           : await _pickFile(videos);
       if (file == null || !mounted) return;
 
+      final String url = api.streamUrl(ready, file);
+      if (ref.read(watchSettingsProvider).player == WatchPlayer.vlc) {
+        final bool opened = await ref
+            .read(vlcLauncherProvider)
+            .launch(url: url, title: file.name);
+        if (opened) return;
+        if (!mounted) return;
+        context.showSnack(l.watchVlcMissing, type: SnackType.error);
+      }
+
       await navigator.push(
         MaterialPageRoute<void>(
           builder: (BuildContext context) =>
-              PlayerScreen(url: api.streamUrl(ready, file), title: file.name),
+              PlayerScreen(url: url, title: file.name),
         ),
       );
     } on TorrServerApiException catch (e) {

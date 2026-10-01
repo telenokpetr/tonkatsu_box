@@ -2602,5 +2602,8 @@
   "watchSubtitleTracks": "Sous-titres",
   "watchTrackOff": "Désactivé",
   "watchTrackNumber": "Piste {number}",
-  "watchPlayerError": "Erreur de lecture : {error}"
+  "watchPlayerError": "Erreur de lecture : {error}",
+  "watchPlayerTitle": "Lecteur",
+  "watchPlayerBuiltIn": "Lecteur intégré",
+  "watchVlcMissing": "VLC introuvable, ouverture du lecteur intégré"
 }

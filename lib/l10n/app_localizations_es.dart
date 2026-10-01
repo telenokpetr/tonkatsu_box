@@ -6155,4 +6155,14 @@ class SEs extends S {
   String watchPlayerError(String error) {
     return 'Error de reproducción: $error';
   }
+
+  @override
+  String get watchPlayerTitle => 'Reproductor';
+
+  @override
+  String get watchPlayerBuiltIn => 'Reproductor integrado';
+
+  @override
+  String get watchVlcMissing =>
+      'No se encontró VLC, abro el reproductor integrado';
 }

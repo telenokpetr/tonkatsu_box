@@ -5778,4 +5778,13 @@ class SZh extends S {
   String watchPlayerError(String error) {
     return '播放错误:$error';
   }
+
+  @override
+  String get watchPlayerTitle => '播放器';
+
+  @override
+  String get watchPlayerBuiltIn => '内置播放器';
+
+  @override
+  String get watchVlcMissing => '未找到 VLC,正在打开内置播放器';
 }

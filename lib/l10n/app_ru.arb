@@ -2263,5 +2263,8 @@
   "watchSubtitleTracks": "Субтитры",
   "watchTrackOff": "Выкл.",
   "watchTrackNumber": "Дорожка {number}",
-  "watchPlayerError": "Ошибка воспроизведения: {error}"
+  "watchPlayerError": "Ошибка воспроизведения: {error}",
+  "watchPlayerTitle": "Плеер",
+  "watchPlayerBuiltIn": "Встроенный плеер",
+  "watchVlcMissing": "VLC не найден, открываю встроенный плеер"
 }

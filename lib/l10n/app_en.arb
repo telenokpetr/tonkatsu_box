@@ -2719,5 +2719,8 @@
     "placeholders": {
       "error": {"type": "String"}
     }
-  }
+  },
+  "watchPlayerTitle": "Player",
+  "watchPlayerBuiltIn": "Built-in player",
+  "watchVlcMissing": "VLC was not found, opening the built-in player"
 }

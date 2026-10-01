@@ -4,12 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/jacred_api.dart';
 import '../../../core/api/torrserver_api.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../shared/theme/app_colors.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/widgets/sub_screen_title_bar.dart';
 import '../../watch/providers/watch_providers.dart';
 import '../providers/watch_settings_provider.dart';
 import '../widgets/inline_text_field.dart';
 import '../widgets/settings_group.dart';
+import '../widgets/settings_tile.dart';
 import '../widgets/status_dot.dart';
 
 const double _desktopBreakpoint = 800;
@@ -125,6 +127,17 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
                     ],
                   ),
                   const SizedBox(height: AppSpacing.md),
+                  SettingsGroup(
+                    title: l.watchPlayerTitle,
+                    children: <Widget>[
+                      SettingsTile(
+                        title: l.watchPlayerTitle,
+                        value: _playerLabel(l, settings.player),
+                        onTap: () => _pickPlayer(l, settings.player),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: AppSpacing.md),
                   _buildCheck(l),
                   const SizedBox(height: AppSpacing.md),
                 ],
@@ -133,6 +146,39 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  String _playerLabel(S l, WatchPlayer player) => switch (player) {
+    WatchPlayer.vlc => 'VLC', // proper noun
+    WatchPlayer.builtIn => l.watchPlayerBuiltIn,
+  };
+
+  void _pickPlayer(S l, WatchPlayer current) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext dialogContext) => SimpleDialog(
+        title: Text(l.watchPlayerTitle),
+        children: <Widget>[
+          for (final WatchPlayer player in WatchPlayer.values)
+            SimpleDialogOption(
+              onPressed: () {
+                ref.read(watchSettingsProvider.notifier).setPlayer(player);
+                Navigator.pop(dialogContext);
+              },
+              child: Row(
+                children: <Widget>[
+                  if (current == player)
+                    Icon(Icons.check, size: 18, color: AppColors.brand)
+                  else
+                    const SizedBox(width: 18),
+                  const SizedBox(width: AppSpacing.sm),
+                  Text(_playerLabel(l, player)),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 

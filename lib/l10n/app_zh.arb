@@ -2597,5 +2597,8 @@
   "watchSubtitleTracks": "字幕",
   "watchTrackOff": "关闭",
   "watchTrackNumber": "轨道 {number}",
-  "watchPlayerError": "播放错误:{error}"
+  "watchPlayerError": "播放错误:{error}",
+  "watchPlayerTitle": "播放器",
+  "watchPlayerBuiltIn": "内置播放器",
+  "watchVlcMissing": "未找到 VLC,正在打开内置播放器"
 }

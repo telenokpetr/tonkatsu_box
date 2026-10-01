@@ -6080,4 +6080,14 @@ class SEn extends S {
   String watchPlayerError(String error) {
     return 'Playback error: $error';
   }
+
+  @override
+  String get watchPlayerTitle => 'Player';
+
+  @override
+  String get watchPlayerBuiltIn => 'Built-in player';
+
+  @override
+  String get watchVlcMissing =>
+      'VLC was not found, opening the built-in player';
 }

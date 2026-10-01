@@ -6173,4 +6173,13 @@ class SFr extends S {
   String watchPlayerError(String error) {
     return 'Erreur de lecture : $error';
   }
+
+  @override
+  String get watchPlayerTitle => 'Lecteur';
+
+  @override
+  String get watchPlayerBuiltIn => 'Lecteur intégré';
+
+  @override
+  String get watchVlcMissing => 'VLC introuvable, ouverture du lecteur intégré';
 }
