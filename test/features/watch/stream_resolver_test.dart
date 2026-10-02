@@ -75,6 +75,60 @@ void main() {
       );
     });
 
+    test('finds a winget package folder and a per-user Streamlink', () {
+      final String pkg = p.join(
+        r'C:\Users\Me\AppData\Local',
+        'Microsoft',
+        'WinGet',
+        'Packages',
+        'yt-dlp.yt-dlp_Microsoft.Winget.Source_8wekyb3d8bbwe',
+      );
+      final String exe = p.join(pkg, 'yt-dlp.exe');
+      expect(
+        findTool(
+          kYtDlp,
+          env,
+          exists: (String f) => f == exe,
+          listDirs: (String d) => <String>[
+            pkg,
+            p.join(d, 'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe'),
+          ],
+        ),
+        exe,
+      );
+      final String perUser = p.join(
+        r'C:\Users\Me\AppData\Local',
+        'Programs',
+        'Streamlink',
+        'bin',
+        'streamlink.exe',
+      );
+      expect(
+        findTool(kStreamlink, env, exists: (String f) => f == perUser),
+        perUser,
+      );
+    });
+
+    test('ignores package folders of other programs', () {
+      final String other = p.join(
+        r'C:\Users\Me\AppData\Local',
+        'Microsoft',
+        'WinGet',
+        'Packages',
+        'Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe',
+        'yt-dlp.exe',
+      );
+      expect(
+        findTool(
+          kYtDlp,
+          env,
+          exists: (String f) => f == other,
+          listDirs: (String d) => <String>[p.dirname(other)],
+        ),
+        isNull,
+      );
+    });
+
     test('null when the tool is nowhere', () {
       expect(findTool(kYtDlp, env, exists: (String f) => false), isNull);
     });

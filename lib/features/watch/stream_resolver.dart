@@ -22,6 +22,10 @@ const LiveTool kStreamlink = LiveTool(
   'Streamlink.Streamlink',
 );
 
+/// yt-dlp needs a JavaScript runtime to read YouTube; it only looks for deno
+/// on PATH, which a freshly installed one may not be on yet.
+const LiveTool kDeno = LiveTool('deno.exe', 'DenoLand.Deno');
+
 const Duration _kResolveTimeout = Duration(seconds: 60);
 
 LiveTool toolFor(LiveService service) =>
@@ -40,15 +44,27 @@ String normalizeLiveInput(LiveService service, String input) {
 }
 
 /// Looks for [tool] on PATH and in the places winget and the installers use.
+/// A program installed a minute ago is often not on this process's PATH yet.
 String? findTool(
   LiveTool tool,
   Map<String, String> environment, {
   bool Function(String path) exists = _fileExists,
+  List<String> Function(String dir) listDirs = _listDirs,
 }) {
+  final String? localAppData = environment['LOCALAPPDATA'];
+  final List<String> packageDirs = localAppData == null || localAppData.isEmpty
+      ? const <String>[]
+      : listDirs(
+          p.join(localAppData, 'Microsoft', 'WinGet', 'Packages'),
+        ).where((String d) => p.basename(d).startsWith(tool.wingetId)).toList();
   final List<String> dirs = <String>[
     ...(environment['PATH'] ?? environment['Path'] ?? '')
         .split(';')
         .where((String d) => d.isNotEmpty),
+    ...packageDirs,
+    if (localAppData != null && localAppData.isNotEmpty) ...<String>[
+      p.join(localAppData, 'Programs', 'Streamlink', 'bin'),
+    ],
     if (environment['LOCALAPPDATA'] case final String dir when dir.isNotEmpty)
       p.join(dir, 'Microsoft', 'WinGet', 'Links'),
     if (environment['ProgramFiles'] case final String dir when dir.isNotEmpty)
@@ -65,6 +81,15 @@ String? findTool(
 }
 
 bool _fileExists(String path) => File(path).existsSync();
+
+List<String> _listDirs(String dir) {
+  final Directory directory = Directory(dir);
+  if (!directory.existsSync()) return const <String>[];
+  return <String>[
+    for (final FileSystemEntity e in directory.listSync())
+      if (e is Directory) e.path,
+  ];
+}
 
 class StreamResolveException implements Exception {
   const StreamResolveException(this.message, {this.missingTool});
@@ -98,8 +123,16 @@ class StreamResolver {
       );
     }
     final String url = normalizeLiveInput(service, input);
+    final String? deno = findTool(kDeno, Platform.environment);
     final List<String> args = service == LiveService.youtube
-        ? <String>['-g', '-f', 'b/best', '--no-playlist', url]
+        ? <String>[
+            if (deno != null) ...<String>['--js-runtimes', 'deno:$deno'],
+            '-g',
+            '-f',
+            'b/best',
+            '--no-playlist',
+            url,
+          ]
         : <String>['--stream-url', url, 'best'];
     _log.info('resolving ${tool.name} $url');
     final ProcessResult result = await Process.run(
