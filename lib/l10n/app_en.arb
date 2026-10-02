@@ -2759,5 +2759,6 @@
   "catalogAnime": "Anime",
   "catalogOldAnime": "Old anime",
   "catalogEmpty": "Nothing here yet",
-  "catalogRecsEmpty": "Finish and rate a few titles in your collection to get recommendations"
+  "catalogRecsEmpty": "Finish and rate a few titles in your collection to get recommendations",
+  "catalogSearchHint": "Search movies and series"
 }

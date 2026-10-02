@@ -6177,4 +6177,7 @@ class SEn extends S {
   @override
   String get catalogRecsEmpty =>
       'Finish and rate a few titles in your collection to get recommendations';
+
+  @override
+  String get catalogSearchHint => 'Search movies and series';
 }

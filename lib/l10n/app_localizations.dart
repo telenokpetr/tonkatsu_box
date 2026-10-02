@@ -10903,6 +10903,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Finish and rate a few titles in your collection to get recommendations'**
   String get catalogRecsEmpty;
+
+  /// No description provided for @catalogSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search movies and series'**
+  String get catalogSearchHint;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

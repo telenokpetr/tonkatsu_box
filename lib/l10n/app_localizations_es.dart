@@ -6253,4 +6253,7 @@ class SEs extends S {
   @override
   String get catalogRecsEmpty =>
       'Termina y valora algunos títulos de tu colección para recibir recomendaciones';
+
+  @override
+  String get catalogSearchHint => 'Buscar películas y series';
 }

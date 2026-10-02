@@ -2632,5 +2632,6 @@
   "catalogAnime": "Anime",
   "catalogOldAnime": "Anime clásico",
   "catalogEmpty": "Nada por ahora",
-  "catalogRecsEmpty": "Termina y valora algunos títulos de tu colección para recibir recomendaciones"
+  "catalogRecsEmpty": "Termina y valora algunos títulos de tu colección para recibir recomendaciones",
+  "catalogSearchHint": "Buscar películas y series"
 }

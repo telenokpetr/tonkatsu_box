@@ -35,35 +35,107 @@ String _shelfLabel(S l, String id) => switch (id) {
   _ => id,
 };
 
-/// Recommendations, TMDB shelves (series, cartoons, old cartoons, anime…) and
-/// the IMDb / Kinopoisk lists from the catalog container. A tap on a title
-/// goes straight to the torrent picker.
-class CatalogScreen extends StatelessWidget {
+/// Recommendations, TMDB shelves (series, cartoons, old cartoons, anime) and
+/// the IMDb and Kinopoisk lists from the catalog container, with a search over
+/// TMDB. A tap on a title goes straight to the torrent picker.
+class CatalogScreen extends StatefulWidget {
   const CatalogScreen({super.key});
+
+  @override
+  State<CatalogScreen> createState() => _CatalogScreenState();
+}
+
+class _CatalogScreenState extends State<CatalogScreen> {
+  final TextEditingController _search = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
+  void _setQuery(String text) => setState(() => _query = text.trim());
 
   @override
   Widget build(BuildContext context) {
     final S l = S.of(context);
+    final bool searching = _query.isNotEmpty;
     return DefaultTabController(
       length: kShelfIds.length,
       child: Scaffold(
-        appBar: ScreenAppBar(
-          title: l.catalogTitle,
-          bottom: TabBar(
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            tabs: <Widget>[
-              for (final String id in kShelfIds) Tab(text: _shelfLabel(l, id)),
-            ],
-          ),
-        ),
-        body: TabBarView(
+        appBar: ScreenAppBar(title: l.catalogTitle),
+        body: Column(
           children: <Widget>[
-            for (final String id in kShelfIds) _ShelfView(id: id),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.sm,
+                AppSpacing.md,
+                AppSpacing.xs,
+              ),
+              child: TextField(
+                controller: _search,
+                textInputAction: TextInputAction.search,
+                decoration: InputDecoration(
+                  hintText: l.catalogSearchHint,
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: searching
+                      ? IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            _search.clear();
+                            _setQuery('');
+                          },
+                        )
+                      : null,
+                ),
+                onSubmitted: _setQuery,
+              ),
+            ),
+            if (!searching)
+              TabBar(
+                isScrollable: true,
+                tabAlignment: TabAlignment.start,
+                tabs: <Widget>[
+                  for (final String id in kShelfIds)
+                    Tab(text: _shelfLabel(l, id)),
+                ],
+              ),
+            Expanded(
+              child: searching
+                  ? _SearchResults(query: _query)
+                  : TabBarView(
+                      children: <Widget>[
+                        for (final String id in kShelfIds) _ShelfView(id: id),
+                      ],
+                    ),
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class _SearchResults extends ConsumerWidget {
+  const _SearchResults({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final S l = S.of(context);
+    return ref
+        .watch(catalogSearchProvider(query))
+        .when(
+          data: (List<CatalogItem> items) => items.isEmpty
+              ? _Message(l.catalogEmpty)
+              : _CatalogGrid(items: items, showRank: false),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (Object error, StackTrace stack) =>
+              _Message(l.catalogLoadFailed('$error')),
+        );
   }
 }
 
@@ -112,9 +184,10 @@ class _Message extends StatelessWidget {
 }
 
 class _CatalogGrid extends StatelessWidget {
-  const _CatalogGrid({required this.items});
+  const _CatalogGrid({required this.items, this.showRank = true});
 
   final List<CatalogItem> items;
+  final bool showRank;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +202,7 @@ class _CatalogGrid extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => _CatalogCardView(
         key: ValueKey<String>(items[index].key),
-        rank: index + 1,
+        rank: showRank ? index + 1 : null,
         item: items[index],
       ),
     );
@@ -139,7 +212,7 @@ class _CatalogGrid extends StatelessWidget {
 class _CatalogCardView extends ConsumerWidget {
   const _CatalogCardView({required this.rank, required this.item, super.key});
 
-  final int rank;
+  final int? rank;
   final CatalogItem item;
 
   @override
@@ -186,11 +259,12 @@ class _CatalogCardView extends ConsumerWidget {
                               ColoredBox(color: AppColors.surface),
                         ),
                 ),
-                Positioned(
-                  left: AppSpacing.xs,
-                  top: AppSpacing.xs,
-                  child: _Badge(text: '$rank'),
-                ),
+                if (rank != null)
+                  Positioned(
+                    left: AppSpacing.xs,
+                    top: AppSpacing.xs,
+                    child: _Badge(text: '$rank'),
+                  ),
                 if (rating != null && rating > 0)
                   Positioned(
                     right: AppSpacing.xs,

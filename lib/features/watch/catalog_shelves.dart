@@ -263,3 +263,26 @@ final AutoDisposeFutureProviderFamily<List<CatalogItem>, String> shelfProvider =
           CatalogItem.fromEntry(e, isSerial: kSerialShelves.contains(id)),
       ];
     });
+
+/// Alternates two relevance-ordered lists so neither kind buries the other.
+List<CatalogItem> interleave(List<CatalogItem> a, List<CatalogItem> b) {
+  final List<CatalogItem> out = <CatalogItem>[];
+  for (int i = 0; i < a.length || i < b.length; i++) {
+    if (i < a.length) out.add(a[i]);
+    if (i < b.length) out.add(b[i]);
+  }
+  return dedupeItems(out);
+}
+
+/// Text search over TMDB movies and series for the catalog search field.
+final AutoDisposeFutureProviderFamily<List<CatalogItem>, String>
+catalogSearchProvider = FutureProvider.autoDispose
+    .family<List<CatalogItem>, String>((Ref ref, String query) async {
+      final TmdbApi tmdb = ref.read(tmdbApiProvider);
+      final List<Movie> movies = await tmdb.searchMovies(query);
+      final List<TvShow> series = await tmdb.searchTvShows(query);
+      return interleave(
+        movies.map(CatalogItem.fromMovie).toList(),
+        series.map(CatalogItem.fromTv).toList(),
+      );
+    });

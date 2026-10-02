@@ -6234,4 +6234,7 @@ class SPt extends S {
   @override
   String get catalogRecsEmpty =>
       'Conclua e avalie alguns títulos da sua coleção para receber recomendações';
+
+  @override
+  String get catalogSearchHint => 'Buscar filmes e séries';
 }

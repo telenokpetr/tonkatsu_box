@@ -5872,4 +5872,7 @@ class SZh extends S {
 
   @override
   String get catalogRecsEmpty => '在收藏中完成并评分几部作品后会出现推荐';
+
+  @override
+  String get catalogSearchHint => '搜索电影和剧集';
 }

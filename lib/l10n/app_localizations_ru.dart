@@ -6277,4 +6277,7 @@ class SRu extends S {
   @override
   String get catalogRecsEmpty =>
       'Отметь просмотренными и оцени несколько тайтлов в коллекции, тогда появятся рекомендации';
+
+  @override
+  String get catalogSearchHint => 'Поиск фильмов и сериалов';
 }

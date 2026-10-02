@@ -2627,5 +2627,6 @@
   "catalogAnime": "动漫",
   "catalogOldAnime": "经典动漫",
   "catalogEmpty": "暂无内容",
-  "catalogRecsEmpty": "在收藏中完成并评分几部作品后会出现推荐"
+  "catalogRecsEmpty": "在收藏中完成并评分几部作品后会出现推荐",
+  "catalogSearchHint": "搜索电影和剧集"
 }

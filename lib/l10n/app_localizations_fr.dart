@@ -6271,4 +6271,7 @@ class SFr extends S {
   @override
   String get catalogRecsEmpty =>
       'Terminez et notez quelques titres de votre collection pour obtenir des recommandations';
+
+  @override
+  String get catalogSearchHint => 'Rechercher des films et séries';
 }

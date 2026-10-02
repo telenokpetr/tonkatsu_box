@@ -61,4 +61,27 @@ void main() {
       expect(kShelfIds.toSet().containsAll(kSerialShelves), isTrue);
     });
   });
+
+  group('interleave', () {
+    test('alternates the two lists and appends the longer tail', () {
+      final List<CatalogItem> out = interleave(
+        <CatalogItem>[item('m1', 1), item('m2', 1), item('m3', 1)],
+        <CatalogItem>[item('s1', 1, serial: true)],
+      );
+      expect(out.map((CatalogItem i) => i.title), <String>[
+        'm1',
+        's1',
+        'm2',
+        'm3',
+      ]);
+    });
+
+    test('handles empty sides', () {
+      expect(interleave(<CatalogItem>[], <CatalogItem>[]), isEmpty);
+      expect(
+        interleave(<CatalogItem>[item('a', 1)], <CatalogItem>[]),
+        hasLength(1),
+      );
+    });
+  });
 }
