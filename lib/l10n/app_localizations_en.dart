@@ -6255,4 +6255,15 @@ class SEn extends S {
 
   @override
   String get ytRetry => 'Retry';
+
+  @override
+  String get ytConnect => 'Connect account';
+
+  @override
+  String get ytDisconnect => 'Disconnect';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return 'Windows will not let the app read $browser while it is open. Close $browser and press Connect account again.';
+  }
 }

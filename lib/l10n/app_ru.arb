@@ -2315,5 +2315,8 @@
   "ytNotConnected": "Аккаунт YouTube не подключён ({browser})",
   "ytChecking": "Проверяю аккаунт YouTube…",
   "ytSignIn": "Войти в YouTube",
-  "ytRetry": "Повторить"
+  "ytRetry": "Повторить",
+  "ytConnect": "Подключить аккаунт",
+  "ytDisconnect": "Отключить",
+  "ytCloseBrowser": "Windows не даёт читать {browser}, пока он открыт. Закрой {browser} и снова нажми «Подключить аккаунт»."
 }

@@ -6355,4 +6355,15 @@ class SRu extends S {
 
   @override
   String get ytRetry => 'Повторить';
+
+  @override
+  String get ytConnect => 'Подключить аккаунт';
+
+  @override
+  String get ytDisconnect => 'Отключить';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return 'Windows не даёт читать $browser, пока он открыт. Закрой $browser и снова нажми «Подключить аккаунт».';
+  }
 }

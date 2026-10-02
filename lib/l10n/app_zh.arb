@@ -2649,5 +2649,8 @@
   "ytNotConnected": "YouTube 账户未连接({browser})",
   "ytChecking": "正在检查 YouTube 账户…",
   "ytSignIn": "登录 YouTube",
-  "ytRetry": "重试"
+  "ytRetry": "重试",
+  "ytConnect": "连接账户",
+  "ytDisconnect": "断开",
+  "ytCloseBrowser": "{browser} 打开时 Windows 不允许读取。请关闭 {browser} 后再次点击“连接账户”。"
 }

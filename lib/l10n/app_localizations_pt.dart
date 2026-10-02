@@ -6312,4 +6312,15 @@ class SPt extends S {
 
   @override
   String get ytRetry => 'Tentar de novo';
+
+  @override
+  String get ytConnect => 'Conectar conta';
+
+  @override
+  String get ytDisconnect => 'Desconectar';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return 'O Windows não deixa ler o $browser enquanto está aberto. Feche o $browser e toque em Conectar conta de novo.';
+  }
 }

@@ -239,6 +239,9 @@ class _YoutubeFeedGrid extends ConsumerWidget {
                           error.missingTool?.name ?? '',
                           error.missingTool?.wingetId ?? '',
                         )
+                      : error is YoutubeFeedException &&
+                            isBrowserLocked(error.message)
+                      ? l.ytCloseBrowser(browser)
                       : l.ytFeedFailed(
                           browser,
                           error is YoutubeFeedException
@@ -250,9 +253,17 @@ class _YoutubeFeedGrid extends ConsumerWidget {
                 const SizedBox(height: 16),
                 Wrap(
                   spacing: 12,
+                  runSpacing: 8,
                   children: <Widget>[
                     FilledButton(
                       style: FilledButton.styleFrom(
+                        minimumSize: const Size(0, 40),
+                      ),
+                      onPressed: () => _connect(context, ref, browser),
+                      child: Text(l.ytConnect),
+                    ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
                         minimumSize: const Size(0, 40),
                       ),
                       onPressed: () => openYoutubeSignIn(browser),
@@ -272,6 +283,27 @@ class _YoutubeFeedGrid extends ConsumerWidget {
             ),
           ),
         );
+  }
+}
+
+Future<void> _connect(
+  BuildContext context,
+  WidgetRef ref,
+  String browser,
+) async {
+  final S l = S.of(context);
+  try {
+    await connectYoutube(browser);
+    ref.invalidate(youtubeFeedProvider);
+  } on YoutubeFeedException catch (e) {
+    if (!context.mounted) return;
+    context.showSnack(
+      isBrowserLocked(e.message)
+          ? l.ytCloseBrowser(browser)
+          : l.ytFeedFailed(browser, e.message),
+      type: SnackType.error,
+      duration: const Duration(seconds: 10),
+    );
   }
 }
 
@@ -300,6 +332,14 @@ class _YoutubeStatus extends ConsumerWidget {
         Icon(view.$1, size: 18, color: view.$2),
         const SizedBox(width: 8),
         Text(view.$3, style: const TextStyle(fontSize: 13)),
+        if (youtubeConnectedToFile())
+          TextButton(
+            onPressed: () {
+              disconnectYoutube();
+              ref.invalidate(youtubeFeedProvider);
+            },
+            child: Text(l.ytDisconnect),
+          ),
       ],
     );
   }

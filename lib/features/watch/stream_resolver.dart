@@ -26,6 +26,29 @@ const LiveTool kStreamlink = LiveTool(
 /// on PATH, which a freshly installed one may not be on yet.
 const LiveTool kDeno = LiveTool('deno.exe', 'DenoLand.Deno');
 
+/// Where "Connect account" stores the YouTube login the app reads afterwards,
+/// so the browser may stay open: Windows locks a running browser's cookies.
+String youtubeCookiesPath(Map<String, String> environment) => p.join(
+  environment['APPDATA'] ?? '',
+  'Tonkatsu Box',
+  'Tonkatsu Box',
+  'youtube_cookies.txt',
+);
+
+/// yt-dlp arguments that carry the user's YouTube login: the saved cookie file
+/// if there is one, otherwise the browser's own store.
+List<String> youtubeCookieArgs(
+  String browser,
+  Map<String, String> environment, {
+  bool Function(String path) exists = _fileExists,
+}) {
+  final String file = youtubeCookiesPath(environment);
+  if (exists(file)) return <String>['--cookies', file];
+  return browser.isEmpty
+      ? const <String>[]
+      : <String>['--cookies-from-browser', browser];
+}
+
 const Duration _kResolveTimeout = Duration(seconds: 60);
 
 LiveTool toolFor(LiveService service) =>
@@ -153,10 +176,8 @@ class StreamResolver {
     final List<String> args = service == LiveService.youtube
         ? <String>[
             if (deno != null) ...<String>['--js-runtimes', 'deno:$deno'],
-            if (cookiesBrowser != null) ...<String>[
-              '--cookies-from-browser',
-              cookiesBrowser,
-            ],
+            if (cookiesBrowser != null)
+              ...youtubeCookieArgs(cookiesBrowser, Platform.environment),
             '-g',
             '-f',
             'b/best',

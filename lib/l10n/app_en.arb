@@ -2814,5 +2814,13 @@
   },
   "ytChecking": "Checking the YouTube account…",
   "ytSignIn": "Sign in to YouTube",
-  "ytRetry": "Retry"
+  "ytRetry": "Retry",
+  "ytConnect": "Connect account",
+  "ytDisconnect": "Disconnect",
+  "ytCloseBrowser": "Windows will not let the app read {browser} while it is open. Close {browser} and press Connect account again.",
+  "@ytCloseBrowser": {
+    "placeholders": {
+      "browser": {"type": "String"}
+    }
+  }
 }

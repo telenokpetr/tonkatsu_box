@@ -11035,6 +11035,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Retry'**
   String get ytRetry;
+
+  /// No description provided for @ytConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect account'**
+  String get ytConnect;
+
+  /// No description provided for @ytDisconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get ytDisconnect;
+
+  /// No description provided for @ytCloseBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Windows will not let the app read {browser} while it is open. Close {browser} and press Connect account again.'**
+  String ytCloseBrowser(String browser);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

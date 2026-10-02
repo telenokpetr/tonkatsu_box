@@ -79,6 +79,56 @@ Future<void> openYoutubeSignIn(String browser) async {
   await launchUrl(Uri.parse(kYoutubeUrl));
 }
 
+final Logger _fileLog = Logger('YoutubeConnect');
+
+/// Reads the browser's YouTube login once and keeps it in the app's own
+/// folder. Fails with a readable message when the browser is still open.
+Future<void> connectYoutube(String browser) async {
+  final String? exe = findTool(kYtDlp, Platform.environment);
+  if (exe == null) {
+    throw const YoutubeFeedException(
+      'yt-dlp is not installed',
+      missingTool: kYtDlp,
+    );
+  }
+  final String file = youtubeCookiesPath(Platform.environment);
+  Directory(p.dirname(file)).createSync(recursive: true);
+  final ProcessResult result = await Process.run(
+    exe,
+    <String>[
+      '--cookies-from-browser',
+      browser,
+      '--cookies',
+      file,
+      '--simulate',
+      '--playlist-end',
+      '1',
+      ':ytsubs',
+    ],
+    stdoutEncoding: utf8,
+    stderrEncoding: utf8,
+  ).timeout(_kFeedTimeout);
+  final String err = '${result.stderr}'.trim();
+  if (!File(file).existsSync() || File(file).lengthSync() == 0) {
+    throw YoutubeFeedException(
+      err.isEmpty ? 'no cookies were saved' : err.split('\n').last,
+    );
+  }
+  _fileLog.info('youtube account connected via $browser');
+}
+
+void disconnectYoutube() {
+  final File file = File(youtubeCookiesPath(Platform.environment));
+  if (file.existsSync()) file.deleteSync();
+}
+
+bool youtubeConnectedToFile() =>
+    File(youtubeCookiesPath(Platform.environment)).existsSync();
+
+/// The browser is holding its cookie store open.
+bool isBrowserLocked(String message) =>
+    message.contains('Could not copy') || message.contains('cookie database');
+
 const int _kFeedSize = 48;
 const Duration _kFeedTimeout = Duration(seconds: 90);
 
@@ -172,8 +222,7 @@ class YoutubeFeedApi {
       exe,
       <String>[
         if (deno != null) ...<String>['--js-runtimes', 'deno:$deno'],
-        '--cookies-from-browser',
-        browser,
+        ...youtubeCookieArgs(browser, Platform.environment),
         '--flat-playlist',
         '--playlist-end',
         '$_kFeedSize',

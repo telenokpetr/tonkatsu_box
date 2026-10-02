@@ -6349,4 +6349,15 @@ class SFr extends S {
 
   @override
   String get ytRetry => 'Réessayer';
+
+  @override
+  String get ytConnect => 'Connecter le compte';
+
+  @override
+  String get ytDisconnect => 'Déconnecter';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return 'Windows empêche de lire $browser tant qu il est ouvert. Fermez $browser et appuyez de nouveau sur Connecter le compte.';
+  }
 }

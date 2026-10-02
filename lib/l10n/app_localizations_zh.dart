@@ -5950,4 +5950,15 @@ class SZh extends S {
 
   @override
   String get ytRetry => '重试';
+
+  @override
+  String get ytConnect => '连接账户';
+
+  @override
+  String get ytDisconnect => '断开';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return '$browser 打开时 Windows 不允许读取。请关闭 $browser 后再次点击“连接账户”。';
+  }
 }

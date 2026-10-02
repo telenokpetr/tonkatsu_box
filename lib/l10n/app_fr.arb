@@ -2654,5 +2654,8 @@
   "ytNotConnected": "Compte YouTube non connecté ({browser})",
   "ytChecking": "Vérification du compte YouTube…",
   "ytSignIn": "Se connecter à YouTube",
-  "ytRetry": "Réessayer"
+  "ytRetry": "Réessayer",
+  "ytConnect": "Connecter le compte",
+  "ytDisconnect": "Déconnecter",
+  "ytCloseBrowser": "Windows empêche de lire {browser} tant qu il est ouvert. Fermez {browser} et appuyez de nouveau sur Connecter le compte."
 }

@@ -6331,4 +6331,15 @@ class SEs extends S {
 
   @override
   String get ytRetry => 'Reintentar';
+
+  @override
+  String get ytConnect => 'Conectar cuenta';
+
+  @override
+  String get ytDisconnect => 'Desconectar';
+
+  @override
+  String ytCloseBrowser(String browser) {
+    return 'Windows no permite leer $browser mientras está abierto. Cierra $browser y pulsa Conectar cuenta de nuevo.';
+  }
 }
