@@ -134,6 +134,18 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
                     title: l.catalogTitle,
                     children: <Widget>[
                       _field(
+                        label: l.watchTwitchClientId,
+                        value: settings.twitchClientId,
+                        obscureText: true,
+                        onChanged: notifier.setTwitchClientId,
+                      ),
+                      _field(
+                        label: l.watchTwitchClientSecret,
+                        value: settings.twitchClientSecret,
+                        obscureText: true,
+                        onChanged: notifier.setTwitchClientSecret,
+                      ),
+                      _field(
                         label: l.watchYoutubeBrowser,
                         value: settings.youtubeBrowser,
                         placeholder: kDefaultYoutubeBrowser,

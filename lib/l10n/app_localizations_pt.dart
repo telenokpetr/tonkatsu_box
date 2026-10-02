@@ -6323,4 +6323,22 @@ class SPt extends S {
   String ytCloseBrowser(String browser) {
     return 'O Windows não deixa ler o $browser enquanto está aberto. Feche o $browser e toque em Conectar conta de novo.';
   }
+
+  @override
+  String get twAllRussian => 'Tudo em russo';
+
+  @override
+  String get twNoKeys =>
+      'Para navegar no Twitch, crie um aplicativo gratuito em dev.twitch.tv/console e cole o Client ID e o Client Secret nas configurações, Assistir.';
+
+  @override
+  String twLoadFailed(String error) {
+    return 'Não foi possível carregar o Twitch: $error';
+  }
+
+  @override
+  String get watchTwitchClientId => 'Twitch Client ID';
+
+  @override
+  String get watchTwitchClientSecret => 'Twitch Client Secret';
 }

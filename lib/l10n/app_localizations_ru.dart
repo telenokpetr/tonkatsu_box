@@ -6366,4 +6366,22 @@ class SRu extends S {
   String ytCloseBrowser(String browser) {
     return 'Windows не даёт читать $browser, пока он открыт. Закрой $browser и снова нажми «Подключить аккаунт».';
   }
+
+  @override
+  String get twAllRussian => 'Все русскоязычные';
+
+  @override
+  String get twNoKeys =>
+      'Чтобы смотреть список Twitch, создай бесплатное приложение на dev.twitch.tv/console и вставь его Client ID и Client Secret в Настройки → Просмотр.';
+
+  @override
+  String twLoadFailed(String error) {
+    return 'Не удалось загрузить Twitch: $error';
+  }
+
+  @override
+  String get watchTwitchClientId => 'Twitch Client ID';
+
+  @override
+  String get watchTwitchClientSecret => 'Twitch Client Secret';
 }

@@ -11053,6 +11053,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Windows will not let the app read {browser} while it is open. Close {browser} and press Connect account again.'**
   String ytCloseBrowser(String browser);
+
+  /// No description provided for @twAllRussian.
+  ///
+  /// In en, this message translates to:
+  /// **'All Russian streams'**
+  String get twAllRussian;
+
+  /// No description provided for @twNoKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'To browse Twitch, create a free application at dev.twitch.tv/console and paste its Client ID and Client Secret in Settings, Watch.'**
+  String get twNoKeys;
+
+  /// No description provided for @twLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load Twitch: {error}'**
+  String twLoadFailed(String error);
+
+  /// No description provided for @watchTwitchClientId.
+  ///
+  /// In en, this message translates to:
+  /// **'Twitch Client ID'**
+  String get watchTwitchClientId;
+
+  /// No description provided for @watchTwitchClientSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Twitch Client Secret'**
+  String get watchTwitchClientSecret;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

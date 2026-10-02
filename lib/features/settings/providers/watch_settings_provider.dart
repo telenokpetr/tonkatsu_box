@@ -23,6 +23,12 @@ abstract class WatchSettingsKeys {
 
   static String youtubeBrowser(String profileId) =>
       'watch_youtube_browser_$profileId';
+
+  static String twitchClientId(String profileId) =>
+      'watch_twitch_client_id_$profileId';
+
+  static String twitchClientSecret(String profileId) =>
+      'watch_twitch_client_secret_$profileId';
 }
 
 // `builtIn` is the seamless libmpv player; `auto` takes the first external
@@ -45,6 +51,8 @@ class WatchSettingsState {
     this.catalogUrl = '',
     this.iptvUrl = '',
     this.youtubeBrowser = kDefaultYoutubeBrowser,
+    this.twitchClientId = '',
+    this.twitchClientSecret = '',
   });
 
   final String jacRedUrl;
@@ -59,6 +67,13 @@ class WatchSettingsState {
   /// The browser whose YouTube login yt-dlp reads (`vivaldi`, `chrome`, ...).
   final String youtubeBrowser;
 
+  /// Keys of the user's own Twitch application (dev.twitch.tv/console).
+  final String twitchClientId;
+  final String twitchClientSecret;
+
+  bool get hasTwitchKeys =>
+      twitchClientId.isNotEmpty && twitchClientSecret.isNotEmpty;
+
   bool get isConfigured => jacRedUrl.isNotEmpty && torrServerUrl.isNotEmpty;
 
   WatchSettingsState copyWith({
@@ -69,6 +84,8 @@ class WatchSettingsState {
     String? catalogUrl,
     String? iptvUrl,
     String? youtubeBrowser,
+    String? twitchClientId,
+    String? twitchClientSecret,
   }) {
     return WatchSettingsState(
       jacRedUrl: jacRedUrl ?? this.jacRedUrl,
@@ -78,6 +95,8 @@ class WatchSettingsState {
       catalogUrl: catalogUrl ?? this.catalogUrl,
       iptvUrl: iptvUrl ?? this.iptvUrl,
       youtubeBrowser: youtubeBrowser ?? this.youtubeBrowser,
+      twitchClientId: twitchClientId ?? this.twitchClientId,
+      twitchClientSecret: twitchClientSecret ?? this.twitchClientSecret,
     );
   }
 }
@@ -117,6 +136,11 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
       youtubeBrowser:
           _prefs.getString(WatchSettingsKeys.youtubeBrowser(_profileId)) ??
           kDefaultYoutubeBrowser,
+      twitchClientId:
+          _prefs.getString(WatchSettingsKeys.twitchClientId(_profileId)) ?? '',
+      twitchClientSecret:
+          _prefs.getString(WatchSettingsKeys.twitchClientSecret(_profileId)) ??
+          '',
     );
   }
 
@@ -170,5 +194,20 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
       stored,
     );
     state = state.copyWith(youtubeBrowser: stored);
+  }
+
+  Future<void> setTwitchClientId(String value) async {
+    final String id = value.trim();
+    await _prefs.setString(WatchSettingsKeys.twitchClientId(_profileId), id);
+    state = state.copyWith(twitchClientId: id);
+  }
+
+  Future<void> setTwitchClientSecret(String value) async {
+    final String secret = value.trim();
+    await _prefs.setString(
+      WatchSettingsKeys.twitchClientSecret(_profileId),
+      secret,
+    );
+    state = state.copyWith(twitchClientSecret: secret);
   }
 }

@@ -2318,5 +2318,10 @@
   "ytRetry": "Повторить",
   "ytConnect": "Подключить аккаунт",
   "ytDisconnect": "Отключить",
-  "ytCloseBrowser": "Windows не даёт читать {browser}, пока он открыт. Закрой {browser} и снова нажми «Подключить аккаунт»."
+  "ytCloseBrowser": "Windows не даёт читать {browser}, пока он открыт. Закрой {browser} и снова нажми «Подключить аккаунт».",
+  "twAllRussian": "Все русскоязычные",
+  "twNoKeys": "Чтобы смотреть список Twitch, создай бесплатное приложение на dev.twitch.tv/console и вставь его Client ID и Client Secret в Настройки → Просмотр.",
+  "twLoadFailed": "Не удалось загрузить Twitch: {error}",
+  "watchTwitchClientId": "Twitch Client ID",
+  "watchTwitchClientSecret": "Twitch Client Secret"
 }

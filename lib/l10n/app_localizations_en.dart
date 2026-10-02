@@ -6266,4 +6266,22 @@ class SEn extends S {
   String ytCloseBrowser(String browser) {
     return 'Windows will not let the app read $browser while it is open. Close $browser and press Connect account again.';
   }
+
+  @override
+  String get twAllRussian => 'All Russian streams';
+
+  @override
+  String get twNoKeys =>
+      'To browse Twitch, create a free application at dev.twitch.tv/console and paste its Client ID and Client Secret in Settings, Watch.';
+
+  @override
+  String twLoadFailed(String error) {
+    return 'Could not load Twitch: $error';
+  }
+
+  @override
+  String get watchTwitchClientId => 'Twitch Client ID';
+
+  @override
+  String get watchTwitchClientSecret => 'Twitch Client Secret';
 }

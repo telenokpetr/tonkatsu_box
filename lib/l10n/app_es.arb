@@ -2657,5 +2657,10 @@
   "ytRetry": "Reintentar",
   "ytConnect": "Conectar cuenta",
   "ytDisconnect": "Desconectar",
-  "ytCloseBrowser": "Windows no permite leer {browser} mientras está abierto. Cierra {browser} y pulsa Conectar cuenta de nuevo."
+  "ytCloseBrowser": "Windows no permite leer {browser} mientras está abierto. Cierra {browser} y pulsa Conectar cuenta de nuevo.",
+  "twAllRussian": "Todo en ruso",
+  "twNoKeys": "Para explorar Twitch, crea una aplicación gratuita en dev.twitch.tv/console y pega su Client ID y Client Secret en Ajustes, Ver.",
+  "twLoadFailed": "No se pudo cargar Twitch: {error}",
+  "watchTwitchClientId": "Twitch Client ID",
+  "watchTwitchClientSecret": "Twitch Client Secret"
 }

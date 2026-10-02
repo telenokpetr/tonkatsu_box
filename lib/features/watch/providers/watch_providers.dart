@@ -7,6 +7,7 @@ import '../../../core/api/iptv_api.dart';
 import '../../../core/api/jacred_api.dart';
 import '../../../core/api/tmdb_api.dart';
 import '../../../core/api/torrserver_api.dart';
+import '../../../core/api/twitch_api.dart';
 import '../../settings/providers/watch_settings_provider.dart';
 import '../watch_query.dart';
 
@@ -89,3 +90,27 @@ final FutureProvider<List<IptvChannel>> iptvChannelsProvider =
       final String url = ref.watch(watchSettingsProvider).iptvUrl;
       return IptvApi(url: url.isEmpty ? kDefaultIptvUrl : url).fetch();
     });
+
+final Provider<TwitchApi> twitchApiProvider = Provider<TwitchApi>((Ref ref) {
+  final WatchSettingsState settings = ref.watch(watchSettingsProvider);
+  return TwitchApi(
+    clientId: settings.twitchClientId,
+    clientSecret: settings.twitchClientSecret,
+  );
+});
+
+/// Live Russian streams; an empty key means all categories.
+final AutoDisposeFutureProviderFamily<List<TwitchStream>, String>
+twitchStreamsProvider = FutureProvider.autoDispose
+    .family<List<TwitchStream>, String>(
+      (Ref ref, String gameId) => ref
+          .watch(twitchApiProvider)
+          .russianStreams(gameId: gameId.isEmpty ? null : gameId),
+    );
+
+/// Categories the Russian streamers are in right now.
+final AutoDisposeFutureProvider<List<TwitchGenre>> twitchGenresProvider =
+    FutureProvider.autoDispose<List<TwitchGenre>>(
+      (Ref ref) async =>
+          genresOf(await ref.watch(twitchStreamsProvider('').future)),
+    );

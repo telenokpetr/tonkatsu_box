@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/api/twitch_api.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/extensions/snackbar_extension.dart';
 import '../../settings/providers/settings_provider.dart';
 import '../../settings/providers/watch_settings_provider.dart';
 import '../play_stream.dart';
+import '../providers/watch_providers.dart';
 import '../stream_resolver.dart';
 import '../watch_format.dart';
 import '../youtube_feed.dart';
@@ -189,6 +191,15 @@ class _LivePanelState extends ConsumerState<LivePanel> {
               ),
             ),
           ],
+          if (widget.service == LiveService.twitch) ...<Widget>[
+            const SizedBox(height: 16),
+            Expanded(
+              child: _TwitchBrowse(
+                onOpen: (TwitchStream s) =>
+                    _open(s.url, title: '${s.name} - ${s.title}'),
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -200,6 +211,177 @@ class _LivePanelState extends ConsumerState<LivePanel> {
     YoutubeFeed.watchLater => l.ytWatchLater,
     YoutubeFeed.history => l.ytHistory,
   };
+}
+
+/// Russian-language streams, narrowed by the category the streamers are in.
+class _TwitchBrowse extends ConsumerStatefulWidget {
+  const _TwitchBrowse({required this.onOpen});
+
+  final ValueChanged<TwitchStream> onOpen;
+
+  @override
+  ConsumerState<_TwitchBrowse> createState() => _TwitchBrowseState();
+}
+
+class _TwitchBrowseState extends ConsumerState<_TwitchBrowse> {
+  String _gameId = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final S l = S.of(context);
+    if (!ref.watch(watchSettingsProvider).hasTwitchKeys) {
+      return Center(child: Text(l.twNoKeys, textAlign: TextAlign.center));
+    }
+    final List<TwitchGenre> genres =
+        ref.watch(twitchGenresProvider).valueOrNull ?? const <TwitchGenre>[];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              ChoiceChip(
+                label: Text(l.twAllRussian),
+                selected: _gameId.isEmpty,
+                onSelected: (_) => setState(() => _gameId = ''),
+              ),
+              for (final TwitchGenre g in genres) ...<Widget>[
+                const SizedBox(width: 8),
+                ChoiceChip(
+                  key: ValueKey<String>(g.id),
+                  label: Text(g.name),
+                  selected: _gameId == g.id,
+                  onSelected: (_) => setState(() => _gameId = g.id),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: ref
+              .watch(twitchStreamsProvider(_gameId))
+              .when(
+                data: (List<TwitchStream> streams) => streams.isEmpty
+                    ? Center(child: Text(l.catalogEmpty))
+                    : GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 280,
+                              mainAxisSpacing: 16,
+                              crossAxisSpacing: 16,
+                              childAspectRatio: 1.05,
+                            ),
+                        itemCount: streams.length,
+                        itemBuilder: (BuildContext context, int i) =>
+                            _StreamCard(
+                              stream: streams[i],
+                              onTap: widget.onOpen,
+                            ),
+                      ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (Object e, StackTrace s) => Center(
+                  child: Text(
+                    l.twLoadFailed(e is TwitchApiException ? e.message : '$e'),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StreamCard extends StatelessWidget {
+  const _StreamCard({required this.stream, required this.onTap});
+
+  final TwitchStream stream;
+  final ValueChanged<TwitchStream> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final String? thumb = stream.thumbnail;
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: () => onTap(stream),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: thumb == null
+                      ? const ColoredBox(color: Colors.black26)
+                      : CachedNetworkImage(
+                          imageUrl: thumb,
+                          fit: BoxFit.cover,
+                          errorWidget: (BuildContext c, String u, Object e) =>
+                              const ColoredBox(color: Colors.black26),
+                        ),
+                ),
+                Positioned(
+                  left: 6,
+                  bottom: 6,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.75),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 1,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const Icon(
+                            Icons.circle,
+                            size: 8,
+                            color: Colors.redAccent,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${stream.viewers}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            stream.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            stream.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 12, color: Colors.white70),
+          ),
+          if (stream.gameName != null)
+            Text(
+              stream.gameName ?? '',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 12, color: Colors.white54),
+            ),
+        ],
+      ),
+    );
+  }
 }
 
 class _YoutubeFeedGrid extends ConsumerWidget {

@@ -5961,4 +5961,22 @@ class SZh extends S {
   String ytCloseBrowser(String browser) {
     return '$browser 打开时 Windows 不允许读取。请关闭 $browser 后再次点击“连接账户”。';
   }
+
+  @override
+  String get twAllRussian => '全部俄语直播';
+
+  @override
+  String get twNoKeys =>
+      '要浏览 Twitch,请在 dev.twitch.tv/console 创建免费应用,并把 Client ID 和 Client Secret 填入设置的“观看”中。';
+
+  @override
+  String twLoadFailed(String error) {
+    return '无法加载 Twitch:$error';
+  }
+
+  @override
+  String get watchTwitchClientId => 'Twitch Client ID';
+
+  @override
+  String get watchTwitchClientSecret => 'Twitch Client Secret';
 }

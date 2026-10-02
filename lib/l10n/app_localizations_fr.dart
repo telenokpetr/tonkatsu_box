@@ -6360,4 +6360,22 @@ class SFr extends S {
   String ytCloseBrowser(String browser) {
     return 'Windows empêche de lire $browser tant qu il est ouvert. Fermez $browser et appuyez de nouveau sur Connecter le compte.';
   }
+
+  @override
+  String get twAllRussian => 'Tout en russe';
+
+  @override
+  String get twNoKeys =>
+      'Pour parcourir Twitch, créez une application gratuite sur dev.twitch.tv/console et collez son Client ID et son Client Secret dans les réglages, Regarder.';
+
+  @override
+  String twLoadFailed(String error) {
+    return 'Impossible de charger Twitch : $error';
+  }
+
+  @override
+  String get watchTwitchClientId => 'Twitch Client ID';
+
+  @override
+  String get watchTwitchClientSecret => 'Twitch Client Secret';
 }

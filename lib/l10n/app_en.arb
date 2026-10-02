@@ -2822,5 +2822,15 @@
     "placeholders": {
       "browser": {"type": "String"}
     }
-  }
+  },
+  "twAllRussian": "All Russian streams",
+  "twNoKeys": "To browse Twitch, create a free application at dev.twitch.tv/console and paste its Client ID and Client Secret in Settings, Watch.",
+  "twLoadFailed": "Could not load Twitch: {error}",
+  "@twLoadFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "watchTwitchClientId": "Twitch Client ID",
+  "watchTwitchClientSecret": "Twitch Client Secret"
 }
