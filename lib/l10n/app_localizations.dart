@@ -10963,6 +10963,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'TV playlist (m3u link from your IPTV account)'**
   String get watchIptvUrl;
+
+  /// No description provided for @ytSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get ytSubscriptions;
+
+  /// No description provided for @ytRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended'**
+  String get ytRecommended;
+
+  /// No description provided for @ytWatchLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch later'**
+  String get ytWatchLater;
+
+  /// No description provided for @ytHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get ytHistory;
+
+  /// No description provided for @ytFeedFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read your YouTube feed. Check that you are signed in to YouTube in {browser}: {error}'**
+  String ytFeedFailed(String browser, String error);
+
+  /// No description provided for @watchYoutubeBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Browser with your YouTube login'**
+  String get watchYoutubeBrowser;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -6268,4 +6268,24 @@ class SPt extends S {
 
   @override
   String get watchIptvUrl => 'Lista de TV (link m3u da sua conta IPTV)';
+
+  @override
+  String get ytSubscriptions => 'Inscrições';
+
+  @override
+  String get ytRecommended => 'Recomendados';
+
+  @override
+  String get ytWatchLater => 'Assistir mais tarde';
+
+  @override
+  String get ytHistory => 'Histórico';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return 'Não foi possível ler seu YouTube. Verifique se você está conectado no $browser: $error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => 'Navegador com seu login do YouTube';
 }

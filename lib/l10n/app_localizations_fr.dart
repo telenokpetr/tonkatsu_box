@@ -6305,4 +6305,24 @@ class SFr extends S {
 
   @override
   String get watchIptvUrl => 'Playlist TV (lien m3u de votre compte IPTV)';
+
+  @override
+  String get ytSubscriptions => 'Abonnements';
+
+  @override
+  String get ytRecommended => 'Recommandations';
+
+  @override
+  String get ytWatchLater => 'À regarder plus tard';
+
+  @override
+  String get ytHistory => 'Historique';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return 'Impossible de lire votre YouTube. Vérifiez que vous êtes connecté dans $browser : $error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => 'Navigateur connecté à YouTube';
 }

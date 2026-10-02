@@ -42,3 +42,11 @@ int naturalCompare(String a, String b) {
 
 bool isMagnetLink(String text) =>
     text.trim().toLowerCase().startsWith('magnet:?');
+
+/// 3725 s -> `1:02:05`, 65 s -> `1:05`.
+String formatClock(Duration d) {
+  final int h = d.inHours;
+  final String mm = (d.inMinutes % 60).toString().padLeft(h > 0 ? 2 : 1, '0');
+  final String ss = (d.inSeconds % 60).toString().padLeft(2, '0');
+  return h > 0 ? '$h:$mm:$ss' : '$mm:$ss';
+}

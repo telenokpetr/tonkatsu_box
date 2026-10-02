@@ -2780,5 +2780,17 @@
       "error": {"type": "String"}
     }
   },
-  "watchIptvUrl": "TV playlist (m3u link from your IPTV account)"
+  "watchIptvUrl": "TV playlist (m3u link from your IPTV account)",
+  "ytSubscriptions": "Subscriptions",
+  "ytRecommended": "Recommended",
+  "ytWatchLater": "Watch later",
+  "ytHistory": "History",
+  "ytFeedFailed": "Could not read your YouTube feed. Check that you are signed in to YouTube in {browser}: {error}",
+  "@ytFeedFailed": {
+    "placeholders": {
+      "browser": {"type": "String"},
+      "error": {"type": "String"}
+    }
+  },
+  "watchYoutubeBrowser": "Browser with your YouTube login"
 }

@@ -2303,5 +2303,11 @@
   "liveFavorites": "Избранное",
   "liveToolMissing": "{tool} не установлен. Поставь командой: winget install {id}",
   "liveResolveFailed": "Не удалось открыть эфир: {error}",
-  "watchIptvUrl": "ТВ-плейлист (ссылка m3u из твоего аккаунта IPTV)"
+  "watchIptvUrl": "ТВ-плейлист (ссылка m3u из твоего аккаунта IPTV)",
+  "ytSubscriptions": "Подписки",
+  "ytRecommended": "Рекомендации",
+  "ytWatchLater": "Смотреть позже",
+  "ytHistory": "История",
+  "ytFeedFailed": "Не удалось прочитать твой YouTube. Проверь, что ты залогинен в YouTube в браузере {browser}: {error}",
+  "watchYoutubeBrowser": "Браузер, где ты залогинен в YouTube"
 }

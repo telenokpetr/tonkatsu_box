@@ -3070,5 +3070,11 @@
   "liveFavorites": "Favoritos",
   "liveToolMissing": "{tool} não está instalado. Instale com: winget install {id}",
   "liveResolveFailed": "Não foi possível abrir a transmissão: {error}",
-  "watchIptvUrl": "Lista de TV (link m3u da sua conta IPTV)"
+  "watchIptvUrl": "Lista de TV (link m3u da sua conta IPTV)",
+  "ytSubscriptions": "Inscrições",
+  "ytRecommended": "Recomendados",
+  "ytWatchLater": "Assistir mais tarde",
+  "ytHistory": "Histórico",
+  "ytFeedFailed": "Não foi possível ler seu YouTube. Verifique se você está conectado no {browser}: {error}",
+  "watchYoutubeBrowser": "Navegador com seu login do YouTube"
 }

@@ -113,7 +113,33 @@ class StreamResolver {
 
   static final Logger _log = Logger('StreamResolver');
 
-  Future<String> resolve(LiveService service, String input) async {
+  /// [cookiesBrowser] lets yt-dlp use that browser's YouTube login (age gates,
+  /// private videos); if reading it fails the plain call is tried once.
+  Future<String> resolve(
+    LiveService service,
+    String input, {
+    String? cookiesBrowser,
+  }) async {
+    final bool withCookies =
+        service == LiveService.youtube &&
+        cookiesBrowser != null &&
+        cookiesBrowser.isNotEmpty;
+    if (withCookies) {
+      try {
+        return await _resolve(service, input, cookiesBrowser);
+      } on StreamResolveException catch (e) {
+        if (e.missingTool != null) rethrow;
+        _log.warning('retrying without cookies: ${e.message}');
+      }
+    }
+    return _resolve(service, input, null);
+  }
+
+  Future<String> _resolve(
+    LiveService service,
+    String input,
+    String? cookiesBrowser,
+  ) async {
     final LiveTool tool = toolFor(service);
     final String? exe = findTool(tool, Platform.environment);
     if (exe == null) {
@@ -127,6 +153,10 @@ class StreamResolver {
     final List<String> args = service == LiveService.youtube
         ? <String>[
             if (deno != null) ...<String>['--js-runtimes', 'deno:$deno'],
+            if (cookiesBrowser != null) ...<String>[
+              '--cookies-from-browser',
+              cookiesBrowser,
+            ],
             '-g',
             '-f',
             'b/best',

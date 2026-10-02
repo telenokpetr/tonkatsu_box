@@ -5906,4 +5906,24 @@ class SZh extends S {
 
   @override
   String get watchIptvUrl => '电视播放列表(IPTV 账户的 m3u 链接)';
+
+  @override
+  String get ytSubscriptions => '订阅';
+
+  @override
+  String get ytRecommended => '推荐';
+
+  @override
+  String get ytWatchLater => '稍后观看';
+
+  @override
+  String get ytHistory => '历史记录';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return '无法读取你的 YouTube。请确认已在 $browser 中登录:$error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => '已登录 YouTube 的浏览器';
 }

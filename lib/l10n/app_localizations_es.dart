@@ -6287,4 +6287,24 @@ class SEs extends S {
 
   @override
   String get watchIptvUrl => 'Lista de TV (enlace m3u de tu cuenta IPTV)';
+
+  @override
+  String get ytSubscriptions => 'Suscripciones';
+
+  @override
+  String get ytRecommended => 'Recomendados';
+
+  @override
+  String get ytWatchLater => 'Ver más tarde';
+
+  @override
+  String get ytHistory => 'Historial';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return 'No se pudo leer tu YouTube. Comprueba que has iniciado sesión en $browser: $error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => 'Navegador con tu sesión de YouTube';
 }

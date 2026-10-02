@@ -131,6 +131,12 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
                     title: l.catalogTitle,
                     children: <Widget>[
                       _field(
+                        label: l.watchYoutubeBrowser,
+                        value: settings.youtubeBrowser,
+                        placeholder: kDefaultYoutubeBrowser,
+                        onChanged: notifier.setYoutubeBrowser,
+                      ),
+                      _field(
                         label: l.watchIptvUrl,
                         value: settings.iptvUrl,
                         placeholder: 'https://…/playlist.m3u',

@@ -6211,4 +6211,24 @@ class SEn extends S {
 
   @override
   String get watchIptvUrl => 'TV playlist (m3u link from your IPTV account)';
+
+  @override
+  String get ytSubscriptions => 'Subscriptions';
+
+  @override
+  String get ytRecommended => 'Recommended';
+
+  @override
+  String get ytWatchLater => 'Watch later';
+
+  @override
+  String get ytHistory => 'History';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return 'Could not read your YouTube feed. Check that you are signed in to YouTube in $browser: $error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => 'Browser with your YouTube login';
 }

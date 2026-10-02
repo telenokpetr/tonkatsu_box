@@ -6311,4 +6311,24 @@ class SRu extends S {
 
   @override
   String get watchIptvUrl => 'ТВ-плейлист (ссылка m3u из твоего аккаунта IPTV)';
+
+  @override
+  String get ytSubscriptions => 'Подписки';
+
+  @override
+  String get ytRecommended => 'Рекомендации';
+
+  @override
+  String get ytWatchLater => 'Смотреть позже';
+
+  @override
+  String get ytHistory => 'История';
+
+  @override
+  String ytFeedFailed(String browser, String error) {
+    return 'Не удалось прочитать твой YouTube. Проверь, что ты залогинен в YouTube в браузере $browser: $error';
+  }
+
+  @override
+  String get watchYoutubeBrowser => 'Браузер, где ты залогинен в YouTube';
 }

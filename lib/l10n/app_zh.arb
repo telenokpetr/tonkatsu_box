@@ -2637,5 +2637,11 @@
   "liveFavorites": "收藏",
   "liveToolMissing": "未安装 {tool}。请运行:winget install {id}",
   "liveResolveFailed": "无法打开直播:{error}",
-  "watchIptvUrl": "电视播放列表(IPTV 账户的 m3u 链接)"
+  "watchIptvUrl": "电视播放列表(IPTV 账户的 m3u 链接)",
+  "ytSubscriptions": "订阅",
+  "ytRecommended": "推荐",
+  "ytWatchLater": "稍后观看",
+  "ytHistory": "历史记录",
+  "ytFeedFailed": "无法读取你的 YouTube。请确认已在 {browser} 中登录:{error}",
+  "watchYoutubeBrowser": "已登录 YouTube 的浏览器"
 }
