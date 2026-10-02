@@ -25,7 +25,8 @@ abstract class WatchSettingsKeys {
       'watch_youtube_browser_$profileId';
 }
 
-// `auto` takes the first external player found: MPC-BE, MPC-HC, VLC.
+// `builtIn` is the seamless libmpv player; `auto` takes the first external
+// player found (MPC-BE, MPC-HC, VLC).
 enum WatchPlayer { auto, mpcBe, mpcHc, vlc, builtIn }
 
 /// On a PC both services usually run next to the app (Docker), so these
@@ -40,7 +41,7 @@ class WatchSettingsState {
     this.jacRedUrl = '',
     this.jacRedApiKey = '',
     this.torrServerUrl = '',
-    this.player = WatchPlayer.auto,
+    this.player = WatchPlayer.builtIn,
     this.catalogUrl = '',
     this.iptvUrl = '',
     this.youtubeBrowser = kDefaultYoutubeBrowser,
@@ -108,7 +109,7 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
           WatchPlayer.values.asNameMap()[_prefs.getString(
             WatchSettingsKeys.player(_profileId),
           )] ??
-          WatchPlayer.auto,
+          WatchPlayer.builtIn,
       catalogUrl:
           _prefs.getString(WatchSettingsKeys.catalogUrl(_profileId)) ??
           _defaultFor(kDefaultCatalogUrl),

@@ -33,7 +33,8 @@ Future<void> playStream(
   }
   await navigator.push(
     MaterialPageRoute<void>(
-      builder: (BuildContext context) => PlayerScreen(url: url, title: title),
+      builder: (BuildContext context) =>
+          PlayerScreen.single(url: url, title: title),
     ),
   );
 }

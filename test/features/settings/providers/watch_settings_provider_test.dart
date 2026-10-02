@@ -138,40 +138,40 @@ void main() {
     });
 
     test(
-      'the player defaults to automatic and the choice is persisted',
+      'the player defaults to the built-in one and the choice is persisted',
       () async {
         final ProviderContainer container = await createContainer();
-        expect(container.read(watchSettingsProvider).player, WatchPlayer.auto);
-
-        await container
-            .read(watchSettingsProvider.notifier)
-            .setPlayer(WatchPlayer.builtIn);
-
         expect(
           container.read(watchSettingsProvider).player,
           WatchPlayer.builtIn,
         );
+
+        await container
+            .read(watchSettingsProvider.notifier)
+            .setPlayer(WatchPlayer.vlc);
+
+        expect(container.read(watchSettingsProvider).player, WatchPlayer.vlc);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        expect(prefs.getString(WatchSettingsKeys.player(profileId)), 'builtIn');
+        expect(prefs.getString(WatchSettingsKeys.player(profileId)), 'vlc');
       },
     );
 
     test(
-      'a stored player name is read back, junk falls back to automatic',
+      'a stored player name is read back, junk falls back to the built-in one',
       () async {
         final ProviderContainer stored = await createContainer(
           initialPrefs: <String, Object>{
-            WatchSettingsKeys.player(profileId): 'builtIn',
+            WatchSettingsKeys.player(profileId): 'mpcBe',
           },
         );
-        expect(stored.read(watchSettingsProvider).player, WatchPlayer.builtIn);
+        expect(stored.read(watchSettingsProvider).player, WatchPlayer.mpcBe);
 
         final ProviderContainer junk = await createContainer(
           initialPrefs: <String, Object>{
             WatchSettingsKeys.player(profileId): 'winamp',
           },
         );
-        expect(junk.read(watchSettingsProvider).player, WatchPlayer.auto);
+        expect(junk.read(watchSettingsProvider).player, WatchPlayer.builtIn);
       },
     );
   });

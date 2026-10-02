@@ -139,7 +139,6 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
           : await _pickFile(videos);
       if (file == null || !mounted) return;
 
-      final String url = api.streamUrl(ready, file);
       final WatchPlayer choice = ref.read(watchSettingsProvider).player;
       if (choice != WatchPlayer.builtIn) {
         final bool opened = await ref
@@ -159,8 +158,13 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
 
       await navigator.push(
         MaterialPageRoute<void>(
-          builder: (BuildContext context) =>
-              PlayerScreen(url: url, title: file.name),
+          builder: (BuildContext context) => PlayerScreen(
+            items: <PlayerItem>[
+              for (final TorrServerFile f in videos)
+                PlayerItem(url: api.streamUrl(ready, f), title: f.name),
+            ],
+            startIndex: videos.indexOf(file),
+          ),
         ),
       );
     } on TorrServerApiException catch (e) {
