@@ -14,6 +14,7 @@ import 'package:tonkatsu_box/features/welcome/screens/welcome_screen.dart';
 import 'package:tonkatsu_box/shared/navigation/app_bottom_bar.dart';
 import 'package:tonkatsu_box/shared/navigation/app_shell.dart';
 import 'package:tonkatsu_box/shared/navigation/app_sidebar.dart';
+import 'package:tonkatsu_box/shared/navigation/root_shell.dart';
 
 import 'helpers/test_helpers.dart';
 
@@ -44,6 +45,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -64,6 +66,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -86,6 +89,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -109,6 +113,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -131,6 +136,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -162,6 +168,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -195,6 +202,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -219,6 +227,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),
@@ -244,6 +253,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
             sharedPreferencesProvider.overrideWithValue(prefs),
             collectionRepositoryProvider.overrideWithValue(mockRepo),
             databaseServiceProvider.overrideWithValue(mockDb),

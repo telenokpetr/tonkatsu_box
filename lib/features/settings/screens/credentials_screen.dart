@@ -9,7 +9,11 @@ class CredentialsScreen extends StatelessWidget {
   const CredentialsScreen({
     super.key,
     this.isInitialSetup = false,
+    this.embedded = false,
   });
+
+  /// Drops the back-arrow title bar when shown inside the catalog.
+  final bool embedded;
 
   /// Adds the first-run welcome section above the key form.
   final bool isInitialSetup;
@@ -21,7 +25,7 @@ class CredentialsScreen extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        SubScreenTitleBar(title: S.of(context).settingsApiKeys),
+        if (!embedded) SubScreenTitleBar(title: S.of(context).settingsApiKeys),
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,

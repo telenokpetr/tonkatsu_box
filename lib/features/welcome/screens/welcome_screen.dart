@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../features/settings/providers/settings_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/constants/platform_features.dart';
-import '../../../shared/navigation/app_shell.dart';
+import '../../../shared/navigation/root_shell.dart';
 import '../../../shared/theme/app_colors.dart';
 import '../../../shared/theme/app_durations.dart';
 import '../../../shared/theme/app_spacing.dart';
@@ -269,7 +269,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) => const AppShell(),
+        builder: (BuildContext context) => const RootShell(),
       ),
     );
   }

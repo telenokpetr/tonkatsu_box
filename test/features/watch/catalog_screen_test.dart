@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tonkatsu_box/features/watch/catalog_shelves.dart';
 import 'package:tonkatsu_box/features/watch/screens/catalog_screen.dart';
+import 'package:tonkatsu_box/features/watch/screens/tv_shell.dart';
 
 import '../../helpers/test_helpers.dart';
 
@@ -74,6 +75,24 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Found matrix'), findsNothing);
       expect(find.text('Shelf recs'), findsOneWidget);
+    });
+  });
+
+  group('TvShell', () {
+    testWidgets('is the catalog alone, with settings in the rail', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpApp(const TvShell(), overrides: overrides());
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(CatalogScreen), findsOneWidget);
+      expect(find.byIcon(Icons.tune), findsOneWidget);
+      expect(find.byIcon(Icons.key_outlined), findsOneWidget);
     });
   });
 }

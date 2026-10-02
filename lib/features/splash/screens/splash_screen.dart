@@ -11,7 +11,7 @@ import '../../../features/welcome/screens/welcome_screen.dart';
 import 'profile_picker_screen.dart';
 import '../../../shared/constants/platform_features.dart';
 import '../../../shared/theme/app_colors.dart';
-import '../../../shared/navigation/app_shell.dart';
+import '../../../shared/navigation/root_shell.dart';
 import '../../../shared/theme/app_assets.dart';
 import '../../../shared/theme/app_durations.dart';
 
@@ -153,7 +153,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           Animation<double> animation,
           Animation<double> secondaryAnimation,
         ) {
-          return const AppShell();
+          return const RootShell();
         },
         transitionsBuilder: (
           BuildContext context,

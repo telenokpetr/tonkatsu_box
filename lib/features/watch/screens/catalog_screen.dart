@@ -6,6 +6,8 @@ import '../../../core/api/catalog_api.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/widgets/screen_app_bar.dart';
+import '../../settings/screens/credentials_screen.dart';
+import '../../settings/screens/watch_settings_screen.dart';
 import '../catalog_shelves.dart';
 import '../iptv_probe.dart';
 import '../play_stream.dart';
@@ -45,7 +47,10 @@ const List<List<String>> _kRailGroups = <List<String>>[
   <String>['tv', 'youtube', 'twitch', 'kick'],
   <String>['movies_top', 'series_top', 'movies_popular'],
   <String>['kp_movies_top', 'kp_series_top', 'kp_popular'],
+  <String>['settings_watch', 'settings_keys'],
 ];
+
+const Set<String> _kSettingsIds = <String>{'settings_watch', 'settings_keys'};
 
 IconData _shelfIcon(String id) => switch (id) {
   'recs' => Icons.auto_awesome_outlined,
@@ -57,6 +62,8 @@ IconData _shelfIcon(String id) => switch (id) {
   'soviet_cartoons' => Icons.flag_outlined,
   'anime' => Icons.animation,
   'old_anime' => Icons.history_edu_outlined,
+  'settings_watch' => Icons.tune,
+  'settings_keys' => Icons.key_outlined,
   'tv' => Icons.live_tv_outlined,
   'youtube' => Icons.smart_display_outlined,
   'twitch' => Icons.videogame_asset_outlined,
@@ -80,6 +87,8 @@ String _shelfLabel(S l, String id) => switch (id) {
   'soviet_cartoons' => l.catalogSovietCartoons,
   'anime' => l.catalogAnime,
   'old_anime' => l.catalogOldAnime,
+  'settings_watch' => l.settingsWatch,
+  'settings_keys' => l.settingsApiKeys,
   'tv' => l.catalogTv,
   'youtube' => 'YouTube', // proper noun
   'twitch' => 'Twitch', // proper noun
@@ -201,30 +210,52 @@ class _Rail extends StatelessWidget {
   final bool compact;
   final ValueChanged<String> onSelect;
 
+  Widget _item(S l, String id) => _RailItem(
+    icon: _shelfIcon(id),
+    label: _shelfLabel(l, id),
+    selected: id == selected,
+    compact: compact,
+    onTap: () => onSelect(id),
+  );
+
   @override
   Widget build(BuildContext context) {
     final S l = S.of(context);
+    // Settings sit below the scrolling list, so they stay in reach however
+    // short the window is.
+    final List<List<String>> groups = <List<String>>[
+      for (final List<String> g in _kRailGroups)
+        if (!g.every(_kSettingsIds.contains)) g,
+    ];
     return Container(
       width: compact ? _kRailCompactWidth : _kRailWidth,
       color: _kBackground,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+      child: Column(
         children: <Widget>[
-          for (int g = 0; g < _kRailGroups.length; g++) ...<Widget>[
-            if (g > 0)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                child: Divider(height: 1, color: _kStroke),
-              ),
-            for (final String id in _kRailGroups[g])
-              _RailItem(
-                icon: _shelfIcon(id),
-                label: _shelfLabel(l, id),
-                selected: id == selected,
-                compact: compact,
-                onTap: () => onSelect(id),
-              ),
-          ],
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+              children: <Widget>[
+                for (int g = 0; g < groups.length; g++) ...<Widget>[
+                  if (g > 0)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                      child: Divider(height: 1, color: _kStroke),
+                    ),
+                  for (final String id in groups[g]) _item(l, id),
+                ],
+              ],
+            ),
+          ),
+          const Divider(height: 1, color: _kStroke),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+            child: Column(
+              children: <Widget>[
+                for (final String id in _kSettingsIds) _item(l, id),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -361,7 +392,7 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          if (live == null)
+          if (live == null && !_kSettingsIds.contains(selected))
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
               child: ConstrainedBox(
@@ -389,7 +420,11 @@ class _Content extends StatelessWidget {
               ),
             ),
           Expanded(
-            child: live != null
+            child: selected == 'settings_watch'
+                ? const WatchSettingsScreen(embedded: true)
+                : selected == 'settings_keys'
+                ? const CredentialsScreen(embedded: true)
+                : live != null
                 ? LivePanel(key: ValueKey<String>(selected), service: live)
                 : searching && selected != 'tv'
                 ? _SearchResults(query: query)

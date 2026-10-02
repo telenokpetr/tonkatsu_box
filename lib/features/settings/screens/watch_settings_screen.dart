@@ -17,7 +17,10 @@ import '../widgets/status_dot.dart';
 const double _desktopBreakpoint = 800;
 
 class WatchSettingsScreen extends ConsumerStatefulWidget {
-  const WatchSettingsScreen({super.key});
+  /// [embedded] drops the back-arrow title bar when shown inside the catalog.
+  const WatchSettingsScreen({this.embedded = false, super.key});
+
+  final bool embedded;
 
   @override
   ConsumerState<WatchSettingsScreen> createState() =>
@@ -83,7 +86,7 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
 
     return Column(
       children: <Widget>[
-        SubScreenTitleBar(title: l.settingsWatch),
+        if (!widget.embedded) SubScreenTitleBar(title: l.settingsWatch),
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,

@@ -9,7 +9,7 @@ import '../../../shared/theme/app_colors.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/theme/app_typography.dart';
 import '../../../shared/widgets/confirm_dialog.dart';
-import '../../../shared/navigation/app_shell.dart';
+import '../../../shared/navigation/root_shell.dart';
 import '../../collections/providers/collections_provider.dart';
 import '../../home/providers/all_items_provider.dart';
 import '../../releases/providers/releases_provider.dart';
@@ -223,7 +223,7 @@ class DatabaseContent extends ConsumerWidget {
       if (context.mounted) {
         context.showSnack(S.of(context).databaseReset, type: SnackType.success);
         Navigator.of(context, rootNavigator: true).pushReplacement(
-          MaterialPageRoute<void>(builder: (_) => const AppShell()),
+          MaterialPageRoute<void>(builder: (_) => const RootShell()),
         );
       }
     }

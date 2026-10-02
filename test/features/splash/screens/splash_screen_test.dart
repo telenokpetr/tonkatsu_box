@@ -9,6 +9,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:tonkatsu_box/core/database/database_service.dart';
 import 'package:tonkatsu_box/features/splash/screens/splash_screen.dart';
+import 'package:tonkatsu_box/shared/navigation/root_shell.dart';
 
 import '../../../helpers/test_helpers.dart';
 
@@ -24,6 +25,7 @@ void main() {
   Widget buildTestWidget() {
     return ProviderScope(
       overrides: <Override>[
+            tvShellEnabledProvider.overrideWithValue(false),
         databaseServiceProvider.overrideWithValue(mockDb),
       ],
       child: const MaterialApp(

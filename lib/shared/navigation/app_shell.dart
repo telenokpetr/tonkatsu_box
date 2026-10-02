@@ -21,7 +21,6 @@ import '../../features/tier_lists/screens/tier_list_detail_screen.dart';
 import '../../features/tier_lists/screens/tier_lists_screen.dart';
 import '../../features/wishlist/screens/wishlist_screen.dart';
 import '../../l10n/app_localizations.dart';
-import '../../features/watch/screens/catalog_screen.dart';
 import '../constants/platform_features.dart';
 import '../gamepad/gamepad_action.dart';
 import '../gamepad/widgets/gamepad_listener.dart';
@@ -345,9 +344,7 @@ class _AppShellState extends ConsumerState<AppShell> {
       key: _navigatorKeys[tabIndex],
       onGenerateRoute: (RouteSettings settings) {
         final Widget screen = switch (NavTab.values[tabIndex]) {
-          NavTab.home => kWatchEnabled
-              ? const CatalogScreen(embedded: true)
-              : const AllItemsScreen(),
+          NavTab.home => const AllItemsScreen(),
           NavTab.releases => const ReleasesScreen(),
           NavTab.collections => const HomeScreen(),
           NavTab.tierLists => const TierListsScreen(),
