@@ -3,9 +3,81 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as p;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../settings/providers/watch_settings_provider.dart';
 import 'stream_resolver.dart';
+
+/// Where each browser's executable usually lives, relative to the install
+/// roots below; only browsers whose cookies yt-dlp can read are listed.
+const Map<String, List<List<String>>> kBrowserPaths =
+    <String, List<List<String>>>{
+      'vivaldi': <List<String>>[
+        <String>['Vivaldi', 'Application', 'vivaldi.exe'],
+      ],
+      'chrome': <List<String>>[
+        <String>['Google', 'Chrome', 'Application', 'chrome.exe'],
+      ],
+      'edge': <List<String>>[
+        <String>['Microsoft', 'Edge', 'Application', 'msedge.exe'],
+      ],
+      'firefox': <List<String>>[
+        <String>['Mozilla Firefox', 'firefox.exe'],
+      ],
+      'brave': <List<String>>[
+        <String>['BraveSoftware', 'Brave-Browser', 'Application', 'brave.exe'],
+      ],
+      'opera': <List<String>>[
+        <String>['Opera', 'opera.exe'],
+        <String>['Opera GX', 'opera.exe'],
+      ],
+    };
+
+const String kYoutubeUrl = 'https://www.youtube.com/';
+
+/// The browser's executable, looked up in Program Files and the per-user
+/// install folders; null for an unknown browser or one that is not installed.
+String? findBrowser(
+  String browser,
+  Map<String, String> environment, {
+  bool Function(String path) exists = _exists,
+}) {
+  final List<List<String>>? suffixes = kBrowserPaths[browser.toLowerCase()];
+  if (suffixes == null) return null;
+  final List<String> roots = <String>[
+    for (final String key in <String>[
+      'LOCALAPPDATA',
+      'ProgramFiles',
+      'ProgramFiles(x86)',
+    ])
+      if (environment[key] case final String dir when dir.isNotEmpty) dir,
+    if (environment['LOCALAPPDATA'] case final String dir when dir.isNotEmpty)
+      p.join(dir, 'Programs'),
+  ];
+  for (final String root in roots) {
+    for (final List<String> suffix in suffixes) {
+      final String candidate = p.joinAll(<String>[root, ...suffix]);
+      if (exists(candidate)) return candidate;
+    }
+  }
+  return null;
+}
+
+bool _exists(String path) => File(path).existsSync();
+
+/// Opens YouTube in the browser whose login the app reads, so the user can
+/// sign in there once; falls back to the default browser.
+Future<void> openYoutubeSignIn(String browser) async {
+  final String? exe = findBrowser(browser, Platform.environment);
+  if (exe != null) {
+    await Process.start(exe, <String>[
+      kYoutubeUrl,
+    ], mode: ProcessStartMode.detached);
+    return;
+  }
+  await launchUrl(Uri.parse(kYoutubeUrl));
+}
 
 const int _kFeedSize = 48;
 const Duration _kFeedTimeout = Duration(seconds: 90);

@@ -6236,4 +6236,23 @@ class SEn extends S {
   String catalogTvChecking(int done, int total) {
     return 'Checking channels: $done of $total';
   }
+
+  @override
+  String ytConnected(String browser) {
+    return 'YouTube account connected via $browser';
+  }
+
+  @override
+  String ytNotConnected(String browser) {
+    return 'YouTube account is not connected ($browser)';
+  }
+
+  @override
+  String get ytChecking => 'Checking the YouTube account…';
+
+  @override
+  String get ytSignIn => 'Sign in to YouTube';
+
+  @override
+  String get ytRetry => 'Retry';
 }

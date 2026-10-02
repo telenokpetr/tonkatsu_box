@@ -2799,5 +2799,20 @@
       "done": {"type": "int"},
       "total": {"type": "int"}
     }
-  }
+  },
+  "ytConnected": "YouTube account connected via {browser}",
+  "@ytConnected": {
+    "placeholders": {
+      "browser": {"type": "String"}
+    }
+  },
+  "ytNotConnected": "YouTube account is not connected ({browser})",
+  "@ytNotConnected": {
+    "placeholders": {
+      "browser": {"type": "String"}
+    }
+  },
+  "ytChecking": "Checking the YouTube account…",
+  "ytSignIn": "Sign in to YouTube",
+  "ytRetry": "Retry"
 }

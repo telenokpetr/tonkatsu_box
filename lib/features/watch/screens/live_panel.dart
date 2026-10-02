@@ -168,6 +168,8 @@ class _LivePanelState extends ConsumerState<LivePanel> {
           ],
           if (youtube) ...<Widget>[
             const SizedBox(height: 16),
+            _YoutubeStatus(feed: _feed),
+            const SizedBox(height: 12),
             Wrap(
               spacing: 8,
               children: <Widget>[
@@ -228,20 +230,78 @@ class _YoutubeFeedGrid extends ConsumerWidget {
                 ),
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (Object error, StackTrace stack) => Center(
-            child: Text(
-              error is YoutubeFeedException && error.missingTool != null
-                  ? l.liveToolMissing(
-                      error.missingTool?.name ?? '',
-                      error.missingTool?.wingetId ?? '',
-                    )
-                  : l.ytFeedFailed(
-                      browser,
-                      error is YoutubeFeedException ? error.message : '$error',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  error is YoutubeFeedException && error.missingTool != null
+                      ? l.liveToolMissing(
+                          error.missingTool?.name ?? '',
+                          error.missingTool?.wingetId ?? '',
+                        )
+                      : l.ytFeedFailed(
+                          browser,
+                          error is YoutubeFeedException
+                              ? error.message
+                              : '$error',
+                        ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 12,
+                  children: <Widget>[
+                    FilledButton(
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(0, 40),
+                      ),
+                      onPressed: () => openYoutubeSignIn(browser),
+                      child: Text(l.ytSignIn),
                     ),
-              textAlign: TextAlign.center,
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(0, 40),
+                      ),
+                      onPressed: () =>
+                          ref.invalidate(youtubeFeedProvider(feed)),
+                      child: Text(l.ytRetry),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         );
+  }
+}
+
+/// Whether the account is connected, read off the feed that is showing.
+class _YoutubeStatus extends ConsumerWidget {
+  const _YoutubeStatus({required this.feed});
+
+  final YoutubeFeed feed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final S l = S.of(context);
+    final String browser = ref.watch(watchSettingsProvider).youtubeBrowser;
+    final AsyncValue<List<YoutubeVideo>> state = ref.watch(
+      youtubeFeedProvider(feed),
+    );
+    final (IconData, Color, String) view = state.when(
+      data: (_) =>
+          (Icons.check_circle, Colors.greenAccent, l.ytConnected(browser)),
+      loading: () => (Icons.sync, Colors.white54, l.ytChecking),
+      error: (Object e, StackTrace s) =>
+          (Icons.error_outline, Colors.orangeAccent, l.ytNotConnected(browser)),
+    );
+    return Row(
+      children: <Widget>[
+        Icon(view.$1, size: 18, color: view.$2),
+        const SizedBox(width: 8),
+        Text(view.$3, style: const TextStyle(fontSize: 13)),
+      ],
+    );
   }
 }
 

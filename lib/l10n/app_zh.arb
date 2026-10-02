@@ -2644,5 +2644,10 @@
   "ytHistory": "历史记录",
   "ytFeedFailed": "无法读取你的 YouTube。请确认已在 {browser} 中登录:{error}",
   "watchYoutubeBrowser": "已登录 YouTube 的浏览器",
-  "catalogTvChecking": "正在检查频道:{done}/{total}"
+  "catalogTvChecking": "正在检查频道:{done}/{total}",
+  "ytConnected": "YouTube 账户已通过 {browser} 连接",
+  "ytNotConnected": "YouTube 账户未连接({browser})",
+  "ytChecking": "正在检查 YouTube 账户…",
+  "ytSignIn": "登录 YouTube",
+  "ytRetry": "重试"
 }

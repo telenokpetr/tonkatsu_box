@@ -2649,5 +2649,10 @@
   "ytHistory": "Historial",
   "ytFeedFailed": "No se pudo leer tu YouTube. Comprueba que has iniciado sesión en {browser}: {error}",
   "watchYoutubeBrowser": "Navegador con tu sesión de YouTube",
-  "catalogTvChecking": "Comprobando canales: {done} de {total}"
+  "catalogTvChecking": "Comprobando canales: {done} de {total}",
+  "ytConnected": "Cuenta de YouTube conectada mediante {browser}",
+  "ytNotConnected": "La cuenta de YouTube no está conectada ({browser})",
+  "ytChecking": "Comprobando la cuenta de YouTube…",
+  "ytSignIn": "Iniciar sesión en YouTube",
+  "ytRetry": "Reintentar"
 }

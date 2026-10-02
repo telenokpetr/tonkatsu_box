@@ -6336,4 +6336,23 @@ class SRu extends S {
   String catalogTvChecking(int done, int total) {
     return 'Проверяю каналы: $done из $total';
   }
+
+  @override
+  String ytConnected(String browser) {
+    return 'Аккаунт YouTube подключён через $browser';
+  }
+
+  @override
+  String ytNotConnected(String browser) {
+    return 'Аккаунт YouTube не подключён ($browser)';
+  }
+
+  @override
+  String get ytChecking => 'Проверяю аккаунт YouTube…';
+
+  @override
+  String get ytSignIn => 'Войти в YouTube';
+
+  @override
+  String get ytRetry => 'Повторить';
 }

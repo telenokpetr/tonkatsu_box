@@ -6330,4 +6330,23 @@ class SFr extends S {
   String catalogTvChecking(int done, int total) {
     return 'Vérification des chaînes : $done sur $total';
   }
+
+  @override
+  String ytConnected(String browser) {
+    return 'Compte YouTube connecté via $browser';
+  }
+
+  @override
+  String ytNotConnected(String browser) {
+    return 'Compte YouTube non connecté ($browser)';
+  }
+
+  @override
+  String get ytChecking => 'Vérification du compte YouTube…';
+
+  @override
+  String get ytSignIn => 'Se connecter à YouTube';
+
+  @override
+  String get ytRetry => 'Réessayer';
 }

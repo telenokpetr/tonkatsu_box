@@ -2310,5 +2310,10 @@
   "ytHistory": "История",
   "ytFeedFailed": "Не удалось прочитать твой YouTube. Проверь, что ты залогинен в YouTube в браузере {browser}: {error}",
   "watchYoutubeBrowser": "Браузер, где ты залогинен в YouTube",
-  "catalogTvChecking": "Проверяю каналы: {done} из {total}"
+  "catalogTvChecking": "Проверяю каналы: {done} из {total}",
+  "ytConnected": "Аккаунт YouTube подключён через {browser}",
+  "ytNotConnected": "Аккаунт YouTube не подключён ({browser})",
+  "ytChecking": "Проверяю аккаунт YouTube…",
+  "ytSignIn": "Войти в YouTube",
+  "ytRetry": "Повторить"
 }

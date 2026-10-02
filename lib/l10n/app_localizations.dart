@@ -11005,6 +11005,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Checking channels: {done} of {total}'**
   String catalogTvChecking(int done, int total);
+
+  /// No description provided for @ytConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube account connected via {browser}'**
+  String ytConnected(String browser);
+
+  /// No description provided for @ytNotConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'YouTube account is not connected ({browser})'**
+  String ytNotConnected(String browser);
+
+  /// No description provided for @ytChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking the YouTube account…'**
+  String get ytChecking;
+
+  /// No description provided for @ytSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to YouTube'**
+  String get ytSignIn;
+
+  /// No description provided for @ytRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get ytRetry;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

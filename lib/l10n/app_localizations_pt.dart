@@ -6293,4 +6293,23 @@ class SPt extends S {
   String catalogTvChecking(int done, int total) {
     return 'Verificando canais: $done de $total';
   }
+
+  @override
+  String ytConnected(String browser) {
+    return 'Conta do YouTube conectada via $browser';
+  }
+
+  @override
+  String ytNotConnected(String browser) {
+    return 'Conta do YouTube não conectada ($browser)';
+  }
+
+  @override
+  String get ytChecking => 'Verificando a conta do YouTube…';
+
+  @override
+  String get ytSignIn => 'Entrar no YouTube';
+
+  @override
+  String get ytRetry => 'Tentar de novo';
 }

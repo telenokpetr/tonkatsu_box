@@ -5931,4 +5931,23 @@ class SZh extends S {
   String catalogTvChecking(int done, int total) {
     return '正在检查频道:$done/$total';
   }
+
+  @override
+  String ytConnected(String browser) {
+    return 'YouTube 账户已通过 $browser 连接';
+  }
+
+  @override
+  String ytNotConnected(String browser) {
+    return 'YouTube 账户未连接($browser)';
+  }
+
+  @override
+  String get ytChecking => '正在检查 YouTube 账户…';
+
+  @override
+  String get ytSignIn => '登录 YouTube';
+
+  @override
+  String get ytRetry => '重试';
 }

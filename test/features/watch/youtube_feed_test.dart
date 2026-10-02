@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:path/path.dart' as p;
 import 'package:tonkatsu_box/features/watch/watch_format.dart';
 import 'package:tonkatsu_box/features/watch/youtube_feed.dart';
 
@@ -75,6 +76,45 @@ void main() {
 
     test('hours pad the minutes', () {
       expect(formatClock(const Duration(seconds: 3725)), '1:02:05');
+    });
+  });
+
+  group('findBrowser', () {
+    const Map<String, String> env = <String, String>{
+      'LOCALAPPDATA': r'C:\Users\Me\AppData\Local',
+      'ProgramFiles': r'C:\Program Files',
+    };
+
+    test('finds Vivaldi in the per-user folder', () {
+      final String vivaldi = p.join(
+        r'C:\Users\Me\AppData\Local',
+        'Vivaldi',
+        'Application',
+        'vivaldi.exe',
+      );
+      expect(
+        findBrowser('vivaldi', env, exists: (String f) => f == vivaldi),
+        vivaldi,
+      );
+    });
+
+    test('finds Chrome in Program Files, case-insensitively', () {
+      final String chrome = p.join(
+        r'C:\Program Files',
+        'Google',
+        'Chrome',
+        'Application',
+        'chrome.exe',
+      );
+      expect(
+        findBrowser('Chrome', env, exists: (String f) => f == chrome),
+        chrome,
+      );
+    });
+
+    test('null for an unknown or missing browser', () {
+      expect(findBrowser('netscape', env, exists: (String f) => true), isNull);
+      expect(findBrowser('vivaldi', env, exists: (String f) => false), isNull);
     });
   });
 }
