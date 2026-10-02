@@ -10999,6 +10999,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Browser with your YouTube login'**
   String get watchYoutubeBrowser;
+
+  /// No description provided for @catalogTvChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking channels: {done} of {total}'**
+  String catalogTvChecking(int done, int total);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

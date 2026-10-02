@@ -6288,4 +6288,9 @@ class SPt extends S {
 
   @override
   String get watchYoutubeBrowser => 'Navegador com seu login do YouTube';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return 'Verificando canais: $done de $total';
+  }
 }

@@ -2792,5 +2792,12 @@
       "error": {"type": "String"}
     }
   },
-  "watchYoutubeBrowser": "Browser with your YouTube login"
+  "watchYoutubeBrowser": "Browser with your YouTube login",
+  "catalogTvChecking": "Checking channels: {done} of {total}",
+  "@catalogTvChecking": {
+    "placeholders": {
+      "done": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  }
 }

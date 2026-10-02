@@ -6325,4 +6325,9 @@ class SFr extends S {
 
   @override
   String get watchYoutubeBrowser => 'Navigateur connecté à YouTube';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return 'Vérification des chaînes : $done sur $total';
+  }
 }

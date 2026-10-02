@@ -6307,4 +6307,9 @@ class SEs extends S {
 
   @override
   String get watchYoutubeBrowser => 'Navegador con tu sesión de YouTube';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return 'Comprobando canales: $done de $total';
+  }
 }

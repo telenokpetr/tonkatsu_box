@@ -7,6 +7,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/widgets/screen_app_bar.dart';
 import '../catalog_shelves.dart';
+import '../iptv_probe.dart';
 import '../play_stream.dart';
 import '../stream_resolver.dart';
 import 'live_panel.dart';
@@ -96,7 +97,10 @@ String _shelfLabel(S l, String id) => switch (id) {
 /// the IMDb and Kinopoisk lists from the catalog container, with a search over
 /// TMDB. A tap on a title goes straight to the torrent picker.
 class CatalogScreen extends StatefulWidget {
-  const CatalogScreen({super.key});
+  /// [embedded] is the app's home tab: the shell already draws the app bar.
+  const CatalogScreen({this.embedded = false, super.key});
+
+  final bool embedded;
 
   @override
   State<CatalogScreen> createState() => _CatalogScreenState();
@@ -158,7 +162,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
       data: theme,
       child: Scaffold(
         backgroundColor: _kBackground,
-        appBar: ScreenAppBar(title: l.catalogTitle),
+        appBar: widget.embedded ? null : ScreenAppBar(title: l.catalogTitle),
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints box) {
             final bool compact = box.maxWidth < _kRailBreakpoint;
@@ -429,6 +433,7 @@ class _ShelfView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final S l = S.of(context);
+    if (id == 'tv') return _TvShelf(filter: filter);
     final AsyncValue<List<CatalogItem>> shelf = ref.watch(shelfProvider(id));
     return shelf.when(
       data: (List<CatalogItem> all) {
@@ -457,6 +462,74 @@ class _ShelfView extends ConsumerWidget {
     if (id == 'recs') return l.catalogRecsEmpty;
     if (id.startsWith('kp_')) return l.catalogNoKinopoisk;
     return l.catalogEmpty;
+  }
+}
+
+/// Channels of the playlist that actually answer; dead links are checked in
+/// the background and left out, so a tap never ends in "file not found".
+class _TvShelf extends ConsumerWidget {
+  const _TvShelf({required this.filter});
+
+  final String filter;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final S l = S.of(context);
+    final IptvProbeState? probe = ref.watch(iptvProbeProvider).valueOrNull;
+    return ref
+        .watch(shelfProvider('tv'))
+        .when(
+          data: (List<CatalogItem> all) {
+            final Set<String> alive = probe?.alive ?? const <String>{};
+            final String needle = filter.toLowerCase();
+            final List<CatalogItem> items = <CatalogItem>[
+              for (final CatalogItem c in all)
+                if (alive.contains(c.streamUrl) &&
+                    (needle.isEmpty || c.title.toLowerCase().contains(needle)))
+                  c,
+            ];
+            final bool checking = probe == null || !probe.finished;
+            return Column(
+              children: <Widget>[
+                if (checking)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 4, 24, 8),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: LinearProgressIndicator(
+                            value: probe == null || probe.total == 0
+                                ? null
+                                : probe.done / probe.total,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          l.catalogTvChecking(
+                            probe?.done ?? 0,
+                            probe?.total ?? all.length,
+                          ),
+                          style: const TextStyle(
+                            fontFamily: _kFont,
+                            fontSize: 12,
+                            color: _kTextTertiary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Expanded(
+                  child: items.isEmpty
+                      ? (checking ? const SizedBox() : _Message(l.catalogEmpty))
+                      : _CatalogGrid(items: items, showRank: false),
+                ),
+              ],
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (Object error, StackTrace stack) =>
+              _Message(l.catalogLoadFailed('$error')),
+        );
   }
 }
 

@@ -3076,5 +3076,6 @@
   "ytWatchLater": "Assistir mais tarde",
   "ytHistory": "Histórico",
   "ytFeedFailed": "Não foi possível ler seu YouTube. Verifique se você está conectado no {browser}: {error}",
-  "watchYoutubeBrowser": "Navegador com seu login do YouTube"
+  "watchYoutubeBrowser": "Navegador com seu login do YouTube",
+  "catalogTvChecking": "Verificando canais: {done} de {total}"
 }

@@ -6231,4 +6231,9 @@ class SEn extends S {
 
   @override
   String get watchYoutubeBrowser => 'Browser with your YouTube login';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return 'Checking channels: $done of $total';
+  }
 }

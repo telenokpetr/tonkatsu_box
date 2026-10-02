@@ -2648,5 +2648,6 @@
   "ytWatchLater": "Ver más tarde",
   "ytHistory": "Historial",
   "ytFeedFailed": "No se pudo leer tu YouTube. Comprueba que has iniciado sesión en {browser}: {error}",
-  "watchYoutubeBrowser": "Navegador con tu sesión de YouTube"
+  "watchYoutubeBrowser": "Navegador con tu sesión de YouTube",
+  "catalogTvChecking": "Comprobando canales: {done} de {total}"
 }

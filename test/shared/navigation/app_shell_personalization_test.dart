@@ -20,7 +20,9 @@ import 'package:tonkatsu_box/features/recommendations/providers/recommendations_
 import 'package:tonkatsu_box/features/settings/providers/settings_provider.dart';
 import 'package:tonkatsu_box/features/statistics/providers/statistics_provider.dart';
 import 'package:tonkatsu_box/features/statistics/screens/statistics_screen.dart';
+import 'package:tonkatsu_box/features/watch/screens/catalog_screen.dart';
 import 'package:tonkatsu_box/features/welcome/screens/welcome_screen.dart';
+import 'package:tonkatsu_box/shared/constants/platform_features.dart';
 import 'package:tonkatsu_box/shared/navigation/app_top_bar.dart';
 import 'package:tonkatsu_box/shared/navigation/nav_center_button.dart';
 import 'package:tonkatsu_box/shared/navigation/nav_icon_button.dart';
@@ -188,8 +190,10 @@ void main() {
     ) async {
       await pumpShell(tester);
 
+      // The home tab is the catalog wherever the Watch feature exists.
+      final Type homeScreen = kWatchEnabled ? CatalogScreen : AllItemsScreen;
       final Element homeTab =
-          tester.element(find.byType(AllItemsScreen, skipOffstage: false));
+          tester.element(find.byType(homeScreen, skipOffstage: false));
       expect(TickerMode.valuesOf(homeTab).enabled, isTrue);
 
       // Opening Personalization hides the tab — its animations must stop.

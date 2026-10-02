@@ -5926,4 +5926,9 @@ class SZh extends S {
 
   @override
   String get watchYoutubeBrowser => '已登录 YouTube 的浏览器';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return '正在检查频道:$done/$total';
+  }
 }

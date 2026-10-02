@@ -2648,5 +2648,6 @@
   "ytWatchLater": "À regarder plus tard",
   "ytHistory": "Historique",
   "ytFeedFailed": "Impossible de lire votre YouTube. Vérifiez que vous êtes connecté dans {browser} : {error}",
-  "watchYoutubeBrowser": "Navigateur connecté à YouTube"
+  "watchYoutubeBrowser": "Navigateur connecté à YouTube",
+  "catalogTvChecking": "Vérification des chaînes : {done} sur {total}"
 }

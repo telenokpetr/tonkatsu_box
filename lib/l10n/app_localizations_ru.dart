@@ -6331,4 +6331,9 @@ class SRu extends S {
 
   @override
   String get watchYoutubeBrowser => 'Браузер, где ты залогинен в YouTube';
+
+  @override
+  String catalogTvChecking(int done, int total) {
+    return 'Проверяю каналы: $done из $total';
+  }
 }
