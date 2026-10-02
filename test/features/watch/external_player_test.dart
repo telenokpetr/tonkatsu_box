@@ -120,4 +120,20 @@ void main() {
       );
     });
   });
+
+  group('describeStreamUrl', () {
+    test('keeps host and path and drops the query with its secrets', () {
+      expect(
+        describeStreamUrl(
+          'https://cdn.example.com/live/ch1/index.m3u8?token=SECRET&e=1',
+        ),
+        'cdn.example.com/live/ch1/index.m3u8',
+      );
+    });
+
+    test('a non-URL becomes a question mark', () {
+      expect(describeStreamUrl('not a url'), '?');
+      expect(describeStreamUrl(''), '?');
+    });
+  });
 }

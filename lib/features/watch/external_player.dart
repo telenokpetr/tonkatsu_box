@@ -78,6 +78,14 @@ String? findWindowsPlayer(
   return null;
 }
 
+/// `host/path` of a stream URL without the query: a personal playlist or a
+/// signed link carries its secret there, and the log must not keep it.
+String describeStreamUrl(String url) {
+  final Uri? uri = Uri.tryParse(url);
+  if (uri == null || uri.host.isEmpty) return '?';
+  return '${uri.host}${uri.path}';
+}
+
 /// `#EXTM3U` playlist that starts at [start] and wraps around, so "play this
 /// episode and carry on" works in every player.
 String buildPlaylist(List<String> urls, List<String> titles, int start) {
@@ -130,7 +138,10 @@ class ExternalPlayerLauncher {
     for (final WatchPlayer player in playersToTry(choice)) {
       final String? exe = findWindowsPlayer(player, Platform.environment);
       if (exe == null) continue;
-      _log.info('launching $exe for ${urls.length} item(s), start=$start');
+      _log.info(
+        'launching ${p.basename(exe)}: "${titles[start]}" '
+        '<- ${describeStreamUrl(urls[start])} (${urls.length} item(s))',
+      );
       final String target = urls.length == 1
           ? urls.first
           : await _writePlaylist(urls, titles, start);
@@ -141,7 +152,7 @@ class ExternalPlayerLauncher {
       );
       return true;
     }
-    _log.warning('no external player found for $choice');
+    _log.warning('no external player found for $choice: "${titles[start]}"');
     return false;
   }
 
