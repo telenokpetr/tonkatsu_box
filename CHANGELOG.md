@@ -28,6 +28,9 @@ Entries follow the [GNU Change Log style](https://www.gnu.org/prep/standards/htm
     and Soviet cartoons, anime and old anime from TMDB, plus IMDb Top 250 and
     Kinopoisk lists read from a small container that refreshes them every two
     days. A tap on a title goes to the torrent picker.
+  - The catalog also holds TV channels (the free iptv-org list, or your own
+    m3u playlist link in Settings, Watch) and link boxes for YouTube, Twitch
+    and Kick that resolve streams with yt-dlp and streamlink.
 
   * lib/core/api/jacred_api.dart (JacRedApi, JacRedTorrent)
   * lib/core/api/torrserver_api.dart (TorrServerApi, TorrServerTorrent,

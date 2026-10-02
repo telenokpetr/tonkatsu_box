@@ -131,6 +131,13 @@ class _WatchSettingsScreenState extends ConsumerState<WatchSettingsScreen> {
                     title: l.catalogTitle,
                     children: <Widget>[
                       _field(
+                        label: l.watchIptvUrl,
+                        value: settings.iptvUrl,
+                        placeholder: 'https://…/playlist.m3u',
+                        obscureText: true,
+                        onChanged: notifier.setIptvUrl,
+                      ),
+                      _field(
                         label: l.watchCatalogUrl,
                         value: settings.catalogUrl,
                         placeholder: kDefaultCatalogUrl,

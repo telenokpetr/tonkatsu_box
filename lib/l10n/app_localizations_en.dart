@@ -6180,4 +6180,35 @@ class SEn extends S {
 
   @override
   String get catalogSearchHint => 'Search movies and series';
+
+  @override
+  String get catalogTv => 'TV channels';
+
+  @override
+  String get liveInputYoutube => 'Video link or search text';
+
+  @override
+  String get liveInputChannel => 'Channel name or link';
+
+  @override
+  String get liveOpen => 'Open';
+
+  @override
+  String get liveSave => 'Save to favorites';
+
+  @override
+  String get liveFavorites => 'Favorites';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '$tool is not installed. Install it with: winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return 'Could not open the stream: $error';
+  }
+
+  @override
+  String get watchIptvUrl => 'TV playlist (m3u link from your IPTV account)';
 }

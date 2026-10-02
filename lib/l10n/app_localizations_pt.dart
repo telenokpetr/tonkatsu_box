@@ -6237,4 +6237,35 @@ class SPt extends S {
 
   @override
   String get catalogSearchHint => 'Buscar filmes e séries';
+
+  @override
+  String get catalogTv => 'Canais de TV';
+
+  @override
+  String get liveInputYoutube => 'Link do vídeo ou texto de busca';
+
+  @override
+  String get liveInputChannel => 'Nome do canal ou link';
+
+  @override
+  String get liveOpen => 'Abrir';
+
+  @override
+  String get liveSave => 'Salvar nos favoritos';
+
+  @override
+  String get liveFavorites => 'Favoritos';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '$tool não está instalado. Instale com: winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return 'Não foi possível abrir a transmissão: $error';
+  }
+
+  @override
+  String get watchIptvUrl => 'Lista de TV (link m3u da sua conta IPTV)';
 }

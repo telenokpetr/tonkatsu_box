@@ -7,6 +7,9 @@ import '../../../l10n/app_localizations.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/widgets/screen_app_bar.dart';
 import '../catalog_shelves.dart';
+import '../play_stream.dart';
+import '../stream_resolver.dart';
+import 'live_panel.dart';
 import '../providers/watch_providers.dart';
 import '../watch_query.dart';
 import 'watch_screen.dart';
@@ -38,6 +41,7 @@ const List<List<String>> _kRailGroups = <List<String>>[
   <String>['trend_movies', 'trend_series', 'top_series'],
   <String>['cartoons', 'old_cartoons', 'soviet_cartoons'],
   <String>['anime', 'old_anime'],
+  <String>['tv', 'youtube', 'twitch', 'kick'],
   <String>['movies_top', 'series_top', 'movies_popular'],
   <String>['kp_movies_top', 'kp_series_top', 'kp_popular'],
 ];
@@ -52,6 +56,10 @@ IconData _shelfIcon(String id) => switch (id) {
   'soviet_cartoons' => Icons.flag_outlined,
   'anime' => Icons.animation,
   'old_anime' => Icons.history_edu_outlined,
+  'tv' => Icons.live_tv_outlined,
+  'youtube' => Icons.smart_display_outlined,
+  'twitch' => Icons.videogame_asset_outlined,
+  'kick' => Icons.sports_esports_outlined,
   'movies_top' => Icons.emoji_events_outlined,
   'series_top' => Icons.workspace_premium_outlined,
   'movies_popular' => Icons.trending_up,
@@ -71,6 +79,10 @@ String _shelfLabel(S l, String id) => switch (id) {
   'soviet_cartoons' => l.catalogSovietCartoons,
   'anime' => l.catalogAnime,
   'old_anime' => l.catalogOldAnime,
+  'tv' => l.catalogTv,
+  'youtube' => 'YouTube', // proper noun
+  'twitch' => 'Twitch', // proper noun
+  'kick' => 'Kick', // proper noun
   'movies_top' => l.catalogImdbMovies,
   'series_top' => l.catalogImdbSeries,
   'movies_popular' => l.catalogImdbNew,
@@ -318,6 +330,9 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) {
     final S l = S.of(context);
     final bool searching = query.isNotEmpty;
+    final LiveService? live = LiveService.values
+        .where((LiveService s) => s.name == selected)
+        .firstOrNull;
     return Container(
       margin: const EdgeInsets.only(top: 4, right: 8, bottom: 8),
       decoration: BoxDecoration(
@@ -342,36 +357,39 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: TextField(
-                controller: controller,
-                textInputAction: TextInputAction.search,
-                style: const TextStyle(fontFamily: _kFont, fontSize: 14),
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: l.catalogSearchHint,
-                  prefixIcon: const Icon(Icons.search, size: 18),
-                  suffixIcon: searching
-                      ? IconButton(
-                          icon: const Icon(Icons.close, size: 16),
-                          onPressed: () {
-                            controller.clear();
-                            onSubmitted('');
-                          },
-                        )
-                      : null,
+          if (live == null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: TextField(
+                  controller: controller,
+                  textInputAction: TextInputAction.search,
+                  style: const TextStyle(fontFamily: _kFont, fontSize: 14),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    hintText: l.catalogSearchHint,
+                    prefixIcon: const Icon(Icons.search, size: 18),
+                    suffixIcon: searching
+                        ? IconButton(
+                            icon: const Icon(Icons.close, size: 16),
+                            onPressed: () {
+                              controller.clear();
+                              onSubmitted('');
+                            },
+                          )
+                        : null,
+                  ),
+                  onSubmitted: onSubmitted,
                 ),
-                onSubmitted: onSubmitted,
               ),
             ),
-          ),
           Expanded(
-            child: searching
+            child: live != null
+                ? LivePanel(key: ValueKey<String>(selected), service: live)
+                : searching && selected != 'tv'
                 ? _SearchResults(query: query)
-                : _ShelfView(id: selected),
+                : _ShelfView(id: selected, filter: query),
           ),
         ],
       ),
@@ -401,17 +419,31 @@ class _SearchResults extends ConsumerWidget {
 }
 
 class _ShelfView extends ConsumerWidget {
-  const _ShelfView({required this.id});
+  const _ShelfView({required this.id, this.filter = ''});
 
   final String id;
+
+  /// Narrows a TV shelf by channel name; other shelves search TMDB instead.
+  final String filter;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final S l = S.of(context);
     final AsyncValue<List<CatalogItem>> shelf = ref.watch(shelfProvider(id));
     return shelf.when(
-      data: (List<CatalogItem> items) =>
-          items.isEmpty ? _Message(_emptyText(l)) : _CatalogGrid(items: items),
+      data: (List<CatalogItem> all) {
+        final String needle = filter.toLowerCase();
+        final List<CatalogItem> items = id == 'tv' && needle.isNotEmpty
+            ? all
+                  .where(
+                    (CatalogItem c) => c.title.toLowerCase().contains(needle),
+                  )
+                  .toList()
+            : all;
+        return items.isEmpty
+            ? _Message(_emptyText(l))
+            : _CatalogGrid(items: items, showRank: id != 'tv');
+      },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (Object error, StackTrace stack) => _Message(
         l.catalogLoadFailed(
@@ -493,6 +525,11 @@ class _CatalogCardViewState extends ConsumerState<_CatalogCardView> {
 
   void _open(String title) {
     final CatalogItem item = widget.item;
+    final String? stream = item.streamUrl;
+    if (stream != null) {
+      playStream(context, ref, url: stream, title: title);
+      return;
+    }
     final String original = item.original ?? '';
     final WatchQuery query = (
       title: title,
@@ -545,7 +582,9 @@ class _CatalogCardViewState extends ConsumerState<_CatalogCardView> {
                           ? const ColoredBox(color: _kBackground)
                           : CachedNetworkImage(
                               imageUrl: poster,
-                              fit: BoxFit.cover,
+                              fit: item.streamUrl == null
+                                  ? BoxFit.cover
+                                  : BoxFit.contain,
                               errorWidget:
                                   (BuildContext c, String u, Object e) =>
                                       const ColoredBox(color: _kBackground),

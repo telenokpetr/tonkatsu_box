@@ -6280,4 +6280,35 @@ class SRu extends S {
 
   @override
   String get catalogSearchHint => 'Поиск фильмов и сериалов';
+
+  @override
+  String get catalogTv => 'ТВ-каналы';
+
+  @override
+  String get liveInputYoutube => 'Ссылка на видео или текст для поиска';
+
+  @override
+  String get liveInputChannel => 'Название канала или ссылка';
+
+  @override
+  String get liveOpen => 'Открыть';
+
+  @override
+  String get liveSave => 'В избранное';
+
+  @override
+  String get liveFavorites => 'Избранное';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '$tool не установлен. Поставь командой: winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return 'Не удалось открыть эфир: $error';
+  }
+
+  @override
+  String get watchIptvUrl => 'ТВ-плейлист (ссылка m3u из твоего аккаунта IPTV)';
 }

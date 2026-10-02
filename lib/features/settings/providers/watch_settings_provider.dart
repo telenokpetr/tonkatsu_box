@@ -18,6 +18,8 @@ abstract class WatchSettingsKeys {
   static String player(String profileId) => 'watch_player_$profileId';
 
   static String catalogUrl(String profileId) => 'watch_catalog_url_$profileId';
+
+  static String iptvUrl(String profileId) => 'watch_iptv_url_$profileId';
 }
 
 // `auto` takes the first external player found: MPC-BE, MPC-HC, VLC.
@@ -36,6 +38,7 @@ class WatchSettingsState {
     this.torrServerUrl = '',
     this.player = WatchPlayer.auto,
     this.catalogUrl = '',
+    this.iptvUrl = '',
   });
 
   final String jacRedUrl;
@@ -43,6 +46,9 @@ class WatchSettingsState {
   final String torrServerUrl;
   final WatchPlayer player;
   final String catalogUrl;
+
+  /// A personal m3u playlist (an IPTV account); empty means the free list.
+  final String iptvUrl;
 
   bool get isConfigured => jacRedUrl.isNotEmpty && torrServerUrl.isNotEmpty;
 
@@ -52,6 +58,7 @@ class WatchSettingsState {
     String? torrServerUrl,
     WatchPlayer? player,
     String? catalogUrl,
+    String? iptvUrl,
   }) {
     return WatchSettingsState(
       jacRedUrl: jacRedUrl ?? this.jacRedUrl,
@@ -59,6 +66,7 @@ class WatchSettingsState {
       torrServerUrl: torrServerUrl ?? this.torrServerUrl,
       player: player ?? this.player,
       catalogUrl: catalogUrl ?? this.catalogUrl,
+      iptvUrl: iptvUrl ?? this.iptvUrl,
     );
   }
 }
@@ -94,6 +102,7 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
       catalogUrl:
           _prefs.getString(WatchSettingsKeys.catalogUrl(_profileId)) ??
           _defaultFor(kDefaultCatalogUrl),
+      iptvUrl: _prefs.getString(WatchSettingsKeys.iptvUrl(_profileId)) ?? '',
     );
   }
 
@@ -129,5 +138,13 @@ class WatchSettingsNotifier extends Notifier<WatchSettingsState> {
     final String url = normalizeServiceUrl(value);
     await _prefs.setString(WatchSettingsKeys.catalogUrl(_profileId), url);
     state = state.copyWith(catalogUrl: url);
+  }
+
+  /// Kept verbatim apart from trimming: a playlist link carries a token that
+  /// a URL normalizer must not touch.
+  Future<void> setIptvUrl(String value) async {
+    final String url = value.trim();
+    await _prefs.setString(WatchSettingsKeys.iptvUrl(_profileId), url);
+    state = state.copyWith(iptvUrl: url);
   }
 }

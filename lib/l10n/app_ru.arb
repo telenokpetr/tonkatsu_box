@@ -2294,5 +2294,14 @@
   "catalogOldAnime": "Старое аниме",
   "catalogEmpty": "Пока пусто",
   "catalogRecsEmpty": "Отметь просмотренными и оцени несколько тайтлов в коллекции, тогда появятся рекомендации",
-  "catalogSearchHint": "Поиск фильмов и сериалов"
+  "catalogSearchHint": "Поиск фильмов и сериалов",
+  "catalogTv": "ТВ-каналы",
+  "liveInputYoutube": "Ссылка на видео или текст для поиска",
+  "liveInputChannel": "Название канала или ссылка",
+  "liveOpen": "Открыть",
+  "liveSave": "В избранное",
+  "liveFavorites": "Избранное",
+  "liveToolMissing": "{tool} не установлен. Поставь командой: winget install {id}",
+  "liveResolveFailed": "Не удалось открыть эфир: {error}",
+  "watchIptvUrl": "ТВ-плейлист (ссылка m3u из твоего аккаунта IPTV)"
 }

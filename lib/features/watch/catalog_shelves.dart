@@ -3,6 +3,7 @@ import 'package:core/models/tv_show.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/api/catalog_api.dart';
+import '../../core/api/iptv_api.dart';
 import '../../core/api/tmdb_api.dart';
 import '../recommendations/providers/recommendations_provider.dart';
 import 'providers/watch_providers.dart';
@@ -21,6 +22,8 @@ class CatalogItem {
     this.rating,
     this.posterUrl,
     this.entry,
+    this.streamUrl,
+    this.group,
   });
 
   factory CatalogItem.fromMovie(Movie m) => CatalogItem(
@@ -52,6 +55,15 @@ class CatalogItem {
         entry: e,
       );
 
+  /// A TV channel: the tap plays this URL instead of searching torrents.
+  factory CatalogItem.fromChannel(IptvChannel c) => CatalogItem(
+    title: c.name,
+    posterUrl: c.logo,
+    isSerial: false,
+    streamUrl: c.url,
+    group: c.group,
+  );
+
   final String title;
   final String? original;
   final int? year;
@@ -59,8 +71,10 @@ class CatalogItem {
   final String? posterUrl;
   final bool isSerial;
   final CatalogEntry? entry;
+  final String? streamUrl;
+  final String? group;
 
-  String get key => '$title|$year|$isSerial';
+  String get key => '$title|$year|$isSerial|${streamUrl ?? ''}';
 }
 
 /// Highest rating first, unrated last; ties keep their original order.
@@ -98,6 +112,7 @@ const List<String> kShelfIds = <String>[
   'soviet_cartoons',
   'anime',
   'old_anime',
+  'tv',
   'movies_top',
   'series_top',
   'movies_popular',
@@ -163,6 +178,13 @@ final AutoDisposeFutureProviderFamily<List<CatalogItem>, String> shelfProvider =
                 else if (item.media is TvShow)
                   CatalogItem.fromTv(item.media as TvShow),
           ]);
+        case 'tv':
+          final List<IptvChannel> channels = await ref.watch(
+            iptvChannelsProvider.future,
+          );
+          return <CatalogItem>[
+            for (final IptvChannel c in channels) CatalogItem.fromChannel(c),
+          ];
         case 'trend_movies':
           return _movies((int p) => tmdb.getTrendingMovies(page: p));
         case 'trend_series':

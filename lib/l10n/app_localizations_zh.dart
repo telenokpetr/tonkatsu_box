@@ -5875,4 +5875,35 @@ class SZh extends S {
 
   @override
   String get catalogSearchHint => '搜索电影和剧集';
+
+  @override
+  String get catalogTv => '电视频道';
+
+  @override
+  String get liveInputYoutube => '视频链接或搜索词';
+
+  @override
+  String get liveInputChannel => '频道名称或链接';
+
+  @override
+  String get liveOpen => '打开';
+
+  @override
+  String get liveSave => '加入收藏';
+
+  @override
+  String get liveFavorites => '收藏';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '未安装 $tool。请运行:winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return '无法打开直播:$error';
+  }
+
+  @override
+  String get watchIptvUrl => '电视播放列表(IPTV 账户的 m3u 链接)';
 }

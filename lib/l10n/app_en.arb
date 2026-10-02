@@ -2760,5 +2760,25 @@
   "catalogOldAnime": "Old anime",
   "catalogEmpty": "Nothing here yet",
   "catalogRecsEmpty": "Finish and rate a few titles in your collection to get recommendations",
-  "catalogSearchHint": "Search movies and series"
+  "catalogSearchHint": "Search movies and series",
+  "catalogTv": "TV channels",
+  "liveInputYoutube": "Video link or search text",
+  "liveInputChannel": "Channel name or link",
+  "liveOpen": "Open",
+  "liveSave": "Save to favorites",
+  "liveFavorites": "Favorites",
+  "liveToolMissing": "{tool} is not installed. Install it with: winget install {id}",
+  "@liveToolMissing": {
+    "placeholders": {
+      "tool": {"type": "String"},
+      "id": {"type": "String"}
+    }
+  },
+  "liveResolveFailed": "Could not open the stream: {error}",
+  "@liveResolveFailed": {
+    "placeholders": {
+      "error": {"type": "String"}
+    }
+  },
+  "watchIptvUrl": "TV playlist (m3u link from your IPTV account)"
 }

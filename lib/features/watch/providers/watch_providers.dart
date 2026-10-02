@@ -3,6 +3,7 @@ import 'package:core/models/tv_show.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/catalog_api.dart';
+import '../../../core/api/iptv_api.dart';
 import '../../../core/api/jacred_api.dart';
 import '../../../core/api/tmdb_api.dart';
 import '../../../core/api/torrserver_api.dart';
@@ -80,4 +81,11 @@ final FutureProviderFamily<CatalogCard?, CatalogEntry> catalogCardProvider =
         return null;
       }
       return null;
+    });
+
+/// The channel list is the same all session; a reopen must not refetch it.
+final FutureProvider<List<IptvChannel>> iptvChannelsProvider =
+    FutureProvider<List<IptvChannel>>((Ref ref) {
+      final String url = ref.watch(watchSettingsProvider).iptvUrl;
+      return IptvApi(url: url.isEmpty ? kDefaultIptvUrl : url).fetch();
     });

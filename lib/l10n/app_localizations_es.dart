@@ -6256,4 +6256,35 @@ class SEs extends S {
 
   @override
   String get catalogSearchHint => 'Buscar películas y series';
+
+  @override
+  String get catalogTv => 'Canales de TV';
+
+  @override
+  String get liveInputYoutube => 'Enlace del vídeo o texto de búsqueda';
+
+  @override
+  String get liveInputChannel => 'Nombre del canal o enlace';
+
+  @override
+  String get liveOpen => 'Abrir';
+
+  @override
+  String get liveSave => 'Guardar en favoritos';
+
+  @override
+  String get liveFavorites => 'Favoritos';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '$tool no está instalado. Instálalo con: winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return 'No se pudo abrir la emisión: $error';
+  }
+
+  @override
+  String get watchIptvUrl => 'Lista de TV (enlace m3u de tu cuenta IPTV)';
 }

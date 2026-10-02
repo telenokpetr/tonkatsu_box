@@ -10909,6 +10909,60 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Search movies and series'**
   String get catalogSearchHint;
+
+  /// No description provided for @catalogTv.
+  ///
+  /// In en, this message translates to:
+  /// **'TV channels'**
+  String get catalogTv;
+
+  /// No description provided for @liveInputYoutube.
+  ///
+  /// In en, this message translates to:
+  /// **'Video link or search text'**
+  String get liveInputYoutube;
+
+  /// No description provided for @liveInputChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Channel name or link'**
+  String get liveInputChannel;
+
+  /// No description provided for @liveOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get liveOpen;
+
+  /// No description provided for @liveSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to favorites'**
+  String get liveSave;
+
+  /// No description provided for @liveFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorites'**
+  String get liveFavorites;
+
+  /// No description provided for @liveToolMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'{tool} is not installed. Install it with: winget install {id}'**
+  String liveToolMissing(String tool, String id);
+
+  /// No description provided for @liveResolveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the stream: {error}'**
+  String liveResolveFailed(String error);
+
+  /// No description provided for @watchIptvUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'TV playlist (m3u link from your IPTV account)'**
+  String get watchIptvUrl;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

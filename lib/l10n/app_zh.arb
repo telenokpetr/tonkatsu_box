@@ -2628,5 +2628,14 @@
   "catalogOldAnime": "经典动漫",
   "catalogEmpty": "暂无内容",
   "catalogRecsEmpty": "在收藏中完成并评分几部作品后会出现推荐",
-  "catalogSearchHint": "搜索电影和剧集"
+  "catalogSearchHint": "搜索电影和剧集",
+  "catalogTv": "电视频道",
+  "liveInputYoutube": "视频链接或搜索词",
+  "liveInputChannel": "频道名称或链接",
+  "liveOpen": "打开",
+  "liveSave": "加入收藏",
+  "liveFavorites": "收藏",
+  "liveToolMissing": "未安装 {tool}。请运行:winget install {id}",
+  "liveResolveFailed": "无法打开直播:{error}",
+  "watchIptvUrl": "电视播放列表(IPTV 账户的 m3u 链接)"
 }

@@ -3061,5 +3061,14 @@
   "catalogOldAnime": "Anime antigo",
   "catalogEmpty": "Nada por enquanto",
   "catalogRecsEmpty": "Conclua e avalie alguns títulos da sua coleção para receber recomendações",
-  "catalogSearchHint": "Buscar filmes e séries"
+  "catalogSearchHint": "Buscar filmes e séries",
+  "catalogTv": "Canais de TV",
+  "liveInputYoutube": "Link do vídeo ou texto de busca",
+  "liveInputChannel": "Nome do canal ou link",
+  "liveOpen": "Abrir",
+  "liveSave": "Salvar nos favoritos",
+  "liveFavorites": "Favoritos",
+  "liveToolMissing": "{tool} não está instalado. Instale com: winget install {id}",
+  "liveResolveFailed": "Não foi possível abrir a transmissão: {error}",
+  "watchIptvUrl": "Lista de TV (link m3u da sua conta IPTV)"
 }

@@ -6274,4 +6274,35 @@ class SFr extends S {
 
   @override
   String get catalogSearchHint => 'Rechercher des films et séries';
+
+  @override
+  String get catalogTv => 'Chaînes TV';
+
+  @override
+  String get liveInputYoutube => 'Lien vidéo ou texte de recherche';
+
+  @override
+  String get liveInputChannel => 'Nom de la chaîne ou lien';
+
+  @override
+  String get liveOpen => 'Ouvrir';
+
+  @override
+  String get liveSave => 'Ajouter aux favoris';
+
+  @override
+  String get liveFavorites => 'Favoris';
+
+  @override
+  String liveToolMissing(String tool, String id) {
+    return '$tool n est pas installé. Installez-le avec : winget install $id';
+  }
+
+  @override
+  String liveResolveFailed(String error) {
+    return 'Impossible d ouvrir le flux : $error';
+  }
+
+  @override
+  String get watchIptvUrl => 'Playlist TV (lien m3u de votre compte IPTV)';
 }
