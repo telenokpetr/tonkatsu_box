@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_windows/webview_windows.dart';
 
 import '../../../l10n/app_localizations.dart';
+import 'movix_net_probe.dart';
 
 const String kMovixUrl = 'https://movix.ru/';
 const Color _kBackground = Colors.black;
@@ -89,8 +90,10 @@ class _MovixPanelState extends State<MovixPanel> {
             (WebErrorStatus e) => _log.warning('load error: ${e.name}'),
           ),
         )
+        ..add(_controller.webMessage.listen(_onPageMessage))
         ..add(_controller.url.listen((String u) => _log.info('url: $u')))
         ..add(_controller.title.listen((String t) => _log.info('title: $t')));
+      await _controller.addScriptToExecuteOnDocumentCreated(kMovixNetProbe);
       // The texture only gets frames once the widget is on screen, so the page
       // starts loading after the first build that shows it.
       if (!mounted) return;
@@ -102,6 +105,8 @@ class _MovixPanelState extends State<MovixPanel> {
       if (mounted) setState(() => _failed = true);
     }
   }
+
+  void _onPageMessage(Object? message) => _log.info('page net: $message');
 
   Future<void> _onLoadingState(LoadingState state) async {
     _log.info('loading: ${state.name}');
