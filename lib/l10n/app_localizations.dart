@@ -10676,6 +10676,66 @@ abstract class S {
   /// **'Choose a file'**
   String get watchPickFile;
 
+  /// No description provided for @watchEpisodes.
+  ///
+  /// In en, this message translates to:
+  /// **'Episodes'**
+  String get watchEpisodes;
+
+  /// No description provided for @watchSeason.
+  ///
+  /// In en, this message translates to:
+  /// **'Season {number}'**
+  String watchSeason(int number);
+
+  /// No description provided for @watchEpisodeNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Episode {number}'**
+  String watchEpisodeNumber(int number);
+
+  /// No description provided for @watchContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: {name}'**
+  String watchContinue(String name);
+
+  /// No description provided for @watchStoppedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped at {time} of {total}'**
+  String watchStoppedAt(String time, String total);
+
+  /// No description provided for @watchWatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Watched'**
+  String get watchWatched;
+
+  /// No description provided for @watchMarkWatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as watched'**
+  String get watchMarkWatched;
+
+  /// No description provided for @watchMarkUnwatched.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as not watched'**
+  String get watchMarkUnwatched;
+
+  /// No description provided for @watchFromStart.
+  ///
+  /// In en, this message translates to:
+  /// **'From the beginning'**
+  String get watchFromStart;
+
+  /// No description provided for @watchResumedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Resuming from {time}'**
+  String watchResumedAt(String time);
+
   /// No description provided for @watchNoVideoFiles.
   ///
   /// In en, this message translates to:

@@ -5752,6 +5752,46 @@ class SZh extends S {
   String get watchPickFile => '选择文件';
 
   @override
+  String get watchEpisodes => '剧集';
+
+  @override
+  String watchSeason(int number) {
+    return '第 $number 季';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return '第 $number 集';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return '继续观看：$name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return '停在 $time / $total';
+  }
+
+  @override
+  String get watchWatched => '已看';
+
+  @override
+  String get watchMarkWatched => '标记为已看';
+
+  @override
+  String get watchMarkUnwatched => '标记为未看';
+
+  @override
+  String get watchFromStart => '从头开始';
+
+  @override
+  String watchResumedAt(String time) {
+    return '从 $time 继续';
+  }
+
+  @override
   String get watchNoVideoFiles => '该种子不含视频文件';
 
   @override

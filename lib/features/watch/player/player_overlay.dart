@@ -39,6 +39,7 @@ class PlayerOverlay extends StatefulWidget {
 
 class _PlayerOverlayState extends State<PlayerOverlay> {
   bool _visible = true;
+  bool _panel = false;
   Timer? _timer;
   double _lastVolume = 100;
 
@@ -65,7 +66,7 @@ class _PlayerOverlayState extends State<PlayerOverlay> {
   void _restartTimer() {
     _timer?.cancel();
     _timer = Timer(widget.hideAfter, () {
-      if (mounted && _view.playing) setState(() => _visible = false);
+      if (mounted && _view.playing && !_panel) setState(() => _visible = false);
     });
   }
 
@@ -90,6 +91,15 @@ class _PlayerOverlayState extends State<PlayerOverlay> {
     } else {
       _actions.setVolume(_lastVolume);
     }
+  }
+
+  bool get _hasEpisodes =>
+      _view.episodes.length > 1 && _actions.selectEpisode != null;
+
+  void _togglePanel() {
+    if (!_hasEpisodes) return;
+    setState(() => _panel = !_panel);
+    _show();
   }
 
   void _cycle(List<TrackOption> options, void Function(String id) select) {
@@ -119,8 +129,14 @@ class _PlayerOverlayState extends State<PlayerOverlay> {
     } else if (key == LogicalKeyboardKey.keyF ||
         key == LogicalKeyboardKey.f11) {
       _actions.toggleFullscreen();
+    } else if (key == LogicalKeyboardKey.keyE) {
+      _togglePanel();
     } else if (key == LogicalKeyboardKey.escape) {
-      _view.fullscreen ? _actions.exitFullscreen() : _actions.back();
+      if (_panel) {
+        setState(() => _panel = false);
+      } else {
+        _view.fullscreen ? _actions.exitFullscreen() : _actions.back();
+      }
     } else if (key == LogicalKeyboardKey.keyN ||
         key == LogicalKeyboardKey.pageDown) {
       if (_view.hasNext) _actions.next();
@@ -171,11 +187,27 @@ class _PlayerOverlayState extends State<PlayerOverlay> {
                       view: _view,
                       actions: _actions,
                       onMute: _toggleMute,
+                      onEpisodes: _hasEpisodes ? _togglePanel : null,
                     ),
                   ],
                 ),
               ),
             ),
+            if (_panel && _hasEpisodes)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 84, 0, 130),
+                  child: _EpisodePanel(
+                    episodes: _view.episodes,
+                    onSelect: (int i) {
+                      _actions.selectEpisode?.call(i);
+                      setState(() => _panel = false);
+                    },
+                    onClose: () => setState(() => _panel = false),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -280,11 +312,13 @@ class _BottomBar extends StatelessWidget {
     required this.view,
     required this.actions,
     required this.onMute,
+    this.onEpisodes,
   });
 
   final PlayerView view;
   final PlayerActions actions;
   final VoidCallback onMute;
+  final VoidCallback? onEpisodes;
 
   @override
   Widget build(BuildContext context) {
@@ -340,6 +374,12 @@ class _BottomBar extends StatelessWidget {
                 ),
                 const Spacer(),
                 _RateMenu(rate: view.rate, onSelected: actions.setRate),
+                if (onEpisodes != null)
+                  _IconBtn(
+                    icon: Icons.format_list_numbered,
+                    tooltip: l.watchEpisodes,
+                    onPressed: onEpisodes,
+                  ),
                 if (view.audio.length > 1)
                   _TrackMenu(
                     icon: Icons.audiotrack,
@@ -375,6 +415,7 @@ Widget _thin(Widget slider) => SliderTheme(
     trackHeight: 4,
     activeTrackColor: _kAccent,
     inactiveTrackColor: Colors.white30,
+    secondaryActiveTrackColor: Colors.white54,
     thumbColor: _kAccent,
     overlayShape: RoundSliderOverlayShape(overlayRadius: 14),
     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7),
@@ -404,10 +445,14 @@ class _SeekBarState extends State<_SeekBar> {
         (_drag ?? widget.view.position.inMilliseconds.toDouble())
             .clamp(0, max)
             .toDouble();
+    final double buffered = widget.view.buffered.inMilliseconds
+        .clamp(0, max.toInt())
+        .toDouble();
     return _thin(
       Slider(
         value: value,
         max: max,
+        secondaryTrackValue: buffered > value ? buffered : null,
         onChanged: (double v) => setState(() => _drag = v),
         onChangeEnd: (double v) {
           widget.onSeek(Duration(milliseconds: v.round()));
@@ -481,6 +526,161 @@ class _TrackMenu extends StatelessWidget {
             child: Text(o.label),
           ),
       ],
+    );
+  }
+}
+
+const double _kPanelWidth = 380;
+const double _kEpisodeExtent = 72;
+
+class _EpisodePanel extends StatefulWidget {
+  const _EpisodePanel({
+    required this.episodes,
+    required this.onSelect,
+    required this.onClose,
+  });
+
+  final List<EpisodeOption> episodes;
+  final void Function(int index) onSelect;
+  final VoidCallback onClose;
+
+  @override
+  State<_EpisodePanel> createState() => _EpisodePanelState();
+}
+
+class _EpisodePanelState extends State<_EpisodePanel> {
+  late final ScrollController _scroll = ScrollController(
+    initialScrollOffset:
+        (widget.episodes.indexWhere((EpisodeOption e) => e.current) - 2).clamp(
+          0,
+          widget.episodes.length,
+        ) *
+        _kEpisodeExtent,
+  );
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final S l = S.of(context);
+    return SizedBox(
+      width: _kPanelWidth,
+      child: Material(
+        color: const Color(0xE6101418),
+        borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      l.watchEpisodes,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: _kTitleSize,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  _IconBtn(
+                    icon: Icons.close,
+                    tooltip: '',
+                    size: 26,
+                    onPressed: widget.onClose,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                controller: _scroll,
+                itemExtent: _kEpisodeExtent,
+                itemCount: widget.episodes.length,
+                itemBuilder: (BuildContext context, int i) => _EpisodeRow(
+                  key: ValueKey<int>(i),
+                  episode: widget.episodes[i],
+                  onTap: () => widget.onSelect(i),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EpisodeRow extends StatelessWidget {
+  const _EpisodeRow({required this.episode, required this.onTap, super.key});
+
+  final EpisodeOption episode;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final EpisodeOption e = episode;
+    final bool partial = !e.watched && e.fraction > 0;
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        color: e.current ? const Color(0x3360CDFF) : null,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 32,
+              child: Icon(
+                e.current
+                    ? Icons.play_arrow
+                    : e.watched
+                    ? Icons.check_circle
+                    : Icons.circle_outlined,
+                color: e.current
+                    ? _kAccent
+                    : e.watched
+                    ? Colors.greenAccent
+                    : Colors.white38,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    e.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: e.watched && !e.current
+                          ? Colors.white54
+                          : Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
+                  if (partial) ...<Widget>[
+                    const SizedBox(height: 6),
+                    LinearProgressIndicator(
+                      value: e.fraction,
+                      minHeight: 3,
+                      color: _kAccent,
+                      backgroundColor: Colors.white24,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

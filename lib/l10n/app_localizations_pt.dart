@@ -6110,6 +6110,46 @@ class SPt extends S {
   String get watchPickFile => 'Escolha um arquivo';
 
   @override
+  String get watchEpisodes => 'Episódios';
+
+  @override
+  String watchSeason(int number) {
+    return 'Temporada $number';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return 'Episódio $number';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return 'Continuar: $name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return 'Parou em $time de $total';
+  }
+
+  @override
+  String get watchWatched => 'Assistido';
+
+  @override
+  String get watchMarkWatched => 'Marcar como assistido';
+
+  @override
+  String get watchMarkUnwatched => 'Marcar como não assistido';
+
+  @override
+  String get watchFromStart => 'Desde o início';
+
+  @override
+  String watchResumedAt(String time) {
+    return 'Continuando de $time';
+  }
+
+  @override
   String get watchNoVideoFiles => 'Este torrent não tem arquivos de vídeo';
 
   @override

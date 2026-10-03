@@ -14,6 +14,7 @@ class _Calls {
   double? rate;
   String? audio;
   String? subtitle;
+  int? episode;
 
   PlayerActions get actions => PlayerActions(
     togglePlay: () => log.add('togglePlay'),
@@ -43,6 +44,10 @@ class _Calls {
     exitFullscreen: () => log.add('exitFullscreen'),
     back: () => log.add('back'),
     copyLink: () => log.add('copyLink'),
+    selectEpisode: (int i) {
+      log.add('episode');
+      episode = i;
+    },
   );
 }
 
@@ -55,6 +60,8 @@ PlayerView view({
   Duration position = const Duration(minutes: 5),
   List<TrackOption> audio = const <TrackOption>[],
   List<TrackOption> subtitles = const <TrackOption>[],
+  List<EpisodeOption> episodes = const <EpisodeOption>[],
+  Duration buffered = Duration.zero,
 }) {
   return PlayerView(
     title: 'Movie.mkv',
@@ -67,6 +74,8 @@ PlayerView view({
     fullscreen: fullscreen,
     audio: audio,
     subtitles: subtitles,
+    episodes: episodes,
+    buffered: buffered,
   );
 }
 
@@ -366,6 +375,97 @@ void main() {
       await tester.tap(find.byIcon(Icons.arrow_back));
 
       expect(calls.log.last, 'back');
+    });
+
+    group('episode panel', () {
+      const List<EpisodeOption> three = <EpisodeOption>[
+        EpisodeOption(title: 'Episode 1', watched: true),
+        EpisodeOption(title: 'Episode 2', fraction: 0.4, current: true),
+        EpisodeOption(title: 'Episode 3'),
+      ];
+
+      testWidgets('is not offered for a single file', (
+        WidgetTester tester,
+      ) async {
+        await pump(
+          tester,
+          view(episodes: const <EpisodeOption>[EpisodeOption(title: 'One')]),
+        );
+        expect(find.byIcon(Icons.format_list_numbered), findsNothing);
+      });
+
+      testWidgets('opens from the button and jumps to a tapped episode', (
+        WidgetTester tester,
+      ) async {
+        final _Calls calls = await pump(tester, view(episodes: three));
+        expect(find.text('Episode 3'), findsNothing);
+
+        await tester.tap(find.byIcon(Icons.format_list_numbered));
+        await tester.pump();
+        expect(find.text('Episode 1'), findsOneWidget);
+        expect(find.byIcon(Icons.check_circle), findsOneWidget);
+        expect(find.byType(LinearProgressIndicator), findsOneWidget);
+
+        await tester.tap(find.text('Episode 3'));
+        await tester.pump();
+
+        expect(calls.episode, 2);
+        expect(find.text('Episode 3'), findsNothing);
+      });
+
+      testWidgets('E toggles it and Escape closes it before leaving', (
+        WidgetTester tester,
+      ) async {
+        final _Calls calls = await pump(tester, view(episodes: three));
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.keyE);
+        await tester.pump();
+        expect(find.text('Episode 2'), findsOneWidget);
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pump();
+        expect(find.text('Episode 2'), findsNothing);
+        expect(calls.log, isNot(contains('back')));
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        expect(calls.log.last, 'back');
+      });
+
+      testWidgets('keeps the controls up while it is open', (
+        WidgetTester tester,
+      ) async {
+        await pump(
+          tester,
+          view(episodes: three),
+          hideAfter: const Duration(seconds: 1),
+        );
+        await tester.tap(find.byIcon(Icons.format_list_numbered));
+        await tester.pump(const Duration(seconds: 5));
+
+        expect(
+          tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity)).opacity,
+          1,
+        );
+      });
+    });
+
+    testWidgets('draws how far the stream is loaded ahead of the position', (
+      WidgetTester tester,
+    ) async {
+      await pump(tester, view(buffered: const Duration(minutes: 40)));
+      final Slider seek = tester.widget<Slider>(find.byType(Slider).first);
+      expect(
+        seek.secondaryTrackValue,
+        const Duration(minutes: 40).inMilliseconds,
+      );
+    });
+
+    testWidgets('no loaded-ahead mark when nothing is buffered yet', (
+      WidgetTester tester,
+    ) async {
+      await pump(tester, view());
+      final Slider seek = tester.widget<Slider>(find.byType(Slider).first);
+      expect(seek.secondaryTrackValue, isNull);
     });
   });
 }

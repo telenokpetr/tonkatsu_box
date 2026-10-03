@@ -16,8 +16,11 @@ import '../../settings/providers/watch_settings_provider.dart';
 import '../../settings/screens/watch_settings_screen.dart';
 import '../providers/watch_providers.dart';
 import '../external_player.dart';
+import '../watch_episodes.dart';
+import '../watch_progress.dart';
 import '../watch_format.dart';
 import '../watch_query.dart';
+import 'episode_picker.dart';
 import 'player_screen.dart';
 
 const Duration _errorSnackDuration = Duration(seconds: 6);
@@ -121,11 +124,10 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
           : await api.waitForFiles(added.hash);
       if (!mounted) return;
 
-      final List<TorrServerFile> videos = ready.videoFiles
-        ..sort(
-          (TorrServerFile a, TorrServerFile b) =>
-              naturalCompare(a.path, b.path),
-        );
+      final List<EpisodeEntry> episodes = orderEpisodes(ready.videoFiles);
+      final List<TorrServerFile> videos = <TorrServerFile>[
+        for (final EpisodeEntry e in episodes) e.file,
+      ];
       if (videos.isEmpty) {
         context.showSnack(
           l.watchNoVideoFiles,
@@ -136,7 +138,12 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
       }
       final TorrServerFile? file = videos.length == 1
           ? videos.first
-          : await _pickFile(videos);
+          : await showEpisodePicker(
+              context,
+              hash: ready.hash,
+              title: ready.title,
+              entries: episodes,
+            );
       if (file == null || !mounted) return;
 
       final WatchPlayer choice = ref.read(watchSettingsProvider).player;
@@ -161,7 +168,12 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
           builder: (BuildContext context) => PlayerScreen(
             items: <PlayerItem>[
               for (final TorrServerFile f in videos)
-                PlayerItem(url: api.streamUrl(ready, f), title: f.name),
+                PlayerItem(
+                  url: api.streamUrl(ready, f),
+                  title: f.name,
+                  progressKey: progressKey(ready.hash, f.path),
+                  path: f.path,
+                ),
             ],
             startIndex: videos.indexOf(file),
           ),
@@ -177,35 +189,6 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
     } finally {
       if (mounted) setState(() => _isStarting = false);
     }
-  }
-
-  Future<TorrServerFile?> _pickFile(List<TorrServerFile> files) {
-    return showDialog<TorrServerFile>(
-      context: context,
-      builder: (BuildContext dialogContext) => AlertDialog(
-        title: Text(S.of(dialogContext).watchPickFile),
-        content: SizedBox(
-          width: 520,
-          height: 420,
-          child: ListView.builder(
-            itemCount: files.length,
-            itemBuilder: (BuildContext context, int index) {
-              final TorrServerFile file = files[index];
-              return ListTile(
-                key: ValueKey<int>(file.id),
-                dense: true,
-                title: Text(file.name, maxLines: 2),
-                trailing: Text(
-                  formatBytes(file.length),
-                  style: AppTypography.caption,
-                ),
-                onTap: () => Navigator.of(dialogContext).pop(file),
-              );
-            },
-          ),
-        ),
-      ),
-    );
   }
 
   void _openSettings() {

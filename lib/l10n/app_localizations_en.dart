@@ -6054,6 +6054,46 @@ class SEn extends S {
   String get watchPickFile => 'Choose a file';
 
   @override
+  String get watchEpisodes => 'Episodes';
+
+  @override
+  String watchSeason(int number) {
+    return 'Season $number';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return 'Episode $number';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return 'Continue: $name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return 'Stopped at $time of $total';
+  }
+
+  @override
+  String get watchWatched => 'Watched';
+
+  @override
+  String get watchMarkWatched => 'Mark as watched';
+
+  @override
+  String get watchMarkUnwatched => 'Mark as not watched';
+
+  @override
+  String get watchFromStart => 'From the beginning';
+
+  @override
+  String watchResumedAt(String time) {
+    return 'Resuming from $time';
+  }
+
+  @override
   String get watchNoVideoFiles => 'This torrent has no video files';
 
   @override

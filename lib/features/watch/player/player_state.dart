@@ -11,6 +11,23 @@ class TrackOption {
   final bool selected;
 }
 
+/// One row of the episode panel.
+class EpisodeOption {
+  const EpisodeOption({
+    required this.title,
+    this.fraction = 0,
+    this.watched = false,
+    this.current = false,
+  });
+
+  final String title;
+
+  /// 0-1 share already seen.
+  final double fraction;
+  final bool watched;
+  final bool current;
+}
+
 /// Everything the control panel draws; the libmpv binding fills it in and the
 /// panel never touches the player, which keeps it testable without libmpv.
 class PlayerView {
@@ -18,6 +35,7 @@ class PlayerView {
     required this.title,
     this.position = Duration.zero,
     this.duration = Duration.zero,
+    this.buffered = Duration.zero,
     this.playing = false,
     this.buffering = false,
     this.volume = 100,
@@ -27,11 +45,15 @@ class PlayerView {
     this.hasPrevious = false,
     this.hasNext = false,
     this.fullscreen = false,
+    this.episodes = const <EpisodeOption>[],
   });
 
   final String title;
   final Duration position;
   final Duration duration;
+
+  /// How far the stream is already loaded, ahead of [position].
+  final Duration buffered;
   final bool playing;
   final bool buffering;
 
@@ -45,6 +67,9 @@ class PlayerView {
   final bool hasPrevious;
   final bool hasNext;
   final bool fullscreen;
+
+  /// The playlist as episodes; the panel is offered when there are several.
+  final List<EpisodeOption> episodes;
 }
 
 class PlayerActions {
@@ -61,6 +86,7 @@ class PlayerActions {
     required this.exitFullscreen,
     required this.back,
     required this.copyLink,
+    this.selectEpisode,
   });
 
   final void Function() togglePlay;
@@ -75,6 +101,7 @@ class PlayerActions {
   final void Function() exitFullscreen;
   final void Function() back;
   final void Function() copyLink;
+  final void Function(int index)? selectEpisode;
 }
 
 const List<double> kPlaybackRates = <double>[0.5, 0.75, 1, 1.25, 1.5, 2];

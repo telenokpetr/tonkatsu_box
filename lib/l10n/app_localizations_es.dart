@@ -6129,6 +6129,46 @@ class SEs extends S {
   String get watchPickFile => 'Elige un archivo';
 
   @override
+  String get watchEpisodes => 'Episodios';
+
+  @override
+  String watchSeason(int number) {
+    return 'Temporada $number';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return 'Episodio $number';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return 'Continuar: $name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return 'Te quedaste en $time de $total';
+  }
+
+  @override
+  String get watchWatched => 'Visto';
+
+  @override
+  String get watchMarkWatched => 'Marcar como vista';
+
+  @override
+  String get watchMarkUnwatched => 'Marcar como no vista';
+
+  @override
+  String get watchFromStart => 'Desde el principio';
+
+  @override
+  String watchResumedAt(String time) {
+    return 'Continuando desde $time';
+  }
+
+  @override
   String get watchNoVideoFiles => 'Este torrent no tiene archivos de vídeo';
 
   @override

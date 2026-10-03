@@ -2702,6 +2702,42 @@
     }
   },
   "watchPickFile": "Choose a file",
+  "watchEpisodes": "Episodes",
+  "watchSeason": "Season {number}",
+  "@watchSeason": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "watchEpisodeNumber": "Episode {number}",
+  "@watchEpisodeNumber": {
+    "placeholders": {
+      "number": {"type": "int"}
+    }
+  },
+  "watchContinue": "Continue: {name}",
+  "@watchContinue": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "watchStoppedAt": "Stopped at {time} of {total}",
+  "@watchStoppedAt": {
+    "placeholders": {
+      "time": {"type": "String"},
+      "total": {"type": "String"}
+    }
+  },
+  "watchWatched": "Watched",
+  "watchMarkWatched": "Mark as watched",
+  "watchMarkUnwatched": "Mark as not watched",
+  "watchFromStart": "From the beginning",
+  "watchResumedAt": "Resuming from {time}",
+  "@watchResumedAt": {
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
   "watchNoVideoFiles": "This torrent has no video files",
   "watchCopyLink": "Copy stream link",
   "watchLinkCopied": "Stream link copied",

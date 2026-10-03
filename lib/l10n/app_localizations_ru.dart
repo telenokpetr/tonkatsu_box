@@ -6155,6 +6155,46 @@ class SRu extends S {
   String get watchPickFile => 'Выберите файл';
 
   @override
+  String get watchEpisodes => 'Серии';
+
+  @override
+  String watchSeason(int number) {
+    return 'Сезон $number';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return 'Серия $number';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return 'Продолжить: $name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return 'Остановились на $time из $total';
+  }
+
+  @override
+  String get watchWatched => 'Просмотрено';
+
+  @override
+  String get watchMarkWatched => 'Отметить просмотренной';
+
+  @override
+  String get watchMarkUnwatched => 'Снять отметку просмотра';
+
+  @override
+  String get watchFromStart => 'С начала';
+
+  @override
+  String watchResumedAt(String time) {
+    return 'Продолжаем с $time';
+  }
+
+  @override
   String get watchNoVideoFiles => 'В этой раздаче нет видеофайлов';
 
   @override

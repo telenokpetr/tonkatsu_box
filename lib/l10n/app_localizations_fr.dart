@@ -6147,6 +6147,46 @@ class SFr extends S {
   String get watchPickFile => 'Choisissez un fichier';
 
   @override
+  String get watchEpisodes => 'Épisodes';
+
+  @override
+  String watchSeason(int number) {
+    return 'Saison $number';
+  }
+
+  @override
+  String watchEpisodeNumber(int number) {
+    return 'Épisode $number';
+  }
+
+  @override
+  String watchContinue(String name) {
+    return 'Reprendre : $name';
+  }
+
+  @override
+  String watchStoppedAt(String time, String total) {
+    return 'Arrêté à $time sur $total';
+  }
+
+  @override
+  String get watchWatched => 'Vu';
+
+  @override
+  String get watchMarkWatched => 'Marquer comme vu';
+
+  @override
+  String get watchMarkUnwatched => 'Marquer comme non vu';
+
+  @override
+  String get watchFromStart => 'Depuis le début';
+
+  @override
+  String watchResumedAt(String time) {
+    return 'Reprise à $time';
+  }
+
+  @override
   String get watchNoVideoFiles => 'Ce torrent ne contient aucun fichier vidéo';
 
   @override
