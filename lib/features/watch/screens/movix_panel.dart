@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_windows/webview_windows.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -10,6 +11,10 @@ const String kMovixUrl = 'https://movix.ru/';
 const Color _kBackground = Colors.black;
 const double _kBarHeight = 44;
 const Duration _kInitTimeout = Duration(seconds: 20);
+const String _kProbeScript =
+    'JSON.stringify({t: document.title, s: document.readyState, '
+    'n: document.body ? document.body.innerText.length : -1, '
+    'w: window.innerWidth, h: window.innerHeight})';
 
 final Logger _log = Logger('MovixPanel');
 
@@ -61,16 +66,35 @@ class _MovixPanelState extends State<MovixPanel> {
             if (mounted) setState(() => _canGoBack = h.canGoBack);
           }),
         )
+        ..add(_controller.loadingState.listen(_onLoadingState))
         ..add(
-          _controller.loadingState.listen((LoadingState s) {
-            if (mounted) setState(() => _loading = s == LoadingState.loading);
-          }),
-        );
+          _controller.onLoadError.listen(
+            (WebErrorStatus e) => _log.warning('load error: ${e.name}'),
+          ),
+        )
+        ..add(_controller.url.listen((String u) => _log.info('url: $u')))
+        ..add(_controller.title.listen((String t) => _log.info('title: $t')));
+      // The texture only gets frames once the widget is on screen, so the page
+      // starts loading after the first build that shows it.
+      if (!mounted) return;
+      setState(() => _ready = true);
+      await WidgetsBinding.instance.endOfFrame;
       await _controller.loadUrl(kMovixUrl);
-      if (mounted) setState(() => _ready = true);
     } on Object catch (e) {
       _log.warning('embedded browser is not available: $e');
       if (mounted) setState(() => _failed = true);
+    }
+  }
+
+  Future<void> _onLoadingState(LoadingState state) async {
+    _log.info('loading: ${state.name}');
+    if (mounted) setState(() => _loading = state == LoadingState.loading);
+    if (state != LoadingState.navigationCompleted) return;
+    try {
+      final Object? probe = await _controller.executeScript(_kProbeScript);
+      _log.info('page probe: $probe');
+    } on Object catch (e) {
+      _log.warning('page probe failed: $e');
     }
   }
 
@@ -105,6 +129,10 @@ class _MovixPanelState extends State<MovixPanel> {
               IconButton(
                 icon: const Icon(Icons.home_outlined, size: 20),
                 onPressed: () => _controller.loadUrl(kMovixUrl),
+              ),
+              IconButton(
+                icon: const Icon(Icons.open_in_new, size: 20),
+                onPressed: () => launchUrl(Uri.parse(kMovixUrl)),
               ),
               if (_loading)
                 const Padding(
