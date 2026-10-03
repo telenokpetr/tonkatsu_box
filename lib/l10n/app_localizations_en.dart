@@ -6057,6 +6057,9 @@ class SEn extends S {
   String get watchEpisodes => 'Episodes';
 
   @override
+  String get watchAllSeasons => 'All seasons';
+
+  @override
   String watchSeason(int number) {
     return 'Season $number';
   }

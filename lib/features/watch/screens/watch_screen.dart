@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import '../../../core/api/jacred_api.dart';
 import '../../../core/api/torrserver_api.dart';
@@ -25,6 +26,8 @@ import 'player_screen.dart';
 
 const Duration _errorSnackDuration = Duration(seconds: 6);
 
+final Logger _log = Logger('WatchScreen');
+
 enum _AddAction { pasteMagnet, pickFile }
 
 /// Torrent picker: searches JacRed for [query], hands the chosen magnet to
@@ -44,6 +47,7 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
     text: widget.query.title,
   );
   bool _isStarting = false;
+  int? _season;
 
   @override
   void dispose() {
@@ -63,6 +67,7 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
     // would only narrow it back to the old results.
     final bool unchanged = title == widget.query.title;
     setState(() {
+      _season = null;
       _query = (
         title: title,
         originalTitle: unchanged ? widget.query.originalTitle : null,
@@ -166,6 +171,7 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
       await navigator.push(
         MaterialPageRoute<void>(
           builder: (BuildContext context) => PlayerScreen(
+            onClosed: () => _freeIfWatched(api, ready, videos),
             items: <PlayerItem>[
               for (final TorrServerFile f in videos)
                 PlayerItem(
@@ -188,6 +194,26 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
       );
     } finally {
       if (mounted) setState(() => _isStarting = false);
+    }
+  }
+
+  // A finished film or series would otherwise sit in TorrServer's cache.
+  Future<void> _freeIfWatched(
+    TorrServerApi api,
+    TorrServerTorrent torrent,
+    List<TorrServerFile> videos,
+  ) async {
+    if (!mounted) return;
+    final Map<String, WatchProgress> progress = ref.read(watchProgressProvider);
+    final bool allWatched = videos.every(
+      (TorrServerFile f) =>
+          progress[progressKey(torrent.hash, f.path)]?.watched ?? false,
+    );
+    if (!allWatched) return;
+    try {
+      await api.removeTorrent(torrent.hash);
+    } on TorrServerApiException catch (e) {
+      _log.warning('could not free ${torrent.hash}: ${e.message}');
     }
   }
 
@@ -263,19 +289,7 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
         ),
         Expanded(
           child: results.when(
-            data: (List<JacRedTorrent> torrents) => torrents.isEmpty
-                ? Center(child: Text(l.watchNoResults))
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.md,
-                    ),
-                    itemCount: torrents.length,
-                    itemBuilder: (BuildContext context, int index) =>
-                        _TorrentTile(
-                          torrent: torrents[index],
-                          onTap: () => _start(torrents[index]),
-                        ),
-                  ),
+            data: (List<JacRedTorrent> torrents) => _buildResults(l, torrents),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (Object error, StackTrace stack) => Center(
               child: Padding(
@@ -293,6 +307,67 @@ class _WatchScreenState extends ConsumerState<WatchScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildResults(S l, List<JacRedTorrent> torrents) {
+    if (torrents.isEmpty) return Center(child: Text(l.watchNoResults));
+    final List<int> seasons = <int>{
+      if (_query.isSerial)
+        for (final JacRedTorrent t in torrents) ...?releaseSeasons(t.title),
+    }.toList()..sort();
+    final int? chosen = seasons.contains(_season) ? _season : null;
+    final List<JacRedTorrent> shown = chosen == null
+        ? torrents
+        : <JacRedTorrent>[
+            for (final JacRedTorrent t in torrents)
+              if (releaseSeasons(t.title)?.contains(chosen) ?? false) t,
+          ];
+    return Column(
+      children: <Widget>[
+        if (seasons.length > 1)
+          SizedBox(
+            height: 52,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.sm,
+              ),
+              children: <Widget>[
+                _seasonChip(l.watchAllSeasons, selected: chosen == null),
+                for (final int season in seasons)
+                  _seasonChip(
+                    l.watchSeason(season),
+                    selected: chosen == season,
+                    season: season,
+                  ),
+              ],
+            ),
+          ),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            itemCount: shown.length,
+            itemBuilder: (BuildContext context, int index) => _TorrentTile(
+              torrent: shown[index],
+              onTap: () => _start(shown[index]),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _seasonChip(String label, {required bool selected, int? season}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: AppSpacing.sm),
+      child: ChoiceChip(
+        key: ValueKey<int>(season ?? 0),
+        label: Text(label),
+        selected: selected,
+        onSelected: (bool _) => setState(() => _season = season),
+      ),
     );
   }
 

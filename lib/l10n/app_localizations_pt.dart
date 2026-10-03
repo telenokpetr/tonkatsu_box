@@ -6113,6 +6113,9 @@ class SPt extends S {
   String get watchEpisodes => 'Episódios';
 
   @override
+  String get watchAllSeasons => 'Todas as temporadas';
+
+  @override
   String watchSeason(int number) {
     return 'Temporada $number';
   }

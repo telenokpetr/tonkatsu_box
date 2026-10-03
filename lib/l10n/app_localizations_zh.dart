@@ -5755,6 +5755,9 @@ class SZh extends S {
   String get watchEpisodes => '剧集';
 
   @override
+  String get watchAllSeasons => '全部季';
+
+  @override
   String watchSeason(int number) {
     return '第 $number 季';
   }

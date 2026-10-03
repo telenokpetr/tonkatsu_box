@@ -79,4 +79,29 @@ void main() {
       expect(orderEpisodes(<TorrServerFile>[]), isEmpty);
     });
   });
+
+  group('releaseSeasons', () {
+    test('single season markers', () {
+      expect(releaseSeasons('Breaking.Bad.S02.BDRip.1080p-SOFCJ'), <int>{2});
+      expect(releaseSeasons('Во все тяжкие / 2 сезон [1080p]'), <int>{2});
+      expect(releaseSeasons('Show (Сезон 4) WEB-DL'), <int>{4});
+      expect(releaseSeasons('Show Season 7 Complete'), <int>{7});
+    });
+
+    test('ranges expand to every season', () {
+      expect(releaseSeasons('Show Сезоны 1-3 720p'), <int>{1, 2, 3});
+      expect(releaseSeasons('Show 1-5 сезон'), <int>{1, 2, 3, 4, 5});
+      expect(releaseSeasons('Show S01-S03 1080p'), <int>{1, 2, 3});
+    });
+
+    test('quality, codec and year are not seasons', () {
+      expect(releaseSeasons('Movie 2019 1080p x264 WEB-DL'), isNull);
+      expect(releaseSeasons('Complete collection BDRip'), isNull);
+    });
+
+    test('an absurd or reversed range is ignored', () {
+      expect(releaseSeasons('Show 9-2 сезон'), isNull);
+      expect(releaseSeasons('Show Сезоны 1-99'), isNull);
+    });
+  });
 }

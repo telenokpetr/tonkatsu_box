@@ -3024,6 +3024,7 @@
   "watchStartFailed": "Não foi possível iniciar o torrent: {error}",
   "watchPickFile": "Escolha um arquivo",
   "watchEpisodes": "Episódios",
+  "watchAllSeasons": "Todas as temporadas",
   "watchSeason": "Temporada {number}",
   "watchEpisodeNumber": "Episódio {number}",
   "watchContinue": "Continuar: {name}",

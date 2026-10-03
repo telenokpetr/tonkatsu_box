@@ -6158,6 +6158,9 @@ class SRu extends S {
   String get watchEpisodes => 'Серии';
 
   @override
+  String get watchAllSeasons => 'Все сезоны';
+
+  @override
   String watchSeason(int number) {
     return 'Сезон $number';
   }

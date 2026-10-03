@@ -125,3 +125,44 @@ int? continueIndex(List<String> keys, Map<String, WatchProgress> progress) {
   if (progress[last]?.watched != true) return at;
   return at + 1 < keys.length ? at + 1 : null;
 }
+
+const int _kMaxSeasonSpan = 40;
+final RegExp _seasonRange = RegExp(
+  r'(?:сезон[а-я]*|season[a-z]*)\s*:?\s*(\d{1,2})\s*[-–—]\s*(\d{1,2})'
+  r'|(\d{1,2})\s*[-–—]\s*(\d{1,2})\s*(?:сезон|season|сез\b)'
+  r'|(?<![a-z0-9])s(\d{1,2})\s*[-–—]\s*s(\d{1,2})',
+  caseSensitive: false,
+);
+final RegExp _seasonSingle = RegExp(
+  r'(?:сезон|season)\s*:?\s*(\d{1,2})(?![0-9])'
+  r'|(?<![0-9])(\d{1,2})\s*(?:сезон|season)'
+  r'|(?<![a-z0-9])s(\d{1,2})(?![0-9])',
+  caseSensitive: false,
+);
+
+/// Seasons a release title covers (`S02`, `2 сезон`, `Сезоны 1-5`), or null
+/// when the title does not say.
+Set<int>? releaseSeasons(String title) {
+  final Set<int> seasons = <int>{};
+  final Iterable<RegExpMatch> ranges = _seasonRange.allMatches(title);
+  for (final RegExpMatch m in ranges) {
+    final List<int> pair = <int>[
+      for (final String? g in m.groups(<int>[1, 2, 3, 4, 5, 6]))
+        if (g != null) int.parse(g),
+    ];
+    if (pair.length != 2) continue;
+    final int from = pair[0];
+    final int to = pair[1];
+    if (to < from || to - from > _kMaxSeasonSpan) continue;
+    seasons.addAll(<int>[for (int i = from; i <= to; i++) i]);
+  }
+  if (seasons.isNotEmpty) return seasons;
+  // A range that does not make sense must not fall back to its last number.
+  if (ranges.isNotEmpty) return null;
+  for (final RegExpMatch m in _seasonSingle.allMatches(title)) {
+    final String? g = m.group(1) ?? m.group(2) ?? m.group(3);
+    final int? n = g == null ? null : int.tryParse(g);
+    if (n != null && n > 0) seasons.add(n);
+  }
+  return seasons.isEmpty ? null : seasons;
+}

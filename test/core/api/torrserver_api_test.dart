@@ -257,4 +257,45 @@ void main() {
       expect(await sut.echo(), 'MatriX.Docker');
     });
   });
+
+  group('removeTorrent', () {
+    test('asks TorrServer to drop the torrent and its cache', () async {
+      final List<Object?> bodies = <Object?>[];
+      stubPost(<Map<String, dynamic>>[<String, dynamic>{}], bodies);
+
+      await sut.removeTorrent('abc123');
+
+      expect(bodies.single, <String, dynamic>{
+        'action': 'rem',
+        'hash': 'abc123',
+      });
+    });
+
+    test('a failed request becomes a TorrServerApiException', () async {
+      when(
+        () => mockDio.post<dynamic>(any(), data: any(named: 'data')),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(),
+          response: Response<dynamic>(
+            statusCode: 500,
+            requestOptions: RequestOptions(),
+          ),
+        ),
+      );
+
+      await expectLater(
+        sut.removeTorrent('abc123'),
+        throwsA(isA<TorrServerApiException>()),
+      );
+    });
+
+    test('throws when the URL is empty', () {
+      final TorrServerApi empty = TorrServerApi(baseUrl: '', dio: mockDio);
+      expect(
+        () => empty.removeTorrent('abc123'),
+        throwsA(isA<TorrServerApiException>()),
+      );
+    });
+  });
 }

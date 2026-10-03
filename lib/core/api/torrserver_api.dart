@@ -155,6 +155,20 @@ class TorrServerApi {
     );
   }
 
+  /// Frees the torrent's cache and drops it from TorrServer's list.
+  Future<void> removeTorrent(String hash) async {
+    _requireConfigured();
+    try {
+      await _dio.post<dynamic>(
+        '$baseUrl/torrents',
+        data: <String, dynamic>{'action': 'rem', 'hash': hash},
+      );
+      _log.info('removed $hash');
+    } on DioException catch (e) {
+      throw _wrap(e, '/torrents');
+    }
+  }
+
   Future<TorrServerTorrent> getTorrent(String hash) {
     return _torrents(<String, dynamic>{'action': 'get', 'hash': hash});
   }

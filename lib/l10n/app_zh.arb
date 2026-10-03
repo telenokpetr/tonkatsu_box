@@ -2591,6 +2591,7 @@
   "watchStartFailed": "无法启动种子:{error}",
   "watchPickFile": "选择文件",
   "watchEpisodes": "剧集",
+  "watchAllSeasons": "全部季",
   "watchSeason": "第 {number} 季",
   "watchEpisodeNumber": "第 {number} 集",
   "watchContinue": "继续观看：{name}",

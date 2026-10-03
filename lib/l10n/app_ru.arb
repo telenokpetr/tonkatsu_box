@@ -2257,6 +2257,7 @@
   "watchStartFailed": "Не удалось запустить раздачу: {error}",
   "watchPickFile": "Выберите файл",
   "watchEpisodes": "Серии",
+  "watchAllSeasons": "Все сезоны",
   "watchSeason": "Сезон {number}",
   "watchEpisodeNumber": "Серия {number}",
   "watchContinue": "Продолжить: {name}",

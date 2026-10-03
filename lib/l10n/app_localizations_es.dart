@@ -6132,6 +6132,9 @@ class SEs extends S {
   String get watchEpisodes => 'Episodios';
 
   @override
+  String get watchAllSeasons => 'Todas las temporadas';
+
+  @override
   String watchSeason(int number) {
     return 'Temporada $number';
   }

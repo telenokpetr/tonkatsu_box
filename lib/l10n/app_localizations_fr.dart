@@ -6150,6 +6150,9 @@ class SFr extends S {
   String get watchEpisodes => 'Épisodes';
 
   @override
+  String get watchAllSeasons => 'Toutes les saisons';
+
+  @override
   String watchSeason(int number) {
     return 'Saison $number';
   }

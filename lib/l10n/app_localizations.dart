@@ -10682,6 +10682,12 @@ abstract class S {
   /// **'Episodes'**
   String get watchEpisodes;
 
+  /// No description provided for @watchAllSeasons.
+  ///
+  /// In en, this message translates to:
+  /// **'All seasons'**
+  String get watchAllSeasons;
+
   /// No description provided for @watchSeason.
   ///
   /// In en, this message translates to:

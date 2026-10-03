@@ -2703,6 +2703,7 @@
   },
   "watchPickFile": "Choose a file",
   "watchEpisodes": "Episodes",
+  "watchAllSeasons": "All seasons",
   "watchSeason": "Season {number}",
   "@watchSeason": {
     "placeholders": {
