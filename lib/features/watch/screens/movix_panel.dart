@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_windows/webview_windows.dart';
@@ -14,7 +15,12 @@ const Duration _kInitTimeout = Duration(seconds: 20);
 const String _kProbeScript =
     'JSON.stringify({t: document.title, s: document.readyState, '
     'n: document.body ? document.body.innerText.length : -1, '
+    'x: document.body ? document.body.innerText.slice(0, 160) : "", '
     'w: window.innerWidth, h: window.innerHeight})';
+
+// Movix is a Russian service that answers 403 to foreign addresses, and the
+// system proxy of a VPN client would send the embedded browser abroad.
+const String _kDirectConnection = '--no-proxy-server';
 
 final Logger _log = Logger('MovixPanel');
 
@@ -31,6 +37,7 @@ class _MovixPanelState extends State<MovixPanel> {
   final WebviewController _controller = WebviewController();
   final List<StreamSubscription<Object?>> _subscriptions =
       <StreamSubscription<Object?>>[];
+  bool _controllerStarted = false;
   bool _ready = false;
   bool _failed = false;
   bool _canGoBack = false;
@@ -47,12 +54,22 @@ class _MovixPanelState extends State<MovixPanel> {
     for (final StreamSubscription<Object?> sub in _subscriptions) {
       sub.cancel();
     }
-    _controller.dispose();
+    // Disposing a controller that never started throws a LateInitializationError.
+    if (_controllerStarted) _controller.dispose();
     super.dispose();
   }
 
   Future<void> _init() async {
     try {
+      try {
+        await WebviewController.initializeEnvironment(
+          additionalArguments: _kDirectConnection,
+        ).timeout(_kInitTimeout);
+      } on PlatformException catch (e) {
+        // A second visit finds the environment from the first one.
+        _log.info('browser environment already exists: ${e.code}');
+      }
+      _controllerStarted = true;
       await _controller.initialize().timeout(_kInitTimeout);
       await _controller.setBackgroundColor(_kBackground);
       // Login and payment pages open pop-ups; keeping them in this view keeps
