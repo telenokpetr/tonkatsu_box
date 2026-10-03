@@ -6161,6 +6161,10 @@ class SRu extends S {
   String get watchAllSeasons => 'Все сезоны';
 
   @override
+  String get watchMovixUnavailable =>
+      'Встроенный браузер недоступен. Установите Microsoft Edge WebView2 Runtime и перезапустите приложение.';
+
+  @override
   String watchSeason(int number) {
     return 'Сезон $number';
   }

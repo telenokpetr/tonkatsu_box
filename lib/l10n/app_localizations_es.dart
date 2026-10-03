@@ -6135,6 +6135,10 @@ class SEs extends S {
   String get watchAllSeasons => 'Todas las temporadas';
 
   @override
+  String get watchMovixUnavailable =>
+      'El navegador integrado no está disponible. Instala Microsoft Edge WebView2 Runtime y reinicia la aplicación.';
+
+  @override
   String watchSeason(int number) {
     return 'Temporada $number';
   }

@@ -2258,6 +2258,7 @@
   "watchPickFile": "Выберите файл",
   "watchEpisodes": "Серии",
   "watchAllSeasons": "Все сезоны",
+  "watchMovixUnavailable": "Встроенный браузер недоступен. Установите Microsoft Edge WebView2 Runtime и перезапустите приложение.",
   "watchSeason": "Сезон {number}",
   "watchEpisodeNumber": "Серия {number}",
   "watchContinue": "Продолжить: {name}",

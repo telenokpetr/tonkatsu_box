@@ -3025,6 +3025,7 @@
   "watchPickFile": "Escolha um arquivo",
   "watchEpisodes": "Episódios",
   "watchAllSeasons": "Todas as temporadas",
+  "watchMovixUnavailable": "O navegador integrado não está disponível. Instale o Microsoft Edge WebView2 Runtime e reinicie o aplicativo.",
   "watchSeason": "Temporada {number}",
   "watchEpisodeNumber": "Episódio {number}",
   "watchContinue": "Continuar: {name}",

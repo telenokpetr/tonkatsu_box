@@ -10688,6 +10688,12 @@ abstract class S {
   /// **'All seasons'**
   String get watchAllSeasons;
 
+  /// No description provided for @watchMovixUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The built-in browser is not available. Install Microsoft Edge WebView2 Runtime and restart the app.'**
+  String get watchMovixUnavailable;
+
   /// No description provided for @watchSeason.
   ///
   /// In en, this message translates to:

@@ -2592,6 +2592,7 @@
   "watchPickFile": "选择文件",
   "watchEpisodes": "剧集",
   "watchAllSeasons": "全部季",
+  "watchMovixUnavailable": "内置浏览器不可用。请安装 Microsoft Edge WebView2 Runtime 并重启应用。",
   "watchSeason": "第 {number} 季",
   "watchEpisodeNumber": "第 {number} 集",
   "watchContinue": "继续观看：{name}",

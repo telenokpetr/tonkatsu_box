@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/catalog_api.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../shared/constants/platform_features.dart';
 import '../../../shared/theme/app_spacing.dart';
 import '../../../shared/widgets/screen_app_bar.dart';
 import '../../settings/screens/credentials_screen.dart';
@@ -14,6 +15,7 @@ import '../iptv_probe.dart';
 import '../play_stream.dart';
 import '../stream_resolver.dart';
 import 'live_panel.dart';
+import 'movix_panel.dart';
 import '../providers/watch_providers.dart';
 import '../watch_query.dart';
 import 'watch_screen.dart';
@@ -47,7 +49,7 @@ const List<List<String>> _kRailGroups = <List<String>>[
   <String>['trend_movies', 'trend_series', 'top_series'],
   <String>['cartoons', 'old_cartoons', 'soviet_cartoons'],
   <String>['anime', 'old_anime'],
-  <String>['tv', 'youtube', 'twitch', 'kick'],
+  <String>['tv', 'youtube', 'twitch', 'kick', 'movix'],
   <String>['movies_top', 'series_top', 'movies_popular'],
   <String>['kp_movies_top', 'kp_series_top', 'kp_popular'],
   <String>['settings_watch', 'settings_keys'],
@@ -71,6 +73,7 @@ IconData _shelfIcon(String id) => switch (id) {
   'youtube' => Icons.smart_display_outlined,
   'twitch' => Icons.videogame_asset_outlined,
   'kick' => Icons.sports_esports_outlined,
+  'movix' => Icons.movie_filter_outlined,
   'movies_top' => Icons.emoji_events_outlined,
   'series_top' => Icons.workspace_premium_outlined,
   'movies_popular' => Icons.trending_up,
@@ -96,6 +99,7 @@ String _shelfLabel(S l, String id) => switch (id) {
   'youtube' => 'YouTube', // proper noun
   'twitch' => 'Twitch', // proper noun
   'kick' => 'Kick', // proper noun
+  'movix' => 'Movix', // proper noun
   'movies_top' => l.catalogImdbMovies,
   'series_top' => l.catalogImdbSeries,
   'movies_popular' => l.catalogImdbNew,
@@ -228,7 +232,12 @@ class _Rail extends StatelessWidget {
     // short the window is.
     final List<List<String>> groups = <List<String>>[
       for (final List<String> g in _kRailGroups)
-        if (!g.every(_kSettingsIds.contains)) g,
+        if (!g.every(_kSettingsIds.contains))
+          <String>[
+            for (final String id in g)
+              // WebView2 exists on Windows only.
+              if (id != 'movix' || kIsWindowsApp) id,
+          ],
     ];
     return Container(
       width: compact ? _kRailCompactWidth : _kRailWidth,
@@ -395,7 +404,9 @@ class _Content extends StatelessWidget {
               ),
             ),
           ),
-          if (live == null && !_kSettingsIds.contains(selected))
+          if (live == null &&
+              selected != 'movix' &&
+              !_kSettingsIds.contains(selected))
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
               child: ConstrainedBox(
@@ -427,6 +438,8 @@ class _Content extends StatelessWidget {
                 ? const WatchSettingsScreen(embedded: true)
                 : selected == 'settings_keys'
                 ? const CredentialsScreen(embedded: true)
+                : selected == 'movix'
+                ? const MovixPanel()
                 : live != null
                 ? LivePanel(key: ValueKey<String>(selected), service: live)
                 : searching && selected != 'tv'

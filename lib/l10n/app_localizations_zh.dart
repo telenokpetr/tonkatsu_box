@@ -5758,6 +5758,10 @@ class SZh extends S {
   String get watchAllSeasons => '全部季';
 
   @override
+  String get watchMovixUnavailable =>
+      '内置浏览器不可用。请安装 Microsoft Edge WebView2 Runtime 并重启应用。';
+
+  @override
   String watchSeason(int number) {
     return '第 $number 季';
   }

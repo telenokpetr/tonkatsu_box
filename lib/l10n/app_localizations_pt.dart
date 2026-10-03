@@ -6116,6 +6116,10 @@ class SPt extends S {
   String get watchAllSeasons => 'Todas as temporadas';
 
   @override
+  String get watchMovixUnavailable =>
+      'O navegador integrado não está disponível. Instale o Microsoft Edge WebView2 Runtime e reinicie o aplicativo.';
+
+  @override
   String watchSeason(int number) {
     return 'Temporada $number';
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tonkatsu_box/shared/constants/platform_features.dart';
 import 'package:tonkatsu_box/features/watch/catalog_shelves.dart';
 import 'package:tonkatsu_box/features/watch/screens/catalog_screen.dart';
 import 'package:tonkatsu_box/features/watch/screens/tv_shell.dart';
@@ -76,6 +77,30 @@ void main() {
       expect(find.text('Found matrix'), findsNothing);
       expect(find.text('Shelf recs'), findsOneWidget);
     });
+  });
+
+  group('Movix rail item', () {
+    testWidgets('opens the panel and explains a missing browser', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpApp(const CatalogScreen(), overrides: overrides());
+      await tester.pumpAndSettle();
+      expect(find.text('Movix'), findsOneWidget);
+
+      await tester.tap(find.text('Movix'));
+      await tester.pump();
+      // Without WebView2 the init never answers; the panel gives up by itself.
+      await tester.pump(const Duration(seconds: 25));
+      await tester.pump();
+
+      // No WebView2 plugin under flutter test: the panel must say so, not crash.
+      expect(find.textContaining('WebView2'), findsOneWidget);
+      expect(find.byType(TextField), findsNothing);
+    }, skip: !kIsWindowsApp);
   });
 
   group('TvShell', () {

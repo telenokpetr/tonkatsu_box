@@ -6153,6 +6153,10 @@ class SFr extends S {
   String get watchAllSeasons => 'Toutes les saisons';
 
   @override
+  String get watchMovixUnavailable =>
+      'Le navigateur intégré n\'est pas disponible. Installez Microsoft Edge WebView2 Runtime et relancez l\'application.';
+
+  @override
   String watchSeason(int number) {
     return 'Saison $number';
   }

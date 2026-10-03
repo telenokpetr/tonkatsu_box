@@ -2704,6 +2704,7 @@
   "watchPickFile": "Choose a file",
   "watchEpisodes": "Episodes",
   "watchAllSeasons": "All seasons",
+  "watchMovixUnavailable": "The built-in browser is not available. Install Microsoft Edge WebView2 Runtime and restart the app.",
   "watchSeason": "Season {number}",
   "@watchSeason": {
     "placeholders": {
