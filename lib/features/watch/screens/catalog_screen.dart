@@ -9,6 +9,7 @@ import '../../../shared/widgets/screen_app_bar.dart';
 import '../../settings/screens/credentials_screen.dart';
 import '../../settings/screens/watch_settings_screen.dart';
 import '../catalog_shelves.dart';
+import '../channel_views.dart';
 import '../iptv_probe.dart';
 import '../play_stream.dart';
 import '../stream_resolver.dart';
@@ -36,6 +37,8 @@ const double _kRailCompactWidth = 56;
 const double _kRailBreakpoint = 760;
 const double _kCardWidth = 160;
 const double _kGridGap = 16;
+const double _kChannelWidth = 190;
+const double _kChannelAspect = 1.05;
 const Duration _kHoverDuration = Duration(milliseconds: 120);
 
 /// Rail sections; a divider is drawn between groups.
@@ -511,18 +514,19 @@ class _TvShelf extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final S l = S.of(context);
     final IptvProbeState? probe = ref.watch(iptvProbeProvider).valueOrNull;
+    final Map<String, ChannelStat> stats = ref.watch(channelViewsProvider);
     return ref
         .watch(shelfProvider('tv'))
         .when(
           data: (List<CatalogItem> all) {
             final Set<String> alive = probe?.alive ?? const <String>{};
             final String needle = filter.toLowerCase();
-            final List<CatalogItem> items = <CatalogItem>[
+            final List<CatalogItem> items = sortByViews(<CatalogItem>[
               for (final CatalogItem c in all)
                 if (alive.contains(c.streamUrl) &&
                     (needle.isEmpty || c.title.toLowerCase().contains(needle)))
                   c,
-            ];
+            ], stats);
             final bool checking = probe == null || !probe.finished;
             return Column(
               children: <Widget>[
@@ -556,7 +560,11 @@ class _TvShelf extends ConsumerWidget {
                 Expanded(
                   child: items.isEmpty
                       ? (checking ? const SizedBox() : _Message(l.catalogEmpty))
-                      : _CatalogGrid(items: items, showRank: false),
+                      : _CatalogGrid(
+                          items: items,
+                          showRank: false,
+                          channels: true,
+                        ),
                 ),
               ],
             );
@@ -593,20 +601,27 @@ class _Message extends StatelessWidget {
 }
 
 class _CatalogGrid extends StatelessWidget {
-  const _CatalogGrid({required this.items, this.showRank = true});
+  const _CatalogGrid({
+    required this.items,
+    this.showRank = true,
+    this.channels = false,
+  });
 
   final List<CatalogItem> items;
   final bool showRank;
+
+  /// Wide square tiles for TV channels instead of portrait posters.
+  final bool channels;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: _kCardWidth,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: channels ? _kChannelWidth : _kCardWidth,
         mainAxisSpacing: _kGridGap,
         crossAxisSpacing: _kGridGap,
-        childAspectRatio: 0.5,
+        childAspectRatio: channels ? _kChannelAspect : 0.5,
       ),
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) => _CatalogCardView(
@@ -635,6 +650,7 @@ class _CatalogCardViewState extends ConsumerState<_CatalogCardView> {
     final CatalogItem item = widget.item;
     final String? stream = item.streamUrl;
     if (stream != null) {
+      ref.read(channelViewsProvider.notifier).record(item.title);
       playStream(context, ref, url: stream, title: title);
       return;
     }
@@ -663,6 +679,14 @@ class _CatalogCardViewState extends ConsumerState<_CatalogCardView> {
     final String title = card?.title ?? item.title;
     final String? poster = item.posterUrl ?? card?.posterUrl;
     final double? rating = item.rating;
+    final int views = item.streamUrl == null
+        ? 0
+        : ref.watch(
+            channelViewsProvider.select(
+              (Map<String, ChannelStat> m) =>
+                  m[channelKey(item.title)]?.count ?? 0,
+            ),
+          );
     return MouseRegion(
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
@@ -703,6 +727,12 @@ class _CatalogCardViewState extends ConsumerState<_CatalogCardView> {
                         left: 6,
                         top: 6,
                         child: _Badge(text: '${widget.rank}'),
+                      ),
+                    if (views > 0)
+                      Positioned(
+                        left: 6,
+                        top: 6,
+                        child: _Badge(text: '\u25B6 $views'),
                       ),
                     if (rating != null && rating > 0)
                       Positioned(
